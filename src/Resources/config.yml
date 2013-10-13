@@ -1,0 +1,3 @@
+# Send info to player when they activate a CPU module for the first time | true = send | false = don't send
+send-info: true
+Disabled: false

@@ -1,0 +1,76 @@
+name: CPU
+version: 1.3.0
+main: me.waicool20.cpu.CPU
+author: waicool20
+Description: Chest Processing Unit
+
+commands:
+  cpu:
+    description: Plugin Commands
+  typifier:
+    description: Gives players typifier
+    permission-message: §c[CPU] You do not have the permission to run this command!
+    permission: cpu.typifier
+
+permission:
+  cpu.*:
+    description: Gives access to all commands
+    default: true
+    children:
+      cpu.toggleinfo: true
+      cpu.enable: true
+      cpu.disable: true
+      cpu.reload: true
+      cpu.typifier: true
+      cpu.create.*: true
+  cpu.toggleinfo:
+      description: Toggle on/off if you want the CPU information sent when CPU is first activated
+      default: true
+  cpu.enable:
+      description: Enable CPU redstone updates
+      default: true
+  cpu.disable:
+      description: Disable CPU redstone updates
+      default: true
+  cpu.reload:
+      description: Reload plugin
+      default: true
+  cpu.create.*:
+    description: Permission to create all CPUs
+    default: true
+    children:
+      cpu.create.or: true
+      cpu.create.and: true
+      cpu.create.nor: true
+      cpu.create.nand: true
+      cpu.create.xor: true
+      cpu.create.xnor: true
+      cpu.create.blockbreaker: true
+      cpu.create.blockplacer: true
+  cpu.create.or:
+      description: Permission to create OR CPUs
+      default: true
+  cpu.create.and:
+      description: Permission to create AND CPUs
+      default: true
+  cpu.create.nor:
+      description: Permission to create NOR CPUs
+      default: true
+  cpu.create.nand:
+      description: Permission to create NAND CPUs
+      default: true    
+  cpu.create.xor:
+      description: Permission to create XOR CPUs
+      default: true    
+  cpu.create.xnor:
+      description: Permission to create XNOR CPUs
+      default: true    
+  cpu.create.blockbreaker:
+      description: Permission to create BlockBreaker CPUs
+      default: true    
+  cpu.create.blockplacer:
+      description: Permission to create BlockPlacer CPUs
+      default: true      
+  cpu.typifier:
+    description: Permission to use /typifier
+    default: true
