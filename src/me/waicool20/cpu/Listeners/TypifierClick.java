@@ -45,7 +45,7 @@ public class TypifierClick implements Listener {
                                 cpuModule.setType(types[0]);
                                 cpuModule.getCore().getInventory().setContents(types[0].typeInventory());
                             }
-                            player.sendMessage("[CPU] The Type is " + ChatColor.AQUA + cpuModule.getType().getName());
+                            player.sendMessage(ChatColor.GREEN + "[CPU] " +ChatColor.WHITE + "The Type is " + ChatColor.AQUA + cpuModule.getType().getName());
                             return;
                         }
                     }

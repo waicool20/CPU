@@ -17,14 +17,16 @@ public class Commands implements CommandExecutor{
             String subCommand = args[0];
             if(subCommand.equalsIgnoreCase("reload")){
                 return reload(sender, cmd, label, args);
-            } else if(subCommand.equalsIgnoreCase("info")){
-                return info(sender, cmd, label, args);
+            } else if(subCommand.equalsIgnoreCase("toggleinfo")){
+                return toggleinfo(sender, cmd, label, args);
             } else if(subCommand.equalsIgnoreCase("disable")){
                 return disable(sender, cmd, label, args);
             } else if(subCommand.equalsIgnoreCase("enable")){
                 return enable(sender, cmd, label, args);
-            } else {
-                sender.sendMessage(ChatColor.RED + "Invalid Command!");
+            } else if(subCommand.equalsIgnoreCase("help")){
+                return sendHelp(sender, cmd, label, args);
+            } else{
+                sender.sendMessage(ChatColor.RED + "Invalid Command! Use \"/cpu help\" for more help!");
             }
         }else if(label.equalsIgnoreCase("typifier")){
             if(args.length != 0){
@@ -37,6 +39,17 @@ public class Commands implements CommandExecutor{
             sender.sendMessage(ChatColor.RED + "[CPU] Only players can get a typifier!");
         }
         return false;
+    }
+
+    private boolean sendHelp(CommandSender sender, Command cmd, String label, String[] args) {
+        sender.sendMessage(ChatColor.YELLOW + "----" + ChatColor.GOLD + "CPU Commands:" + ChatColor.YELLOW + "----");
+        sender.sendMessage(ChatColor.GOLD + "/cpu" + ChatColor.WHITE + ": Shows plugin version and number of activated CPUs");
+        sender.sendMessage(ChatColor.GOLD + "/cpu help" + ChatColor.WHITE + ": Shows this help page!");
+        sender.sendMessage(ChatColor.GOLD + "/cpu enable" + ChatColor.WHITE + ": Enable CPU redstone updates");
+        sender.sendMessage(ChatColor.GOLD + "/cpu disable" + ChatColor.WHITE + ": Disable CPU redstone updates");
+        sender.sendMessage(ChatColor.GOLD + "/cpu reload" + ChatColor.WHITE + ": Reload config files");
+        sender.sendMessage(ChatColor.GOLD + "/cpu toggleinfo" + ChatColor.WHITE + ": Toggles CPU creation info");
+        return true;
     }
 
     private boolean reload(CommandSender sender,Command cmd,String label,String[] args){
@@ -52,30 +65,17 @@ public class Commands implements CommandExecutor{
         return false;
     }
 
-    private boolean info(CommandSender sender,Command cmd,String label,String[] args){
+    private boolean toggleinfo(CommandSender sender,Command cmd,String label,String[] args){
         if(sender.hasPermission("cpu.toggleinfo") || sender.hasPermission("cpu.*")){
-            if(args.length < 2){
-                sender.sendMessage(ChatColor.RED + "Too little arguments! Usage:/cpu info [on/off]");
+            if(CPU.plugin.getConfig().getBoolean("send-info")){
+                CPU.plugin.getConfig().set("send-info", false);
+                CPU.plugin.saveConfig();
+                sender.sendMessage("Module info will " + ChatColor.GREEN + "NOT BE" + ChatColor.WHITE + " shown when you create a module for the first time!");
                 return true;
-            }
-            if(args.length > 2){
-                sender.sendMessage(ChatColor.RED + "Too many arguments! Usage:/cpu info [on/off]");
-                return true;
-            }
-            if(args[1].equalsIgnoreCase("off") || args[1].equalsIgnoreCase("on")){
-                if(args[1].equalsIgnoreCase("off")){
-                    CPU.plugin.getConfig().set("send-info", false);
-                    CPU.plugin.saveConfig();
-                    sender.sendMessage("Module info will " + ChatColor.GREEN + "NOT BE" + ChatColor.WHITE + " shown when you create a module for the first time!");
-                    return true;
-                } else{
-                    CPU.plugin.getConfig().set("send-info", true);
-                    CPU.plugin.saveConfig();
-                    sender.sendMessage("Module info will " + ChatColor.GREEN + "BE" + ChatColor.WHITE + " shown when you create a module for the first time!");
-                    return true;
-                }
-            }else{
-                sender.sendMessage(ChatColor.RED + "Invalid argument! Usage:/cpu info [on/off]");
+            } else{
+                CPU.plugin.getConfig().set("send-info", true);
+                CPU.plugin.saveConfig();
+                sender.sendMessage("Module info will " + ChatColor.GREEN + "BE" + ChatColor.WHITE + " shown when you create a module for the first time!");
                 return true;
             }
         }

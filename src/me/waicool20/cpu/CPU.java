@@ -17,11 +17,18 @@ public class CPU extends JavaPlugin {
     @Override
     public void onEnable() {
         initVariables();
-        logger.info("[CPU] Visit the project page to get updates at http://dev.bukkit.org/bukkit-plugins/cpu/");
         registerListeners();
         registerCommands();
         CraftingAndRecipes.addRecipes();
         setupConfig();
+        checkForUpdates();
+    }
+
+    private void checkForUpdates() {
+        UpdateChecker updateChecker = new UpdateChecker();
+        if(updateChecker.NewUpdateAvailable()){
+            CPU.logger.info("New update available: " + updateChecker.getLatestVersion() + "! Go get it at " + updateChecker.getDlLink());
+        }
     }
 
     private void registerListeners(){
