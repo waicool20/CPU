@@ -85,11 +85,11 @@ public class Commands implements CommandExecutor{
 
     private boolean disable(CommandSender sender,Command cmd,String label,String[] args){
         if(sender.hasPermission("cpu.disable")|| sender.hasPermission("cpu.*")){
-            if(CPU.plugin.getConfig().getBoolean("Disabled")){
+            if(CPU.plugin.getConfig().getBoolean("disabled")){
                 sender.sendMessage(ChatColor.RED + "CPU is already disabled!");
                 return true;
             }
-            CPU.plugin.getConfig().set("Disabled",true);
+            CPU.plugin.getConfig().set("disabled",true);
             CPU.plugin.saveConfig();
             sender.sendMessage(ChatColor.GREEN + "CPU has been disabled!");
             return true;
@@ -100,11 +100,11 @@ public class Commands implements CommandExecutor{
 
     private boolean enable(CommandSender sender,Command cmd,String label,String[] args){
         if(sender.hasPermission("cpu.disable") || sender.hasPermission("cpu.*")){
-            if(!CPU.plugin.getConfig().getBoolean("Disabled")){
+            if(!CPU.plugin.getConfig().getBoolean("disabled")){
                 sender.sendMessage(ChatColor.RED + "CPU is already enabled!");
                 return true;
             }
-            CPU.plugin.getConfig().set("Disabled", false);
+            CPU.plugin.getConfig().set("disabled", false);
             CPU.plugin.saveConfig();
             sender.sendMessage(ChatColor.GREEN + "CPU has been enabled!");
             return true;

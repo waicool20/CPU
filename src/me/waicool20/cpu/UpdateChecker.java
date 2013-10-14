@@ -33,6 +33,7 @@ public class UpdateChecker {
         }
         return updateChecker;
     }
+
     public boolean NewUpdateAvailable(){
         try {
             InputStream inputStream = projectFilePage.openConnection().getInputStream();

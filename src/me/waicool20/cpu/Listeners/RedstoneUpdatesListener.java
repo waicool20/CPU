@@ -19,7 +19,7 @@ public class RedstoneUpdatesListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onRedstoneChange(BlockPhysicsEvent e) {
-        if(CPU.plugin.getConfig().getBoolean("Disabled")){return;}
+        if(CPU.plugin.getConfig().getBoolean("disabled")){return;}
         if(check(e.getBlock())) list.add(e.getBlock());
         if(list.contains(e.getBlock())){
             startUpdate(e.getBlock());

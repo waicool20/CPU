@@ -1,8 +1,9 @@
-# Send info to player when they activate a CPU module for the first time | true = send | false = don't send
+# +----------------------------------------------------------------------------------------+ #
+# + CPU Config File.                                                                         #
+# + Check out the project page at http://dev.bukkit.org/bukkit-plugins/cpu/ for more info    #
+# + File will reset if you did something wrong                                               #
+# + And please do not touch the ModuleDatabase.yml at all cost!
+# +----------------------------------------------------------------------------------------+ #
+disabled: false
 send-info: true
-
-#Set true to disable CPU redstone updates
-Disabled: false
-
-#Set to false to disable update notifications
 notify-updates: true
