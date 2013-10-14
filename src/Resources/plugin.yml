@@ -14,7 +14,7 @@ commands:
 
 permission:
   cpu.*:
-    description: Gives access to all commands
+    description: Gives access to all commands and player will notified by update
     default: true
     children:
       cpu.toggleinfo: true
@@ -24,6 +24,7 @@ permission:
       cpu.typifier: true
       cpu.create.*: true
       cpu.help: true
+      cpu.notifyupdate: true
   cpu.toggleinfo:
       description: Toggle on/off if you want the CPU information sent when CPU is first activated
       default: true
@@ -38,6 +39,9 @@ permission:
       default: true
   cpu.help:
       description: Shows alls the commands
+      default: true
+  cpu.notifyupdate:
+      description: Anybody with this permission will be notified about an update
       default: true
   cpu.create.*:
     description: Permission to create all CPUs

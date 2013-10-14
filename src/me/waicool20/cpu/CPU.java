@@ -6,6 +6,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class CPU extends JavaPlugin {
@@ -25,9 +26,10 @@ public class CPU extends JavaPlugin {
     }
 
     private void checkForUpdates() {
-        UpdateChecker updateChecker = new UpdateChecker();
-        if(updateChecker.NewUpdateAvailable()){
-            CPU.logger.info("New update available: " + updateChecker.getLatestVersion() + "! Go get it at " + updateChecker.getDlLink());
+        if(CPU.plugin.getConfig().getBoolean("notify-updates")){
+            if(UpdateChecker.getInstance().NewUpdateAvailable()){
+                CPU.logger.info("[CPU] New update available: " + UpdateChecker.getInstance().getLatestVersion() + "! Go get it at " + UpdateChecker.getInstance().getDlLink());
+            }
         }
     }
 
@@ -39,6 +41,7 @@ public class CPU extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new InventoryChangeListener(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new EatsRedstoneApple(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new TypifierClick(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new PlayerLoginListener(), this);
     }
 
     private void registerCommands(){

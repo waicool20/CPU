@@ -114,8 +114,14 @@ public class Commands implements CommandExecutor{
     }
 
     private void sendPluginInfo(CommandSender sender){
-        sender.sendMessage(ChatColor.GREEN + "------ CPU Plugin Info ------");
-        sender.sendMessage(ChatColor.GREEN + "Version: " + CPU.pdfFile.getVersion());
-        sender.sendMessage(ChatColor.GREEN + "Active Modules: " + ModuleDatabase.ModuleDatabaseMap.size());
+        sender.sendMessage(ChatColor.DARK_GREEN + "------ " + ChatColor.GREEN + "CPU Plugin Info" + ChatColor.DARK_GREEN + " ------");
+        sender.sendMessage("Version: " + ChatColor.AQUA + CPU.pdfFile.getVersion());
+        sender.sendMessage("Active Modules: " + ChatColor.AQUA + ModuleDatabase.ModuleDatabaseMap.size());
+        if(CPU.plugin.getConfig().getBoolean("notify-updates")){
+            if(CPU.plugin.getConfig().getBoolean("notify-updates") && UpdateChecker.getInstance().NewUpdateAvailable() && (sender.hasPermission("cpu.notifyupdate") || sender.hasPermission("cpu.*"))){
+                sender.sendMessage(ChatColor.GREEN + "New update available: " +ChatColor.AQUA + UpdateChecker.getInstance().getLatestVersion());
+                sender.sendMessage(ChatColor.GREEN + "Go get it at: " + ChatColor.AQUA + UpdateChecker.getInstance().getDlLink());
+            }
+        }
     }
 }

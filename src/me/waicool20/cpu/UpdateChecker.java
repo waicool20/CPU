@@ -14,10 +14,11 @@ import java.net.URL;
 
 public class UpdateChecker {
     private URL projectFilePage;
-    private int latestVersion;
+    private String latestVersion;
     private String dlLink;
+    private static UpdateChecker updateChecker = null;
 
-    public UpdateChecker() {
+    private UpdateChecker() {
         try {
             this.projectFilePage = new URL("http://dev.bukkit.org/bukkit-plugins/cpu/files.rss");
         } catch (MalformedURLException e) {
@@ -25,6 +26,13 @@ public class UpdateChecker {
         }
     }
 
+    public static UpdateChecker getInstance(){
+        if(updateChecker == null){
+            updateChecker = new UpdateChecker();
+            return updateChecker;
+        }
+        return updateChecker;
+    }
     public boolean NewUpdateAvailable(){
         try {
             InputStream inputStream = projectFilePage.openConnection().getInputStream();
@@ -33,11 +41,12 @@ public class UpdateChecker {
             Node latestFile = document.getElementsByTagName("item").item(0);
             NodeList versionInfo = latestFile.getChildNodes();
 
-            this.latestVersion = Integer.parseInt(versionInfo.item(1).getTextContent().replaceAll("[a-zA-Z. ]", ""));
+            this.latestVersion = versionInfo.item(1).getTextContent();
+            int latestVersionNumber = Integer.parseInt(latestVersion.replaceAll("[a-zA-Z. ]", ""));
             int currentVersion = Integer.parseInt(CPU.pdfFile.getVersion().replaceAll("[a-zA-Z. ]", ""));
             this.dlLink = versionInfo.item(3).getTextContent();
 
-            if(latestVersion > currentVersion){
+            if(latestVersionNumber > currentVersion){
                 return true;
             }
 
@@ -51,7 +60,7 @@ public class UpdateChecker {
         return false;
     }
 
-    public int getLatestVersion() {
+    public String getLatestVersion() {
         return latestVersion;
     }
 

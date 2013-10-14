@@ -1,3 +1,8 @@
 # Send info to player when they activate a CPU module for the first time | true = send | false = don't send
 send-info: true
+
+#Set true to disable CPU redstone updates
 Disabled: false
+
+#Set to false to disable update notifications
+notify-updates: true
