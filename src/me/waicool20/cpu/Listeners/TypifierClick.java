@@ -1,10 +1,10 @@
 package me.waicool20.cpu.Listeners;
 
-import me.waicool20.cpu.CPUModule.CPUModule;
-import me.waicool20.cpu.CPUModule.Types.OR;
-import me.waicool20.cpu.CPUModule.Types.Type;
+import me.waicool20.cpu.CPUDatabase;
+import me.waicool20.cpu.CPU.CPU;
+import me.waicool20.cpu.CPU.Types.OR;
+import me.waicool20.cpu.CPU.Types.Type;
 import me.waicool20.cpu.CraftingAndRecipes;
-import me.waicool20.cpu.ModuleDatabase;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,34 +20,38 @@ import org.bukkit.material.Chest;
 public class TypifierClick implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerInteract(PlayerInteractEvent e){
+    public void onPlayerInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         Block clickedBlock = e.getClickedBlock();
 
-        if(e.getAction() == Action.LEFT_CLICK_BLOCK || e.getItem() == null || clickedBlock == null) {return;}
-        if (!e.getItem().isSimilar(CraftingAndRecipes.typifier())) {return;}
+        if (e.getAction() == Action.LEFT_CLICK_BLOCK || e.getItem() == null || clickedBlock == null) {
+            return;
+        }
+        if (!e.getItem().isSimilar(CraftingAndRecipes.typifier())) {
+            return;
+        }
         e.setCancelled(true);
-        if(e.getClickedBlock().getType() == Material.CHEST){
-            for(CPUModule cpuModule : ModuleDatabase.ModuleDatabaseMap){
-                if(clickedBlock.equals(cpuModule.getCore().getBlock())){
-                    if(!(cpuModule.getAttributes().getOwner().equalsIgnoreCase(player.getName()))){
+        if (e.getClickedBlock().getType() == Material.CHEST) {
+            for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
+                if (clickedBlock.equals(cpu.getCore().getBlock())) {
+                    if (!(cpu.getAttributes().getOwner().equalsIgnoreCase(player.getName()))) {
                         return;
                     }
-                    Type[] types = Type.getTypes(cpuModule);
-                    for(int i=0;i< types.length;i++){
-                        if(cpuModule.getType().getName().equalsIgnoreCase(types[i].getName())){
-                            if(i+1<types.length){
-                                cpuModule.getOutput().setPower(false,0);
-                                cpuModule.setType(types[i+1]);
-                                cpuModule.getCore().getInventory().setContents(types[i+1].typeInventory());
-                                cpuModule.getType().updatePower();
-                            }else{
-                                cpuModule.getOutput().setPower(false,0);
-                                cpuModule.setType(types[0]);
-                                cpuModule.getCore().getInventory().setContents(types[0].typeInventory());
-                                cpuModule.getType().updatePower();
+                    Type[] types = Type.getTypes(cpu);
+                    for (int i = 0; i < types.length; i++) {
+                        if (cpu.getType().getName().equalsIgnoreCase(types[i].getName())) {
+                            if (i + 1 < types.length) {
+                                cpu.getOutput().setPower(false, 0);
+                                cpu.setType(types[i + 1]);
+                                cpu.getCore().getInventory().setContents(types[i + 1].typeInventory());
+                                cpu.getType().updatePower();
+                            } else {
+                                cpu.getOutput().setPower(false, 0);
+                                cpu.setType(types[0]);
+                                cpu.getCore().getInventory().setContents(types[0].typeInventory());
+                                cpu.getType().updatePower();
                             }
-                            player.sendMessage(ChatColor.GREEN + "[CPU] " +ChatColor.WHITE + "The Type is " + ChatColor.AQUA + cpuModule.getType().getName());
+                            player.sendMessage(ChatColor.GREEN + "[CPU] " + ChatColor.WHITE + "The Type is " + ChatColor.AQUA + cpu.getType().getName());
                             return;
                         }
                     }
@@ -56,9 +60,9 @@ public class TypifierClick implements Listener {
             Chest chest = (Chest) clickedBlock.getState().getData();
             org.bukkit.block.Chest chestBlock = (org.bukkit.block.Chest) clickedBlock.getState();
             Block center = clickedBlock.getRelative(chest.getFacing());
-            if(checkBlocks(chest.getFacing(),center)){
+            if (checkBlocks(chest.getFacing(), center)) {
                 chestBlock.getInventory().setContents((new OR(null)).typeInventory());
-                CreateModuleListener.createModule(player,clickedBlock,true);
+                CreateModuleListener.createModule(player, clickedBlock, true);
                 return;
             }
             player.sendMessage(ChatColor.RED + "[CPU] Could not create CPU!");
@@ -67,8 +71,8 @@ public class TypifierClick implements Listener {
         }
     }
 
-    private static boolean checkBlocks(BlockFace blockFace,Block center){
-        if(blockFace == BlockFace.NORTH || blockFace == BlockFace.SOUTH){
+    private static boolean checkBlocks(BlockFace blockFace, Block center) {
+        if (blockFace == BlockFace.NORTH || blockFace == BlockFace.SOUTH) {
             return (center.getRelative(BlockFace.WEST).getType() == Material.CHEST && center.getRelative(BlockFace.EAST).getType() == Material.CHEST);
         }
         return (blockFace == BlockFace.WEST || blockFace == BlockFace.EAST) && (center.getRelative(BlockFace.NORTH).getType() == Material.CHEST && center.getRelative(BlockFace.SOUTH).getType() == Material.CHEST);

@@ -1,63 +1,18 @@
 name: CPU
 version: 1.3.3
-main: me.waicool20.cpu.CPU
+main: me.waicool20.cpu.CPUPlugin
 author: waicool20
 Description: Chest Processing Unit
 
 commands:
   cpu:
-    description: For more info type "/cpu help"
+    description: For more commands type "/cpu help"
   typifier:
     description: Gives players a typifier
     permission-message: §c[CPU] You do not have the permission to run this command!
     permission: cpu.typifier
 
 permission:
-  cpu.status:
-    description: Lets users see plugin status
-    default: true
-  cpu.toggleinfo:
-      description: Toggle on/off if you want the CPU information sent when CPU is first activated
-      default: true
-  cpu.enable:
-      description: Enable CPU redstone updates
-      default: true
-  cpu.disable:
-      description: Disable CPU redstone updates
-      default: true
-  cpu.reload:
-      description: Reload plugin
-      default: true
-  cpu.help:
-      description: Shows alls the commands
-      default: true
-  cpu.notifyupdate:
-      description: Anybody with this permission will be notified about an update
-      default: true
-  cpu.create.or:
-      description: Permission to create OR CPUs
-      default: true
-  cpu.create.and:
-      description: Permission to create AND CPUs
-      default: true
-  cpu.create.nor:
-      description: Permission to create NOR CPUs
-      default: true
-  cpu.create.nand:
-      description: Permission to create NAND CPUs
-      default: true    
-  cpu.create.xor:
-      description: Permission to create XOR CPUs
-      default: true    
-  cpu.create.xnor:
-      description: Permission to create XNOR CPUs
-      default: true    
-  cpu.create.blockbreaker:
-      description: Permission to create BlockBreaker CPUs
-      default: true    
-  cpu.create.blockplacer:
-      description: Permission to create BlockPlacer CPUs
-      default: true      
   cpu.typifier:
     description: Permission to use /typifier
     default: true

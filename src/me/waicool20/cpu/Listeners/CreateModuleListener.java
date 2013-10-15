@@ -1,9 +1,9 @@
 package me.waicool20.cpu.Listeners;
 
-import me.waicool20.cpu.CPU;
-import me.waicool20.cpu.CPUModule.CPUModule;
+import me.waicool20.cpu.CPU.CPU;
+import me.waicool20.cpu.CPUPlugin;
 import me.waicool20.cpu.CraftingAndRecipes;
-import me.waicool20.cpu.ModuleDatabase;
+import me.waicool20.cpu.CPUDatabase;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -23,85 +23,103 @@ public class CreateModuleListener implements Listener {
         Player player = e.getPlayer();
         Block clickedBlock = e.getClickedBlock();
 
-        if(e.getAction() == Action.LEFT_CLICK_BLOCK || e.getItem() == null || clickedBlock == null) {return;}
-        if (!e.getItem().isSimilar(CraftingAndRecipes.redstoneActivator())) {return;}
+        if (e.getAction() == Action.LEFT_CLICK_BLOCK || e.getItem() == null || clickedBlock == null) {
+            return;
+        }
+        if (!e.getItem().isSimilar(CraftingAndRecipes.redstoneActivator())) {
+            return;
+        }
         e.setCancelled(true);
 
-        createModule(player,clickedBlock,false);
+        createModule(player, clickedBlock, false);
     }
 
-    private static boolean hasPermission(Player player, CPUModule cpuModule) {
-        return player.isOp() || player.hasPermission("cpu.create." + cpuModule.getType().getName().toLowerCase());
+    private static boolean hasPermission(Player player, CPU cpu) {
+        return player.isOp() || player.hasPermission("cpu.create." + cpu.getType().getName().toLowerCase());
     }
 
     private static boolean isEmpty(ItemStack[] ie) {
-        for(ItemStack item : ie) {
-            if(item != null) {
+        for (ItemStack item : ie) {
+            if (item != null) {
                 return false;
             }
         }
         return true;
     }
 
-    private static boolean alreadyActivated(CPUModule newCpuModule){
-        for(CPUModule cpuModule : ModuleDatabase.ModuleDatabaseMap){
-            if(newCpuModule.getID().equals(cpuModule.getID())){
+    private static boolean alreadyActivated(CPU newCpu) {
+        for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
+            if (newCpu.getID().equals(cpu.getID())) {
                 return true;
             }
         }
         return false;
     }
 
-    private static boolean isValidModule(CPUModule newCpuModule){
-        return !(newCpuModule.getInput1() == null || newCpuModule.getInput2() == null);
+    private static boolean isValidModule(CPU newCpu) {
+        return !(newCpu.getInput1() == null || newCpu.getInput2() == null);
     }
 
-    static void createModule(Player player, Block clickedBlock, boolean typified){
-        if (clickedBlock.getType() != Material.CHEST) {player.sendMessage(ChatColor.RED + "[CPU] Please use the activator on CPU Modules only!!");return;}
+    static void createModule(Player player, Block clickedBlock, boolean typified) {
+        if (clickedBlock.getType() != Material.CHEST) {
+            player.sendMessage(ChatColor.RED + "[CPU] Please use the activator on CPU Modules only!!");
+            return;
+        }
         InventoryHolder inventoryHolder = (Chest) clickedBlock.getState();
         ItemStack[] clickedBlockContents = inventoryHolder.getInventory().getContents();
 
-        for(CPUModule cpuModule : ModuleDatabase.ModuleDatabaseMap){
-            if(clickedBlock.equals(cpuModule.getInput1().getBlock()) || clickedBlock.equals(cpuModule.getInput2().getBlock())){
+        for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
+            if (clickedBlock.equals(cpu.getInput1().getBlock()) || clickedBlock.equals(cpu.getInput2().getBlock())) {
                 player.sendMessage(ChatColor.RED + "[CPU] This is a part of a existing CPU!");
                 return;
             }
         }
 
-        if(isEmpty(clickedBlockContents)) {player.sendMessage(ChatColor.RED + "[CPU] Unable to activate a " + ChatColor.DARK_RED + "EMPTY " + ChatColor.RED + "CPU!"); return;}
-
-        CPUModule newCpuModule = new CPUModule(player.getName(),clickedBlock.getWorld(),clickedBlock.getX(),clickedBlock.getY(),clickedBlock.getZ());
-
-        newCpuModule.setTypified(typified);
-
-        if(newCpuModule.getType() == null ) {player.sendMessage(ChatColor.RED + "[CPU] Invalid CPU Type!     " + ChatColor.GREEN + "HINT:  Check Inventory!");return;}
-
-        if(!hasPermission(player,newCpuModule)){
-            player.sendMessage(ChatColor.RED + "[CPU] You do not have the permission to create a " + ChatColor.DARK_RED + newCpuModule.getType().getName() + ChatColor.RED + " CPU");
+        if (isEmpty(clickedBlockContents)) {
+            player.sendMessage(ChatColor.RED + "[CPU] Unable to activate a " + ChatColor.DARK_RED + "EMPTY " + ChatColor.RED + "CPU!");
             return;
         }
 
-        if(!isValidModule(newCpuModule)){player.sendMessage(ChatColor.RED + "[CPU] This CPU seems to be missing some inputs?");return;}
+        CPU newCpu = new CPU(player.getName(), clickedBlock.getWorld(), clickedBlock.getX(), clickedBlock.getY(), clickedBlock.getZ());
 
-        if(alreadyActivated(newCpuModule)){
-            player.sendMessage(ChatColor.GREEN + "----MODULE INFO----");
-            for(CPUModule cpuModule: ModuleDatabase.ModuleDatabaseMap){
-                if(clickedBlock.getLocation().equals(cpuModule.getID())){
-                    newCpuModule.sendCpuModuleINFO(player);
+        newCpu.setTypified(typified);
+
+        if (newCpu.getType() == null) {
+            player.sendMessage(ChatColor.RED + "[CPU] Invalid CPU Type!     " + ChatColor.GREEN + "HINT:  Check Inventory!");
+            return;
+        }
+
+        if (!hasPermission(player, newCpu)) {
+            player.sendMessage(ChatColor.RED + "[CPU] You do not have the permission to create a " + ChatColor.DARK_RED + newCpu.getType().getName() + ChatColor.RED + " CPU");
+            return;
+        }
+
+        if (!isValidModule(newCpu)) {
+            player.sendMessage(ChatColor.RED + "[CPU] This CPU seems to be missing some inputs?");
+            return;
+        }
+
+        if (alreadyActivated(newCpu)) {
+            player.sendMessage(ChatColor.GREEN + "----CPU INFO----");
+            for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
+                if (clickedBlock.getLocation().equals(cpu.getID())) {
+                    newCpu.sendCpuModuleINFO(player);
                 }
             }
             return;
         }
 
-        ModuleDatabase.addModule(newCpuModule);
+        CPUDatabase.addCPU(newCpu);
 
-        newCpuModule.getType().updatePower();
+        newCpu.getType().updatePower();
 
-        //newCpuModule.getID().getWorld().spawnEntity(newCpuModule.getID(), EntityType.BAT);
+        //newCpu.getID().getWorld().spawnEntity(newCpu.getID(), EntityType.BAT);
 
         player.sendMessage(ChatColor.GREEN + "[CPU] You have successfully activated this CPU!!");
 
-        if(!CPU.plugin.getConfig().getBoolean("send-info")){return;}
-        newCpuModule.sendCpuModuleINFO(player);
+        if (!CPUPlugin.plugin.getConfig().getBoolean("send-info")) {
+            return;
+        }
+        newCpu.sendCpuModuleINFO(player);
     }
 }

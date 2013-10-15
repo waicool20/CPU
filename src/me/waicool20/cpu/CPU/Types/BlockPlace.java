@@ -1,6 +1,6 @@
-package me.waicool20.cpu.CPUModule.Types;
+package me.waicool20.cpu.CPU.Types;
 
-import me.waicool20.cpu.CPUModule.CPUModule;
+import me.waicool20.cpu.CPU.CPU;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -8,24 +8,24 @@ import org.bukkit.inventory.ItemStack;
 public class BlockPlace extends Type {
     private boolean state = false;
 
-    public BlockPlace(CPUModule cpuModule) {
-        CPU_MODULE = cpuModule;
+    public BlockPlace(CPU cpu) {
+        CPU_MODULE = cpu;
         setName("BlockPlacer");
     }
 
     @Override
     public ItemStack[] typeInventory() {
-        ItemStack[] typeInventory = {   null,null,null,null,null,null,null,null,null,
-                                        redW,redW,redW,DISP,null,DISP,redW,redW,redW,
-                                        redW,null,null,null,null,null,null,null,redW,};
+        ItemStack[] typeInventory = {null, null, null, null, null, null, null, null, null,
+                redW, redW, redW, DISP, null, DISP, redW, redW, redW,
+                redW, null, null, null, null, null, null, null, redW,};
         return typeInventory;
     }
 
     @Override
     public void updatePower() {
-        if(CPU_MODULE.getInput1().isPowered() || CPU_MODULE.getInput2().isPowered()){
-            if(state) return;
-            if(CPU_MODULE.getOutput().getBlock().getType() != Material.AIR){
+        if (CPU_MODULE.getInput1().isPowered() || CPU_MODULE.getInput2().isPowered()) {
+            if (state) return;
+            if (CPU_MODULE.getOutput().getBlock().getType() != Material.AIR) {
                 return;
             }
             state = true;
@@ -35,18 +35,18 @@ public class BlockPlace extends Type {
             Inventory inventoryToCheck = input1;
 
             Material material = null;
-            if(isEmpty(input1.getContents())){
+            if (isEmpty(input1.getContents())) {
                 inventoryToCheck = input2;
-                if(isEmpty(input2.getContents())){
+                if (isEmpty(input2.getContents())) {
                     return;
                 }
             }
-            for(ItemStack itemStack : inventoryToCheck.getContents()){
-                if(itemStack != null){
+            for (ItemStack itemStack : inventoryToCheck.getContents()) {
+                if (itemStack != null) {
                     Material itemStackType = itemStack.getType();
-                    if(itemStackType.isBlock()){
-                        if(itemStack.getAmount() > 1){
-                            itemStack.setAmount(itemStack.getAmount()-1);
+                    if (itemStackType.isBlock()) {
+                        if (itemStack.getAmount() > 1) {
+                            itemStack.setAmount(itemStack.getAmount() - 1);
                         } else {
                             inventoryToCheck.remove(itemStack);
                         }
@@ -55,7 +55,7 @@ public class BlockPlace extends Type {
                     }
                 }
             }
-            if(material == null){
+            if (material == null) {
                 return;
             }
             CPU_MODULE.getOutput().getBlock().setType(material);
@@ -69,9 +69,9 @@ public class BlockPlace extends Type {
     public void disable() {
     }
 
-    boolean isEmpty(ItemStack[] itemStacks){
-        for(ItemStack itemStack : itemStacks){
-            if(itemStack != null){
+    boolean isEmpty(ItemStack[] itemStacks) {
+        for (ItemStack itemStack : itemStacks) {
+            if (itemStack != null) {
                 return false;
             }
         }

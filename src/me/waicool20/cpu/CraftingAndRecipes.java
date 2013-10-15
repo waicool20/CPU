@@ -15,27 +15,27 @@ import java.util.ArrayList;
 public class CraftingAndRecipes implements Listener {
 
     @SuppressWarnings("deprecation")
-    static void addRecipes(){
+    static void addRecipes() {
         /**Redstone Apple Recipe**/
         ShapedRecipe redstoneApple = new ShapedRecipe(redstoneApple());
         redstoneApple.shape("XXX",
-                            "XAX",
-                            "XXX");
-        redstoneApple.setIngredient('X',Material.REDSTONE);
-        redstoneApple.setIngredient('A',Material.APPLE);
+                "XAX",
+                "XXX");
+        redstoneApple.setIngredient('X', Material.REDSTONE);
+        redstoneApple.setIngredient('A', Material.APPLE);
         Bukkit.getServer().addRecipe(redstoneApple);
 
         /**Redstone Activator Recipe**/
         ShapedRecipe Activator = new ShapedRecipe(redstoneActivator());
         Activator.shape("XXX",
-                        "XXX",
-                        "XXX");
-        Activator.setIngredient('X', Material.APPLE, (short)1000);
+                "XXX",
+                "XXX");
+        Activator.setIngredient('X', Material.APPLE, (short) 1000);
         Bukkit.getServer().addRecipe(Activator);
     }
 
     public static ItemStack redstoneActivator() {
-        ItemStack itemStack = new ItemStack(Material.REDSTONE_BLOCK,1);
+        ItemStack itemStack = new ItemStack(Material.REDSTONE_BLOCK, 1);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName("Redstone Activator");
         /**ADD LORE**/
@@ -43,14 +43,14 @@ public class CraftingAndRecipes implements Listener {
         lore.add(ChatColor.GREEN + "Used to activate Redstone Modules!");
         itemMeta.setLore(lore);
         Enchantment DDR = new EnchantmentWrapper(34);
-        itemMeta.addEnchant(DDR,1,true);
+        itemMeta.addEnchant(DDR, 1, true);
 
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
 
-    public static ItemStack redstoneApple(){
-        ItemStack itemStack = new ItemStack(Material.APPLE,1,(short)1000);
+    public static ItemStack redstoneApple() {
+        ItemStack itemStack = new ItemStack(Material.APPLE, 1, (short) 1000);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName("Redstone Apple");
         /**ADD LORE**/
@@ -59,15 +59,15 @@ public class CraftingAndRecipes implements Listener {
         lore.add(ChatColor.GREEN + "A stomach full of redstone!");
         itemMeta.setLore(lore);
         Enchantment enchantment = new EnchantmentWrapper(34);
-        itemMeta.addEnchant(enchantment,1,true);
+        itemMeta.addEnchant(enchantment, 1, true);
 
 
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
 
-    public static ItemStack typifier(){
-        ItemStack itemStack = new ItemStack(Material.BLAZE_ROD,1,(short)1000);
+    public static ItemStack typifier() {
+        ItemStack itemStack = new ItemStack(Material.BLAZE_ROD, 1, (short) 1000);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName("Typifier");
         /**ADD LORE**/
@@ -76,7 +76,7 @@ public class CraftingAndRecipes implements Listener {
         lore.add(ChatColor.GREEN + "Loop through types!");
         itemMeta.setLore(lore);
         Enchantment enchantment = new EnchantmentWrapper(34);
-        itemMeta.addEnchant(enchantment,1,true);
+        itemMeta.addEnchant(enchantment, 1, true);
 
         itemStack.setItemMeta(itemMeta);
         return itemStack;

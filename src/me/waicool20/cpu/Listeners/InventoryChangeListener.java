@@ -1,7 +1,7 @@
 package me.waicool20.cpu.Listeners;
 
-import me.waicool20.cpu.CPUModule.CPUModule;
-import me.waicool20.cpu.ModuleDatabase;
+import me.waicool20.cpu.CPU.CPU;
+import me.waicool20.cpu.CPUDatabase;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -21,34 +21,44 @@ import java.util.Arrays;
 public class InventoryChangeListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onInventoryInteract(InventoryClickEvent e){
-        if(e.getInventory().getType() != InventoryType.CHEST){return;}
-        if(!(e.getRawSlot() == e.getSlot())){return;}
+    public void onInventoryInteract(InventoryClickEvent e) {
+        if (e.getInventory().getType() != InventoryType.CHEST) {
+            return;
+        }
+        if (!(e.getRawSlot() == e.getSlot())) {
+            return;
+        }
         Block block = ((Chest) e.getInventory().getHolder()).getBlock();
         ItemStack[] contents = e.getView().getTopInventory().getContents();
-        for(CPUModule cpuModule : ModuleDatabase.ModuleDatabaseMap){
-            if(!cpuModule.isBlockPartOfModule(block)){continue;}
-            if(Arrays.deepEquals(contents,cpuModule.getCore().getInventory().getContents())){
-                cpuModule.getType().disable();
-                ModuleDatabase.removeModule(cpuModule);
+        for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
+            if (!cpu.isBlockPartOfModule(block)) {
+                continue;
+            }
+            if (Arrays.deepEquals(contents, cpu.getCore().getInventory().getContents())) {
+                cpu.getType().disable();
+                CPUDatabase.removeCPU(cpu);
             }
         }
     }
 
     @EventHandler
-    public void onChestOpen(PlayerInteractEvent e){
-        if(e.getAction() != Action.RIGHT_CLICK_BLOCK){return;}
+    public void onChestOpen(PlayerInteractEvent e) {
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
         Block block = e.getClickedBlock();
         Player player = e.getPlayer();
-        if(block.getType() != Material.CHEST){return;}
-        for(CPUModule cpuModule : ModuleDatabase.ModuleDatabaseMap){
-            if(cpuModule.getCore().getBlock().equals(block) && cpuModule.isTypified()){
+        if (block.getType() != Material.CHEST) {
+            return;
+        }
+        for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
+            if (cpu.getCore().getBlock().equals(block) && cpu.isTypified()) {
                 e.setCancelled(true);
             }
-            if(cpuModule.isBlockPartOfModule(block)){
-                if(!(player.getName().equalsIgnoreCase(cpuModule.getAttributes().getOwner()))){
+            if (cpu.isBlockPartOfModule(block)) {
+                if (!(player.getName().equalsIgnoreCase(cpu.getAttributes().getOwner()))) {
                     e.setCancelled(true);
-                    player.sendMessage(ChatColor.RED + "[CPU] You are not the owner of this Module!");
+                    player.sendMessage(ChatColor.RED + "[CPU] You are not the owner of this CPU!");
                 }
             }
         }

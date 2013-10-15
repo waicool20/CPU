@@ -1,4 +1,4 @@
-package me.waicool20.cpu.CPUModule;
+package me.waicool20.cpu.CPU;
 
 public class Attributes {
     private String name = null;

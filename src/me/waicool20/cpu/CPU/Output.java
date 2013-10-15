@@ -1,6 +1,6 @@
-package me.waicool20.cpu.CPUModule;
+package me.waicool20.cpu.CPU;
 
-import me.waicool20.cpu.CPU;
+import me.waicool20.cpu.CPUPlugin;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -12,24 +12,24 @@ public class Output {
         this.block = block;
     }
 
-    public void setPower(final boolean powered,int delay){
-        CPU.bukkitScheduler.scheduleSyncDelayedTask(CPU.plugin, new BukkitRunnable() {
+    public void setPower(final boolean powered, int delay) {
+        CPUPlugin.bukkitScheduler.scheduleSyncDelayedTask(CPUPlugin.plugin, new BukkitRunnable() {
             @Override
             public void run() {
-                if(powered){
+                if (powered) {
                     block.setType(Material.REDSTONE_BLOCK);
-                }else {
+                } else {
                     block.setType(Material.AIR);
                 }
             }
-        },0);
+        }, 0);
     }
 
     public Block getBlock() {
         return block;
     }
 
-    public boolean getPower(){
+    public boolean getPower() {
         return block.getType() == Material.REDSTONE_BLOCK;
     }
 }

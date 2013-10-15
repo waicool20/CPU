@@ -1,4 +1,4 @@
-package me.waicool20.cpu.CPUModule;
+package me.waicool20.cpu.CPU;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,7 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
 public class Input {
-    private final BlockFace[] adjFaces = {BlockFace.NORTH,BlockFace.EAST,BlockFace.SOUTH,BlockFace.WEST,BlockFace.UP,BlockFace.DOWN};
+    private final BlockFace[] adjFaces = {BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN};
 
     private final Block block;
     private final Inventory inputInventory;
@@ -23,7 +23,7 @@ public class Input {
         return block;
     }
 
-    private Inventory getInv(){
+    private Inventory getInv() {
         InventoryHolder inventoryHolder = (Chest) block.getState();
         return inventoryHolder.getInventory();
     }
@@ -32,17 +32,23 @@ public class Input {
         return inputInventory;
     }
 
-    public boolean isPowered(){
-        if(this.block.isBlockIndirectlyPowered()){return true;}
-        for(BlockFace blockFace: adjFaces){
+    public boolean isPowered() {
+        if (this.block.isBlockIndirectlyPowered()) {
+            return true;
+        }
+        for (BlockFace blockFace : adjFaces) {
             Block adjblock = block.getRelative(blockFace);
-            if(adjblock.getType() == Material.REDSTONE_WIRE) {return true;}
-            if(adjblock.isBlockPowered() && adjblock.getType() != Material.AIR){return true;}
+            if (adjblock.getType() == Material.REDSTONE_WIRE && adjblock.getData() > 0x0) {
+                return true;
+            }
+            if (adjblock.isBlockPowered() && adjblock.getType() != Material.AIR) {
+                return true;
+            }
         }
         return false;
     }
 
-    Location getLocation(){
+    Location getLocation() {
         return block.getLocation();
     }
 
