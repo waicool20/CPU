@@ -11,7 +11,12 @@ public class Commands implements CommandExecutor{
     public boolean onCommand(CommandSender sender,Command cmd,String label,String[] args){
         if(label.equalsIgnoreCase("cpu")){
             if(args.length == 0){
-                sendPluginInfo(sender);
+                if(sender.hasPermission("cpu.command.status")){
+                    sendPluginInfo(sender);
+                    return true;
+                }
+                sender.sendMessage(ChatColor.RED + "[CPU] You do not have enough permission to run this command!");
+                sender.sendMessage(ChatColor.RED + "[CPU] \"/cpu help\" for help!");
                 return true;
             }
             String subCommand = args[0];
@@ -53,7 +58,7 @@ public class Commands implements CommandExecutor{
     }
 
     private boolean reload(CommandSender sender,Command cmd,String label,String[] args){
-        if(sender.hasPermission("cpu.reload") || sender.hasPermission("cpu.*")){
+        if(sender.hasPermission("cpu.command.reload")){
             CPU.plugin.reloadConfig();
             ModuleDatabase.ModuleDatabaseMap.clear();
             ModuleDatabase.loadModules();
@@ -62,11 +67,11 @@ public class Commands implements CommandExecutor{
             return true;
         }
         sender.sendMessage(ChatColor.RED + "[CPU] You do not have enough permission to run this command!");
-        return false;
+        return true;
     }
 
     private boolean toggleinfo(CommandSender sender,Command cmd,String label,String[] args){
-        if(sender.hasPermission("cpu.toggleinfo") || sender.hasPermission("cpu.*")){
+        if(sender.hasPermission("cpu.command.toggleinfo")){
             if(CPU.plugin.getConfig().getBoolean("send-info")){
                 CPU.plugin.getConfig().set("send-info", false);
                 CPU.plugin.saveConfig();
@@ -80,18 +85,18 @@ public class Commands implements CommandExecutor{
             }
         }
         sender.sendMessage(ChatColor.RED + "[CPU] You do not have enough permission to run this command!");
-        return false;
+        return true;
     }
 
     private boolean disable(CommandSender sender,Command cmd,String label,String[] args){
-        if(sender.hasPermission("cpu.disable")|| sender.hasPermission("cpu.*")){
+        if(sender.hasPermission("cpu.command.disable")){
             if(CPU.plugin.getConfig().getBoolean("disabled")){
-                sender.sendMessage(ChatColor.RED + "CPU is already disabled!");
+                sender.sendMessage(ChatColor.RED + "[CPU] CPU is already disabled!");
                 return true;
             }
             CPU.plugin.getConfig().set("disabled",true);
             CPU.plugin.saveConfig();
-            sender.sendMessage(ChatColor.GREEN + "CPU has been disabled!");
+            sender.sendMessage(ChatColor.GREEN + "[CPU] CPU has been disabled!");
             return true;
         }
         sender.sendMessage(ChatColor.RED + "[CPU] You do not have enough permission to run this command!");
@@ -99,29 +104,29 @@ public class Commands implements CommandExecutor{
     }
 
     private boolean enable(CommandSender sender,Command cmd,String label,String[] args){
-        if(sender.hasPermission("cpu.disable") || sender.hasPermission("cpu.*")){
+        if(sender.hasPermission("cpu.command.enable")){
             if(!CPU.plugin.getConfig().getBoolean("disabled")){
-                sender.sendMessage(ChatColor.RED + "CPU is already enabled!");
+                sender.sendMessage(ChatColor.RED + "[CPU] CPU is already enabled!");
                 return true;
             }
             CPU.plugin.getConfig().set("disabled", false);
             CPU.plugin.saveConfig();
-            sender.sendMessage(ChatColor.GREEN + "CPU has been enabled!");
+            sender.sendMessage(ChatColor.GREEN + "[CPU] CPU has been enabled!");
             return true;
         }
         sender.sendMessage(ChatColor.RED + "[CPU] You do not have enough permission to run this command!");
-        return false;
+        return true;
     }
 
     private void sendPluginInfo(CommandSender sender){
         sender.sendMessage(ChatColor.DARK_GREEN + "------ " + ChatColor.GREEN + "CPU Plugin Info" + ChatColor.DARK_GREEN + " ------");
         sender.sendMessage("Version: " + ChatColor.AQUA + CPU.pdfFile.getVersion());
         sender.sendMessage("Active Modules: " + ChatColor.AQUA + ModuleDatabase.ModuleDatabaseMap.size());
-        if(CPU.plugin.getConfig().getBoolean("notify-updates")){
-            if(CPU.plugin.getConfig().getBoolean("notify-updates") && UpdateChecker.getInstance().NewUpdateAvailable() && (sender.hasPermission("cpu.notifyupdate") || sender.hasPermission("cpu.*"))){
-                sender.sendMessage(ChatColor.GREEN + "New update available: " +ChatColor.AQUA + UpdateChecker.getInstance().getLatestVersion());
-                sender.sendMessage(ChatColor.GREEN + "Go get it at: " + ChatColor.AQUA + UpdateChecker.getInstance().getDlLink());
-            }
+        if(CPU.plugin.getConfig().getBoolean("notify-updates") && UpdateChecker.getInstance().NewUpdateAvailable() && (sender.hasPermission("cpu.notifyupdate"))){
+            sender.sendMessage(ChatColor.GREEN + "New update available: " +ChatColor.AQUA + UpdateChecker.getInstance().getLatestVersion());
+            sender.sendMessage(ChatColor.GREEN + "Go get it at: " + ChatColor.AQUA + UpdateChecker.getInstance().getDlLink());
+        }else{
+            sender.sendMessage(ChatColor.GREEN + "You have the latest version!");
         }
     }
 }

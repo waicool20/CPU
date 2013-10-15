@@ -10,15 +10,12 @@ import org.bukkit.inventory.InventoryHolder;
 
 public class Input {
     private final BlockFace[] adjFaces = {BlockFace.NORTH,BlockFace.EAST,BlockFace.SOUTH,BlockFace.WEST,BlockFace.UP,BlockFace.DOWN};
-    public enum Side {LEFT,RIGHT}
 
-    private Side side;
     private Block block;
     private Inventory inputInventory;
 
-    Input(Block block, Side side) {
+    Input(Block block) {
         this.block = block;
-        this.side = side;
         this.inputInventory = getInv();
     }
 

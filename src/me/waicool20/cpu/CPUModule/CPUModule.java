@@ -55,32 +55,32 @@ public class CPUModule {
                     input1 = input2 = null;
                     break;
                 }
-                input1 = new Input(center.getRelative(BlockFace.EAST), Input.Side.RIGHT);
-                input2 = new Input(center.getRelative(BlockFace.WEST), Input.Side.LEFT);
+                input1 = new Input(center.getRelative(BlockFace.EAST));
+                input2 = new Input(center.getRelative(BlockFace.WEST));
                 break;
             case EAST:
                 if(center.getRelative(BlockFace.NORTH).getType() != Material.CHEST || center.getRelative(BlockFace.SOUTH).getType() != Material.CHEST){
                     input1 = input2 = null;
                     break;
                 }
-                input1 = new Input(center.getRelative(BlockFace.SOUTH), Input.Side.RIGHT);
-                input2 = new Input(center.getRelative(BlockFace.NORTH), Input.Side.LEFT);
+                input1 = new Input(center.getRelative(BlockFace.SOUTH));
+                input2 = new Input(center.getRelative(BlockFace.NORTH));
                 break;
             case SOUTH:
                 if(center.getRelative(BlockFace.EAST).getType() != Material.CHEST || center.getRelative(BlockFace.WEST).getType() != Material.CHEST){
                     input1 = input2 = null;
                     break;
                 }
-                input1 = new Input(center.getRelative(BlockFace.WEST), Input.Side.RIGHT);
-                input2 = new Input(center.getRelative(BlockFace.EAST), Input.Side.LEFT);
+                input1 = new Input(center.getRelative(BlockFace.WEST));
+                input2 = new Input(center.getRelative(BlockFace.EAST));
                 break;
             case WEST:
                 if(center.getRelative(BlockFace.SOUTH).getType() != Material.CHEST || center.getRelative(BlockFace.NORTH).getType() != Material.CHEST){
                     input1 = input2 = null;
                     break;
                 }
-                input1 = new Input(center.getRelative(BlockFace.NORTH,1), Input.Side.RIGHT);
-                input2 = new Input(center.getRelative(BlockFace.SOUTH,1), Input.Side.LEFT);
+                input1 = new Input(center.getRelative(BlockFace.NORTH,1));
+                input2 = new Input(center.getRelative(BlockFace.SOUTH,1));
                 break;
         }
 
@@ -128,16 +128,6 @@ public class CPUModule {
 
     public int getXyz(int i) {
         return xyz[i];
-    }
-
-    public Location getInputLocation(Input.Side side){
-        if (side == Input.Side.LEFT){
-            return input1.getLocation();
-        }
-        if (side == Input.Side.RIGHT){
-            return input2.getLocation();
-        }
-        return null;
     }
 
     public void detectType(){
@@ -189,8 +179,8 @@ public class CPUModule {
         player.sendMessage("The World is " + ChatColor.AQUA + cpuModule.getWorld().getName());
         player.sendMessage("The Type is " + ChatColor.AQUA + cpuModule.getType().getName());
         player.sendMessage("Core is at" + "   X: " + ChatColor.AQUA +cpuModule.getXyz(0) +ChatColor.WHITE + "   Y: " + ChatColor.AQUA +cpuModule.getXyz(1) +ChatColor.WHITE + "   Z: " + ChatColor.AQUA +cpuModule.getXyz(2));
-        player.sendMessage("Input1 is at" + "   X: " + ChatColor.AQUA + cpuModule.getInputLocation(Input.Side.LEFT).getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + cpuModule.getInputLocation(Input.Side.LEFT).getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + cpuModule.getInputLocation(Input.Side.LEFT).getBlockZ());
-        player.sendMessage("Input2 is at" + "   X: " + ChatColor.AQUA + cpuModule.getInputLocation(Input.Side.RIGHT).getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + cpuModule.getInputLocation(Input.Side.RIGHT).getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + cpuModule.getInputLocation(Input.Side.RIGHT).getBlockZ());
+        player.sendMessage("Input1 is at" + "   X: " + ChatColor.AQUA + cpuModule.getInput1().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + cpuModule.getInput1().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + cpuModule.getInput1().getLocation().getBlockZ());
+        player.sendMessage("Input2 is at" + "   X: " + ChatColor.AQUA + cpuModule.getInput2().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + cpuModule.getInput2().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + cpuModule.getInput2().getLocation().getBlockZ());
         //player.sendMessage("The delay is " + cpuModule.getDelay() + " ticks!");
     }
 }

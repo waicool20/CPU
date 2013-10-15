@@ -32,8 +32,6 @@ public class CreateModuleListener implements Listener {
 
     protected static boolean hasPermission(Player player,CPUModule cpuModule) {
         if(player.isOp()){return true;}
-        if(player.hasPermission("cpu.create.*")){return true;}
-        if(player.hasPermission("cpu.*")){return true;}
         if(player.hasPermission("cpu.create." + cpuModule.getType().getName().toLowerCase())){return true;}
         return false;
     }
@@ -78,14 +76,14 @@ public class CreateModuleListener implements Listener {
 
         newCpuModule.setTypified(typified);
 
+        if(newCpuModule.getType() == null ) {player.sendMessage(ChatColor.RED + "[CPU] Invalid CPU Type!     " + ChatColor.GREEN + "HINT:  Check Inventory!");return;}
+
         if(!hasPermission(player,newCpuModule)){
             player.sendMessage(ChatColor.RED + "[CPU] You do not have the permission to create a " + ChatColor.DARK_RED + newCpuModule.getType().getName() + ChatColor.RED + " CPU");
             return;
         }
 
         if(!isValidModule(newCpuModule)){player.sendMessage(ChatColor.RED + "[CPU] This CPU seems to be missing some inputs?");return;}
-
-        if(newCpuModule.getType() == null ) {player.sendMessage(ChatColor.RED + "[CPU] Invalid CPU Type!     " + ChatColor.GREEN + "HINT:  Check Inventory!");return;}
 
         if(alreadyActivated(newCpuModule)){
             player.sendMessage(ChatColor.GREEN + "----MODULE INFO----");

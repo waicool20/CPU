@@ -13,18 +13,9 @@ commands:
     permission: cpu.typifier
 
 permission:
-  cpu.*:
-    description: Gives access to all commands and player will notified by update
+  cpu.status:
+    description: Lets users see plugin status
     default: true
-    children:
-      cpu.toggleinfo: true
-      cpu.enable: true
-      cpu.disable: true
-      cpu.reload: true
-      cpu.typifier: true
-      cpu.create.*: true
-      cpu.help: true
-      cpu.notifyupdate: true
   cpu.toggleinfo:
       description: Toggle on/off if you want the CPU information sent when CPU is first activated
       default: true
@@ -43,18 +34,6 @@ permission:
   cpu.notifyupdate:
       description: Anybody with this permission will be notified about an update
       default: true
-  cpu.create.*:
-    description: Permission to create all CPUs
-    default: true
-    children:
-      cpu.create.or: true
-      cpu.create.and: true
-      cpu.create.nor: true
-      cpu.create.nand: true
-      cpu.create.xor: true
-      cpu.create.xnor: true
-      cpu.create.blockbreaker: true
-      cpu.create.blockplacer: true
   cpu.create.or:
       description: Permission to create OR CPUs
       default: true
