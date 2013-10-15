@@ -21,18 +21,19 @@ public class BlockBreak extends Type {
     }
 
     @Override
-    public boolean updatePower() {
+    public void updatePower() {
         if(CPU_MODULE.getInput1().isPowered() || CPU_MODULE.getInput2().isPowered()){
             Block block = CPU_MODULE.getOutput().getBlock();
             if(block.getType() != Material.BEDROCK && block.getType() != Material.AIR){
                 block.breakNaturally();
             }
-            return true;
-        }else {return false;}
+            return;
+        }else {
+            return;
+        }
     }
 
     @Override
     public void disable() {
-        return;
     }
 }

@@ -30,13 +30,11 @@ public class CreateModuleListener implements Listener {
         createModule(player,clickedBlock,false);
     }
 
-    protected static boolean hasPermission(Player player,CPUModule cpuModule) {
-        if(player.isOp()){return true;}
-        if(player.hasPermission("cpu.create." + cpuModule.getType().getName().toLowerCase())){return true;}
-        return false;
+    private static boolean hasPermission(Player player, CPUModule cpuModule) {
+        return player.isOp() || player.hasPermission("cpu.create." + cpuModule.getType().getName().toLowerCase());
     }
 
-    public static boolean isEmpty(ItemStack[] ie) {
+    private static boolean isEmpty(ItemStack[] ie) {
         for(ItemStack item : ie) {
             if(item != null) {
                 return false;
@@ -54,11 +52,11 @@ public class CreateModuleListener implements Listener {
         return false;
     }
 
-    protected static boolean isValidModule(CPUModule newCpuModule){
+    private static boolean isValidModule(CPUModule newCpuModule){
         return !(newCpuModule.getInput1() == null || newCpuModule.getInput2() == null);
     }
 
-    protected static void createModule(Player player,Block clickedBlock,boolean typified){
+    static void createModule(Player player, Block clickedBlock, boolean typified){
         if (clickedBlock.getType() != Material.CHEST) {player.sendMessage(ChatColor.RED + "[CPU] Please use the activator on CPU Modules only!!");return;}
         InventoryHolder inventoryHolder = (Chest) clickedBlock.getState();
         ItemStack[] clickedBlockContents = inventoryHolder.getInventory().getContents();
@@ -89,7 +87,7 @@ public class CreateModuleListener implements Listener {
             player.sendMessage(ChatColor.GREEN + "----MODULE INFO----");
             for(CPUModule cpuModule: ModuleDatabase.ModuleDatabaseMap){
                 if(clickedBlock.getLocation().equals(cpuModule.getID())){
-                    newCpuModule.sendCpuModuleINFO(player,cpuModule);
+                    newCpuModule.sendCpuModuleINFO(player);
                 }
             }
             return;
@@ -104,6 +102,6 @@ public class CreateModuleListener implements Listener {
         player.sendMessage(ChatColor.GREEN + "[CPU] You have successfully activated this CPU!!");
 
         if(!CPU.plugin.getConfig().getBoolean("send-info")){return;}
-        newCpuModule.sendCpuModuleINFO(player, newCpuModule);
+        newCpuModule.sendCpuModuleINFO(player);
     }
 }

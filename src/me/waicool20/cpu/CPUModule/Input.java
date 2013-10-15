@@ -11,8 +11,8 @@ import org.bukkit.inventory.InventoryHolder;
 public class Input {
     private final BlockFace[] adjFaces = {BlockFace.NORTH,BlockFace.EAST,BlockFace.SOUTH,BlockFace.WEST,BlockFace.UP,BlockFace.DOWN};
 
-    private Block block;
-    private Inventory inputInventory;
+    private final Block block;
+    private final Inventory inputInventory;
 
     Input(Block block) {
         this.block = block;
@@ -36,7 +36,7 @@ public class Input {
         if(this.block.isBlockIndirectlyPowered()){return true;}
         for(BlockFace blockFace: adjFaces){
             Block adjblock = block.getRelative(blockFace);
-            if(adjblock.getType() == Material.REDSTONE_WIRE && adjblock.getData() > 0x0) {return true;}
+            if(adjblock.getType() == Material.REDSTONE_WIRE) {return true;}
             if(adjblock.isBlockPowered() && adjblock.getType() != Material.AIR){return true;}
         }
         return false;

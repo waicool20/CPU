@@ -22,10 +22,12 @@ public class BlockPlace extends Type {
     }
 
     @Override
-    public boolean updatePower() {
+    public void updatePower() {
         if(CPU_MODULE.getInput1().isPowered() || CPU_MODULE.getInput2().isPowered()){
-            if(state) return true;
-            if(CPU_MODULE.getOutput().getBlock().getType() != Material.AIR){return true;}
+            if(state) return;
+            if(CPU_MODULE.getOutput().getBlock().getType() != Material.AIR){
+                return;
+            }
             state = true;
             Inventory input1 = CPU_MODULE.getInput1().getInventory();
             Inventory input2 = CPU_MODULE.getInput2().getInventory();
@@ -36,7 +38,7 @@ public class BlockPlace extends Type {
             if(isEmpty(input1.getContents())){
                 inventoryToCheck = input2;
                 if(isEmpty(input2.getContents())){
-                    return true;
+                    return;
                 }
             }
             for(ItemStack itemStack : inventoryToCheck.getContents()){
@@ -53,21 +55,21 @@ public class BlockPlace extends Type {
                     }
                 }
             }
-            if(material == null){return false;}
+            if(material == null){
+                return;
+            }
             CPU_MODULE.getOutput().getBlock().setType(material);
             state = true;
-            return true;
+            return;
         }
         state = false;
-        return false;
     }
 
     @Override
     public void disable() {
-        return;
     }
 
-    public boolean isEmpty(ItemStack[] itemStacks){
+    boolean isEmpty(ItemStack[] itemStacks){
         for(ItemStack itemStack : itemStacks){
             if(itemStack != null){
                 return false;

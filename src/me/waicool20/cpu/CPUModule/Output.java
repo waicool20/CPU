@@ -6,11 +6,9 @@ import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Output {
-    private CPUModule cpuModule;
-    private Block block;
+    private final Block block;
 
-    public Output(CPUModule cpuModule,Block block) {
-        this.cpuModule = cpuModule;
+    public Output(Block block) {
         this.block = block;
     }
 

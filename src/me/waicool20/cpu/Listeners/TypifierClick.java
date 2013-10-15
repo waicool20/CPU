@@ -40,10 +40,12 @@ public class TypifierClick implements Listener {
                                 cpuModule.getOutput().setPower(false,0);
                                 cpuModule.setType(types[i+1]);
                                 cpuModule.getCore().getInventory().setContents(types[i+1].typeInventory());
+                                cpuModule.getType().updatePower();
                             }else{
                                 cpuModule.getOutput().setPower(false,0);
                                 cpuModule.setType(types[0]);
                                 cpuModule.getCore().getInventory().setContents(types[0].typeInventory());
+                                cpuModule.getType().updatePower();
                             }
                             player.sendMessage(ChatColor.GREEN + "[CPU] " +ChatColor.WHITE + "The Type is " + ChatColor.AQUA + cpuModule.getType().getName());
                             return;
@@ -60,7 +62,6 @@ public class TypifierClick implements Listener {
                 return;
             }
             player.sendMessage(ChatColor.RED + "[CPU] Could not create CPU!");
-            return;
         } else {
             player.sendMessage(ChatColor.RED + "[CPU] Click on Chest only!");
         }
@@ -70,12 +71,10 @@ public class TypifierClick implements Listener {
         if(blockFace == BlockFace.NORTH || blockFace == BlockFace.SOUTH){
             return (center.getRelative(BlockFace.WEST).getType() == Material.CHEST && center.getRelative(BlockFace.EAST).getType() == Material.CHEST);
         }
-        if(blockFace == BlockFace.WEST || blockFace == BlockFace.EAST){
-            return (center.getRelative(BlockFace.NORTH).getType() == Material.CHEST && center.getRelative(BlockFace.SOUTH).getType() == Material.CHEST);
-        }
-        return false;
+        return (blockFace == BlockFace.WEST || blockFace == BlockFace.EAST) && (center.getRelative(BlockFace.NORTH).getType() == Material.CHEST && center.getRelative(BlockFace.SOUTH).getType() == Material.CHEST);
     }
 
+    @SuppressWarnings("ConstantConditions")
     public static BlockFace getPlayerDirection(Player player) {
         double rotation = (player.getLocation().getYaw() - 90) % 360;
         if (rotation < 0) {

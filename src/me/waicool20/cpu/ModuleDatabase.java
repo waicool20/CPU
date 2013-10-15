@@ -18,8 +18,8 @@ public class ModuleDatabase {
 
     public static CopyOnWriteArrayList<CPUModule> ModuleDatabaseMap = new CopyOnWriteArrayList<CPUModule>();
 
-    private static Path configPath = Paths.get(CPU.plugin.getDataFolder().toPath() + "/ModuleDatabase.yml");
-    private static  Charset charset = Charset.forName("UTF-8");
+    private static final Path configPath = Paths.get(CPU.plugin.getDataFolder().toPath() + "/ModuleDatabase.yml");
+    private static final Charset charset = Charset.forName("UTF-8");
 
     public static void saveDefaults(){
         if(Files.notExists(configPath)){
@@ -31,7 +31,7 @@ public class ModuleDatabase {
         }
     }
 
-    public static void save(){
+    private static void save(){
         try{
             BufferedWriter bufferedWriter = Files.newBufferedWriter(configPath,charset,StandardOpenOption.WRITE,StandardOpenOption.TRUNCATE_EXISTING);
             for(CPUModule cpuModule : ModuleDatabaseMap){
@@ -80,11 +80,8 @@ public class ModuleDatabase {
                 int z = Integer.parseInt(cpuModuleInfo[4]);
                 boolean typified = false;
                 if(cpuModuleInfo.length > 5){
-                    typified = (Integer.parseInt(cpuModuleInfo[5])==0) ? false:true;
+                    typified = (Integer.parseInt(cpuModuleInfo[5]) != 0);
                 }
-                Location location = new Location(world,x,y,z);
-                Chunk chunk = world.getChunkAt(location.getBlock());
-
 
                 CPUModule newCpuModule = new CPUModule(owner,world,x,y,z);
 
@@ -102,10 +99,8 @@ public class ModuleDatabase {
     }
 
     private static World getWorld(String string){
-        Iterator<World> worlds = Bukkit.getServer().getWorlds().iterator();
-        while(worlds.hasNext()){
-            World world = worlds.next();
-            if(world.getName().equalsIgnoreCase(string.trim())){
+        for (World world : Bukkit.getServer().getWorlds()) {
+            if (world.getName().equalsIgnoreCase(string.trim())) {
                 return world;
             }
         }
