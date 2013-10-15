@@ -63,7 +63,7 @@ class Commands implements CommandExecutor {
             CPUDatabase.CPUDatabaseMap.clear();
             CPUDatabase.loadCPUs();
             sender.sendMessage(ChatColor.GREEN + "CPU has been reloaded!!!");
-            sender.sendMessage(ChatColor.GREEN + "Active Modules: " + CPUDatabase.CPUDatabaseMap.size());
+            sender.sendMessage(ChatColor.GREEN + "Active CPUs : " + CPUDatabase.CPUDatabaseMap.size());
             return true;
         }
         sender.sendMessage(ChatColor.RED + "[CPU] You do not have enough permission to run this command!");

@@ -69,7 +69,7 @@ public class BlockPlace extends Type {
     public void disable() {
     }
 
-    boolean isEmpty(ItemStack[] itemStacks) {
+    private boolean isEmpty(ItemStack[] itemStacks) {
         for (ItemStack itemStack : itemStacks) {
             if (itemStack != null) {
                 return false;

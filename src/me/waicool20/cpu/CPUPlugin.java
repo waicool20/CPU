@@ -33,7 +33,7 @@ public class CPUPlugin extends JavaPlugin {
     }
 
     private void registerListeners() {
-        Bukkit.getServer().getPluginManager().registerEvents(new CreateModuleListener(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new CreateCPUListener(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new RedstoneUpdatesListener(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new CraftingAndRecipes(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new CPUBreakListener(), this);

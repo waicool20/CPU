@@ -1,9 +1,9 @@
 package me.waicool20.cpu.Listeners;
 
-import me.waicool20.cpu.CPUDatabase;
 import me.waicool20.cpu.CPU.CPU;
 import me.waicool20.cpu.CPU.Types.OR;
 import me.waicool20.cpu.CPU.Types.Type;
+import me.waicool20.cpu.CPUDatabase;
 import me.waicool20.cpu.CraftingAndRecipes;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -34,7 +34,8 @@ public class TypifierClick implements Listener {
         if (e.getClickedBlock().getType() == Material.CHEST) {
             for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
                 if (clickedBlock.equals(cpu.getCore().getBlock())) {
-                    if (!(cpu.getAttributes().getOwner().equalsIgnoreCase(player.getName()))) {
+                    if (!player.getName().equalsIgnoreCase(cpu.getAttributes().getOwner())) {
+                        cpu.sendCPUInfo(player);
                         return;
                     }
                     Type[] types = Type.getTypes(cpu);
@@ -62,7 +63,7 @@ public class TypifierClick implements Listener {
             Block center = clickedBlock.getRelative(chest.getFacing());
             if (checkBlocks(chest.getFacing(), center)) {
                 chestBlock.getInventory().setContents((new OR(null)).typeInventory());
-                CreateModuleListener.createModule(player, clickedBlock, true);
+                CreateCPUListener.createCPU(player, clickedBlock, true);
                 return;
             }
             player.sendMessage(ChatColor.RED + "[CPU] Could not create CPU!");

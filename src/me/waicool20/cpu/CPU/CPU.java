@@ -94,7 +94,7 @@ public class CPU {
         return attributes;
     }
 
-    World getWorld() {
+    private World getWorld() {
         return world;
     }
 
@@ -126,11 +126,11 @@ public class CPU {
         return delay;
     }
 
-    int getXyz(int i) {
+    private int getXyz(int i) {
         return xyz[i];
     }
 
-    void detectType() {
+    private void detectType() {
         if (core == null) {
             setType(null);
             return;
@@ -172,17 +172,17 @@ public class CPU {
         this.typified = typified;
     }
 
-    public boolean isBlockPartOfModule(Block block) {
+    public boolean isBlockPartOfCPU(Block block) {
         return block.equals(core.getBlock()) || block.equals(input1.getBlock()) || block.equals(input2.getBlock());
     }
 
-    public void sendCpuModuleINFO(Player player) {
+    public void sendCPUInfo(Player player) {
         player.sendMessage("The Owner is " + ChatColor.AQUA + this.getAttributes().getOwner());
         player.sendMessage("The World is " + ChatColor.AQUA + this.getWorld().getName());
         player.sendMessage("The Type is " + ChatColor.AQUA + this.getType().getName());
         player.sendMessage("Core is at" + "   X: " + ChatColor.AQUA + this.getXyz(0) + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + this.getXyz(1) + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + this.getXyz(2));
         player.sendMessage("Input1 is at" + "   X: " + ChatColor.AQUA + this.getInput1().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + this.getInput1().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + this.getInput1().getLocation().getBlockZ());
         player.sendMessage("Input2 is at" + "   X: " + ChatColor.AQUA + this.getInput2().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + this.getInput2().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + this.getInput2().getLocation().getBlockZ());
-        //player.sendMessage("The delay is " + cpuModule.getDelay() + " ticks!");
+        //player.sendMessage("The delay is " + this.getDelay() + " ticks!");
     }
 }

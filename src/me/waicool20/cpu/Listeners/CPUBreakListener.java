@@ -1,7 +1,7 @@
 package me.waicool20.cpu.Listeners;
 
-import me.waicool20.cpu.CPUDatabase;
 import me.waicool20.cpu.CPU.CPU;
+import me.waicool20.cpu.CPUDatabase;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -23,9 +23,9 @@ public class CPUBreakListener implements Listener {
             return;
         }
         for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
-            if (cpu.isBlockPartOfModule(block)) {
+            if (cpu.isBlockPartOfCPU(block)) {
                 if (player.getName().equalsIgnoreCase(cpu.getAttributes().getOwner())) {
-                    checkModuleIntegrity(block, player);
+                    checkCPUIntegrity(block, player);
                 } else {
                     e.setCancelled(true);
                     player.sendMessage(ChatColor.RED + "[CPU] You are not the owner of this CPU!");
@@ -39,13 +39,13 @@ public class CPUBreakListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityExplode(EntityExplodeEvent e) {
         for (Block block : e.blockList()) {
-            checkModuleIntegrity(block, null);
+            checkCPUIntegrity(block, null);
         }
     }
 
-    private static void checkModuleIntegrity(Block block, Player player) {
+    private static void checkCPUIntegrity(Block block, Player player) {
         for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
-            if (cpu.isBlockPartOfModule(block)) {
+            if (cpu.isBlockPartOfCPU(block)) {
                 cpu.getType().disable();
                 if (cpu.isTypified()) {
                     cpu.getCore().getInventory().clear();

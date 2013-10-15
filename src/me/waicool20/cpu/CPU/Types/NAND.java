@@ -25,13 +25,11 @@ public class NAND extends Type {
                 return;
             }
             CPU_MODULE.getOutput().setPower(true, CPU_MODULE.getDelay());
-            return;
         } else {
             if (!CPU_MODULE.getOutput().getPower()) {
                 return;
             }
             CPU_MODULE.getOutput().setPower(false, 0);
-            return;
         }
     }
 

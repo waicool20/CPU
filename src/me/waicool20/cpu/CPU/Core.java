@@ -29,10 +29,6 @@ public class Core {
         return coreInventory;
     }
 
-    public void setCoreInventory(Inventory coreInventory) {
-        this.coreInventory = coreInventory;
-    }
-
     private Inventory getCore_INV() {
         InventoryHolder inventoryHolder = (Chest) block.getState();
         return inventoryHolder.getInventory();

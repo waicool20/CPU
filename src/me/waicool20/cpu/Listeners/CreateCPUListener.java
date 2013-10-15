@@ -1,9 +1,9 @@
 package me.waicool20.cpu.Listeners;
 
 import me.waicool20.cpu.CPU.CPU;
+import me.waicool20.cpu.CPUDatabase;
 import me.waicool20.cpu.CPUPlugin;
 import me.waicool20.cpu.CraftingAndRecipes;
-import me.waicool20.cpu.CPUDatabase;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,7 +16,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
-public class CreateModuleListener implements Listener {
+public class CreateCPUListener implements Listener {
 
     @EventHandler
     public void onPlayerClick(PlayerInteractEvent e) {
@@ -31,7 +31,7 @@ public class CreateModuleListener implements Listener {
         }
         e.setCancelled(true);
 
-        createModule(player, clickedBlock, false);
+        createCPU(player, clickedBlock, false);
     }
 
     private static boolean hasPermission(Player player, CPU cpu) {
@@ -56,13 +56,13 @@ public class CreateModuleListener implements Listener {
         return false;
     }
 
-    private static boolean isValidModule(CPU newCpu) {
+    private static boolean isValidCPU(CPU newCpu) {
         return !(newCpu.getInput1() == null || newCpu.getInput2() == null);
     }
 
-    static void createModule(Player player, Block clickedBlock, boolean typified) {
+    static void createCPU(Player player, Block clickedBlock, boolean typified) {
         if (clickedBlock.getType() != Material.CHEST) {
-            player.sendMessage(ChatColor.RED + "[CPU] Please use the activator on CPU Modules only!!");
+            player.sendMessage(ChatColor.RED + "[CPU] Please use the activator on CPUs only!!");
             return;
         }
         InventoryHolder inventoryHolder = (Chest) clickedBlock.getState();
@@ -94,7 +94,7 @@ public class CreateModuleListener implements Listener {
             return;
         }
 
-        if (!isValidModule(newCpu)) {
+        if (!isValidCPU(newCpu)) {
             player.sendMessage(ChatColor.RED + "[CPU] This CPU seems to be missing some inputs?");
             return;
         }
@@ -103,7 +103,7 @@ public class CreateModuleListener implements Listener {
             player.sendMessage(ChatColor.GREEN + "----CPU INFO----");
             for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
                 if (clickedBlock.getLocation().equals(cpu.getID())) {
-                    newCpu.sendCpuModuleINFO(player);
+                    newCpu.sendCPUInfo(player);
                 }
             }
             return;
@@ -120,6 +120,6 @@ public class CreateModuleListener implements Listener {
         if (!CPUPlugin.plugin.getConfig().getBoolean("send-info")) {
             return;
         }
-        newCpu.sendCpuModuleINFO(player);
+        newCpu.sendCPUInfo(player);
     }
 }

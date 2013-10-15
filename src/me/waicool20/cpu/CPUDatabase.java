@@ -37,8 +37,8 @@ public class CPUDatabase {
             BufferedWriter bufferedWriter = Files.newBufferedWriter(configPath, charset, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
             for (CPU cpu : CPUDatabaseMap) {
                 int typified = cpu.isTypified() ? 1 : 0;
-                String cpuModuleLocation = cpu.getAttributes().getOwner() + ";" + cpu.getID().getWorld().getName() + ";" + cpu.getID().getBlockX() + ";" + cpu.getID().getBlockY() + ";" + cpu.getID().getBlockZ() + ";" + typified + ";";
-                bufferedWriter.append(cpuModuleLocation);
+                String cpuLocation = cpu.getAttributes().getOwner() + ";" + cpu.getID().getWorld().getName() + ";" + cpu.getID().getBlockX() + ";" + cpu.getID().getBlockY() + ";" + cpu.getID().getBlockZ() + ";" + typified + ";";
+                bufferedWriter.append(cpuLocation);
                 bufferedWriter.newLine();
             }
             bufferedWriter.close();
@@ -64,24 +64,24 @@ public class CPUDatabase {
             BufferedReader bufferedReader = Files.newBufferedReader(configPath, charset);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                String[] cpuModuleInfo = line.split(";");
-                String owner = cpuModuleInfo[0];
-                World world = getWorld(cpuModuleInfo[1]);
+                String[] cpuInfo = line.split(";");
+                String owner = cpuInfo[0];
+                World world = getWorld(cpuInfo[1]);
                 if (world == null) {
-                    Path worldFolder = Paths.get(Bukkit.getServer().getWorldContainer().toPath() + "/" + cpuModuleInfo[1]);
+                    Path worldFolder = Paths.get(Bukkit.getServer().getWorldContainer().toPath() + "/" + cpuInfo[1]);
                     if (Files.exists(worldFolder)) {
-                        Bukkit.getServer().createWorld(new WorldCreator(cpuModuleInfo[1]));
-                        world = getWorld(cpuModuleInfo[1]);
+                        Bukkit.getServer().createWorld(new WorldCreator(cpuInfo[1]));
+                        world = getWorld(cpuInfo[1]);
                     } else {
-                        CPUPlugin.logger.severe("[CPU] Could not load the world " + cpuModuleInfo[1] + " | Is it missing?");
+                        CPUPlugin.logger.severe("[CPU] Could not load the world " + cpuInfo[1] + " | Is it missing?");
                     }
                 }
-                int x = Integer.parseInt(cpuModuleInfo[2]);
-                int y = Integer.parseInt(cpuModuleInfo[3]);
-                int z = Integer.parseInt(cpuModuleInfo[4]);
+                int x = Integer.parseInt(cpuInfo[2]);
+                int y = Integer.parseInt(cpuInfo[3]);
+                int z = Integer.parseInt(cpuInfo[4]);
                 boolean typified = false;
-                if (cpuModuleInfo.length > 5) {
-                    typified = (Integer.parseInt(cpuModuleInfo[5]) != 0);
+                if (cpuInfo.length > 5) {
+                    typified = (Integer.parseInt(cpuInfo[5]) != 0);
                 }
 
                 CPU newCpu = new CPU(owner, world, x, y, z);

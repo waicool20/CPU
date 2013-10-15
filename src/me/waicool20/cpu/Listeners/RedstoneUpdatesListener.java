@@ -1,8 +1,8 @@
 package me.waicool20.cpu.Listeners;
 
-import me.waicool20.cpu.CPUPlugin;
-import me.waicool20.cpu.CPUDatabase;
 import me.waicool20.cpu.CPU.CPU;
+import me.waicool20.cpu.CPUDatabase;
+import me.waicool20.cpu.CPUPlugin;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -31,7 +31,7 @@ public class RedstoneUpdatesListener implements Listener {
 
     private void startUpdate(Block block) {
         for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
-            if (cpu.isBlockPartOfModule(block)) {
+            if (cpu.isBlockPartOfCPU(block)) {
                 cpu.getType().updatePower();
                 return;
             }

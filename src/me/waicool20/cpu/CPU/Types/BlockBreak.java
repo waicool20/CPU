@@ -27,9 +27,7 @@ public class BlockBreak extends Type {
             if (block.getType() != Material.BEDROCK && block.getType() != Material.AIR) {
                 block.breakNaturally();
             }
-            return;
         } else {
-            return;
         }
     }
 
