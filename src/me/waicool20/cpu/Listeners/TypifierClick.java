@@ -24,39 +24,35 @@ import java.util.Arrays;
 
 public class TypifierClick implements Listener {
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         Block clickedBlock = e.getClickedBlock();
-        if (e.getAction() == Action.LEFT_CLICK_BLOCK || e.getItem() == null || clickedBlock == null) {
-            return;
-        }
-        if (!e.getItem().isSimilar(CraftingAndRecipes.typifier())) {
-            return;
-        }
-        e.setCancelled(true);
-        if(player.isSneaking()){
-            if(clickedBlock.getType() == Material.CHEST){
+        if(e.getItem() == null) return;
+        if (!e.getItem().isSimilar(CraftingAndRecipes.typifier())) return;
+        if((e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) && player.isSneaking()){
+            if(clickedBlock != null && clickedBlock.getType() == Material.CHEST){
                 for(CPU cpu : CPUDatabase.CPUDatabaseMap){
                     if(clickedBlock.equals(cpu.getCore().getBlock())){
                         cpu.sendCPUInfo(player);
                         return;
                     }
                 }
-            } else {
-                Location location = clickedBlock.getRelative(BlockFace.UP).getLocation();
-                ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
-                BookMeta bookMeta = (BookMeta) book.getItemMeta();
-
-                bookMeta.setTitle("Destination");
-                bookMeta.setPages(Arrays.asList(location.getWorld().getName() + " " + (location.getX()+0.5f) + " " + location.getBlockY() + " " + (location.getZ()+0.5f)));
-                book.setItemMeta(bookMeta);
-                player.getInventory().addItem(book);
-                player.updateInventory();
-                player.sendMessage(ChatColor.GREEN + "[CPU] Destination book has been given to you!");
-                return;
             }
+            Location location = player.getLocation();
+            ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
+            BookMeta bookMeta = (BookMeta) book.getItemMeta();
+
+            bookMeta.setTitle("Destination");
+            bookMeta.setPages(Arrays.asList(location.getWorld().getName() + " " + location.getX() + " " + location.getBlockY() + " " + location.getZ()));
+            book.setItemMeta(bookMeta);
+            player.getInventory().addItem(book);
+            player.updateInventory();
+            player.sendMessage(ChatColor.GREEN + "[CPU] Destination book has been given to you!");
+            return;
         }
+        if (e.getAction() == Action.LEFT_CLICK_BLOCK || clickedBlock == null) return;
+        e.setCancelled(true);
         if (clickedBlock.getType() == Material.CHEST) {
             for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
                 if (clickedBlock.equals(cpu.getCore().getBlock())) {
