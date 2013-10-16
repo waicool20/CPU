@@ -9,6 +9,8 @@ import org.bukkit.inventory.meta.BookMeta;
 
 public class Teleporter extends Type {
 
+    private boolean state = false;
+
     public Teleporter(CPU cpu) {
         CPU = cpu;
         setName("Teleporter");
@@ -25,6 +27,7 @@ public class Teleporter extends Type {
     @Override
     public void updatePower() {
         if (CPU.getInput1().isPowered() || CPU.getInput2().isPowered()) {
+            if(state) return;
             Player[] players = Bukkit.getServer().getOnlinePlayers();
             Inventory input1 = CPU.getInput1().getInventory();
             Inventory input2 = CPU.getInput2().getInventory();
@@ -62,13 +65,18 @@ public class Teleporter extends Type {
             }
             if(tpLocation != null){
                 for(Player player : players){
-                    if(player.getLocation().distance(CPU.getOutput().getBlock().getLocation()) < 1.2f){
-                        player.teleport(tpLocation);
-                        player.sendMessage(ChatColor.GREEN + "[CPU] Teleported you to destination!");
+                    if(tpLocation.getWorld().equals(player.getWorld())){
+                        if(player.getLocation().distance(CPU.getOutput().getBlock().getLocation()) < 1.2f){
+                            player.teleport(tpLocation);
+                            player.sendMessage(ChatColor.GREEN + "[CPU] Teleported you to destination!");
+                        }
                     }
                 }
             }
+            state = true;
+            return;
         }
+        state = false;
     }
 
     @Override

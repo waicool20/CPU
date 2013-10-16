@@ -6,6 +6,7 @@ import me.waicool20.cpu.CPU.Types.Type;
 import me.waicool20.cpu.CPUDatabase;
 import me.waicool20.cpu.CraftingAndRecipes;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -15,7 +16,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.material.Chest;
+
+import java.util.Arrays;
 
 public class TypifierClick implements Listener {
 
@@ -30,12 +35,26 @@ public class TypifierClick implements Listener {
             return;
         }
         e.setCancelled(true);
-        if(clickedBlock.getType() == Material.CHEST && player.isSneaking()){
-            for(CPU cpu : CPUDatabase.CPUDatabaseMap){
-                if(clickedBlock.equals(cpu.getCore().getBlock())){
-                    cpu.sendCPUInfo(player);
-                    return;
+        if(player.isSneaking()){
+            if(clickedBlock.getType() == Material.CHEST){
+                for(CPU cpu : CPUDatabase.CPUDatabaseMap){
+                    if(clickedBlock.equals(cpu.getCore().getBlock())){
+                        cpu.sendCPUInfo(player);
+                        return;
+                    }
                 }
+            } else {
+                Location location = clickedBlock.getRelative(BlockFace.UP).getLocation();
+                ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
+                BookMeta bookMeta = (BookMeta) book.getItemMeta();
+
+                bookMeta.setTitle("Destination");
+                bookMeta.setPages(Arrays.asList(location.getWorld().getName() + " " + (location.getX()+0.5f) + " " + location.getY() + " " + (location.getZ()+0.5f)));
+                book.setItemMeta(bookMeta);
+                player.getInventory().addItem(book);
+                player.updateInventory();
+                player.sendMessage(ChatColor.GREEN + "[CPU] Destination book has been given to you!");
+                return;
             }
         }
         if (clickedBlock.getType() == Material.CHEST) {
