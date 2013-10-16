@@ -1,10 +1,16 @@
 package me.waicool20.cpu;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
+
+import java.util.Arrays;
 
 class Commands implements CommandExecutor {
 
@@ -30,6 +36,8 @@ class Commands implements CommandExecutor {
                 return enable(sender, cmd, label, args);
             } else if (subCommand.equalsIgnoreCase("help")) {
                 return sendHelp(sender, cmd, label, args);
+            } else if (subCommand.equalsIgnoreCase("gettp")){
+                return getTP(sender, cmd, label, args);
             } else {
                 sender.sendMessage(ChatColor.RED + "Invalid Command! Use \"/cpu help\" for more help!");
             }
@@ -115,6 +123,27 @@ class Commands implements CommandExecutor {
             return true;
         }
         sender.sendMessage(ChatColor.RED + "[CPU] You do not have enough permission to run this command!");
+        return true;
+    }
+
+    private boolean getTP(CommandSender sender, Command cmd, String label, String[] args) {
+        if(sender instanceof Player){
+            if(sender.hasPermission("cpu.command.gettp")){
+                Player player = (Player) sender;
+                Location location = player.getLocation();
+                ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
+                BookMeta bookMeta = (BookMeta) book.getItemMeta();
+
+                bookMeta.setTitle("Destination");
+                bookMeta.setPages(Arrays.asList(location.getWorld().getName() + " " + location.getX() + " " + location.getY() + " " + location.getZ()));
+                book.setItemMeta(bookMeta);
+                player.getInventory().addItem(book);
+                return true;
+            }
+            sender.sendMessage(ChatColor.RED + "[CPU] You do not have enough permission to run this command!");
+            return true;
+        }
+        sender.sendMessage(ChatColor.RED + "[CPU] Only players can get the teleport coordinates!");
         return true;
     }
 

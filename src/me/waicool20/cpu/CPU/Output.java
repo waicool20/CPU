@@ -30,6 +30,6 @@ public class Output {
     }
 
     public boolean getPower() {
-        return block.getType() == Material.REDSTONE_BLOCK;
+        return block.getType() != Material.AIR;
     }
 }

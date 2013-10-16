@@ -26,15 +26,15 @@ public class UpdateChecker {
         }
     }
 
-    public static UpdateChecker getInstance(){
-        if(updateChecker == null){
+    public static UpdateChecker getInstance() {
+        if (updateChecker == null) {
             updateChecker = new UpdateChecker();
             return updateChecker;
         }
         return updateChecker;
     }
 
-    public boolean NewUpdateAvailable(){
+    public boolean NewUpdateAvailable() {
         try {
             InputStream inputStream = projectFilePage.openConnection().getInputStream();
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputStream);
@@ -47,7 +47,7 @@ public class UpdateChecker {
             int currentVersion = Integer.parseInt(CPUPlugin.pdfFile.getVersion().replaceAll("[a-zA-Z. ]", ""));
             this.dlLink = versionInfo.item(3).getTextContent();
 
-            if(latestVersionNumber > currentVersion){
+            if (latestVersionNumber > currentVersion) {
                 return true;
             }
 

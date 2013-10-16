@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 public class BlockBreak extends Type {
 
     public BlockBreak(CPU cpu) {
-        CPU_MODULE = cpu;
+        CPU = cpu;
         setName("BlockBreaker");
     }
 
@@ -22,12 +22,11 @@ public class BlockBreak extends Type {
 
     @Override
     public void updatePower() {
-        if (CPU_MODULE.getInput1().isPowered() || CPU_MODULE.getInput2().isPowered()) {
-            Block block = CPU_MODULE.getOutput().getBlock();
+        if (CPU.getInput1().isPowered() || CPU.getInput2().isPowered()) {
+            Block block = CPU.getOutput().getBlock();
             if (block.getType() != Material.BEDROCK && block.getType() != Material.AIR) {
                 block.breakNaturally();
             }
-        } else {
         }
     }
 

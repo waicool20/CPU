@@ -3,6 +3,7 @@ package me.waicool20.cpu.Listeners;
 import me.waicool20.cpu.CPU.CPU;
 import me.waicool20.cpu.CPUDatabase;
 import me.waicool20.cpu.CPUPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -19,35 +20,33 @@ public class RedstoneUpdatesListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onRedstoneChange(BlockPhysicsEvent e) {
+        Block block = e.getBlock();
         if (CPUPlugin.plugin.getConfig().getBoolean("disabled")) {
             return;
         }
-        if (check(e.getBlock())) list.add(e.getBlock());
+        if (check(block)) list.add(block);
         if (list.contains(e.getBlock())) {
-            startUpdate(e.getBlock());
-            list.remove(e.getBlock());
-        }
-    }
-
-    private void startUpdate(Block block) {
-        for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
-            if (cpu.isBlockPartOfCPU(block)) {
-                cpu.getType().updatePower();
-                return;
+            for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
+                if (cpu.isBlockPartOfCPU(block)) {
+                    /*if (block.equals(cpu.getCore().getBlock()) || block.equals(cpu.getOutput().getBlock())){
+                        cpu.getOutput().setPower(false,0);
+                        list.clear();
+                        continue;
+                    }*/
+                    cpu.getType().updatePower();
+                    list.clear();
+                    return;
+                }
             }
         }
     }
 
     private boolean check(Block block) {
-        for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
-            if (cpu.getOutput().getBlock().equals(block)) return false;
-        }
         if (block.getType() == Material.CHEST) return true;
         for (BlockFace blockFace : adjFaces) {
             if (block.getRelative(blockFace).getType() == Material.CHEST) return true;
         }
         return false;
     }
-
 
 }

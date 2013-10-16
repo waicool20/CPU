@@ -100,7 +100,6 @@ public class CreateCPUListener implements Listener {
         }
 
         if (alreadyActivated(newCpu)) {
-            player.sendMessage(ChatColor.GREEN + "----CPU INFO----");
             for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
                 if (clickedBlock.getLocation().equals(cpu.getID())) {
                     newCpu.sendCPUInfo(player);

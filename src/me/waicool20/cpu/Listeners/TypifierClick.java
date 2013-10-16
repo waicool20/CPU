@@ -23,7 +23,6 @@ public class TypifierClick implements Listener {
     public void onPlayerInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         Block clickedBlock = e.getClickedBlock();
-
         if (e.getAction() == Action.LEFT_CLICK_BLOCK || e.getItem() == null || clickedBlock == null) {
             return;
         }
@@ -31,7 +30,15 @@ public class TypifierClick implements Listener {
             return;
         }
         e.setCancelled(true);
-        if (e.getClickedBlock().getType() == Material.CHEST) {
+        if(clickedBlock.getType() == Material.CHEST && player.isSneaking()){
+            for(CPU cpu : CPUDatabase.CPUDatabaseMap){
+                if(clickedBlock.equals(cpu.getCore().getBlock())){
+                    cpu.sendCPUInfo(player);
+                    return;
+                }
+            }
+        }
+        if (clickedBlock.getType() == Material.CHEST) {
             for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
                 if (clickedBlock.equals(cpu.getCore().getBlock())) {
                     if (!player.getName().equalsIgnoreCase(cpu.getAttributes().getOwner())) {

@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 public class OR extends Type {
 
     public OR(CPU cpu) {
-        CPU_MODULE = cpu;
+        CPU = cpu;
         setName("OR");
     }
 
@@ -20,21 +20,21 @@ public class OR extends Type {
 
     @Override
     public void updatePower() {
-        if (CPU_MODULE.getInput1().isPowered() || CPU_MODULE.getInput2().isPowered()) {
-            if (CPU_MODULE.getOutput().getPower()) {
+        if (CPU.getInput1().isPowered() || CPU.getInput2().isPowered()) {
+            if (CPU.getOutput().getPower()) {
                 return;
             }
-            CPU_MODULE.getOutput().setPower(true, CPU_MODULE.getDelay());
+            CPU.getOutput().setPower(true, CPU.getDelay());
         } else {
-            if (!CPU_MODULE.getOutput().getPower()) {
+            if (!CPU.getOutput().getPower()) {
                 return;
             }
-            CPU_MODULE.getOutput().setPower(false, 0);
+            CPU.getOutput().setPower(false, 0);
         }
     }
 
     @Override
     public void disable() {
-        CPU_MODULE.getOutput().setPower(false, 0);
+        CPU.getOutput().setPower(false, 0);
     }
 }

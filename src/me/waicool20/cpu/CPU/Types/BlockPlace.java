@@ -9,7 +9,7 @@ public class BlockPlace extends Type {
     private boolean state = false;
 
     public BlockPlace(CPU cpu) {
-        CPU_MODULE = cpu;
+        CPU = cpu;
         setName("BlockPlacer");
     }
 
@@ -23,14 +23,14 @@ public class BlockPlace extends Type {
 
     @Override
     public void updatePower() {
-        if (CPU_MODULE.getInput1().isPowered() || CPU_MODULE.getInput2().isPowered()) {
+        if (CPU.getInput1().isPowered() || CPU.getInput2().isPowered()) {
             if (state) return;
-            if (CPU_MODULE.getOutput().getBlock().getType() != Material.AIR) {
+            if (CPU.getOutput().getBlock().getType() != Material.AIR) {
                 return;
             }
             state = true;
-            Inventory input1 = CPU_MODULE.getInput1().getInventory();
-            Inventory input2 = CPU_MODULE.getInput2().getInventory();
+            Inventory input1 = CPU.getInput1().getInventory();
+            Inventory input2 = CPU.getInput2().getInventory();
 
             Inventory inventoryToCheck = input1;
 
@@ -58,7 +58,7 @@ public class BlockPlace extends Type {
             if (material == null) {
                 return;
             }
-            CPU_MODULE.getOutput().getBlock().setType(material);
+            CPU.getOutput().getBlock().setType(material);
             state = true;
             return;
         }

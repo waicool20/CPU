@@ -31,8 +31,7 @@ public class CPU {
         this.xyz[0] = x;
         this.xyz[1] = y;
         this.xyz[2] = z;
-        Location loc = new Location(world, x, y, z);
-        this.ID = loc;
+        this.ID = new Location(world, x, y, z);
         getIO();
         detectType();
         if (input2 != null) {
@@ -177,6 +176,7 @@ public class CPU {
     }
 
     public void sendCPUInfo(Player player) {
+        player.sendMessage(ChatColor.GREEN + "----CPU INFO----");
         player.sendMessage("The Owner is " + ChatColor.AQUA + this.getAttributes().getOwner());
         player.sendMessage("The World is " + ChatColor.AQUA + this.getWorld().getName());
         player.sendMessage("The Type is " + ChatColor.AQUA + this.getType().getName());
