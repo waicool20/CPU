@@ -28,11 +28,6 @@ public class RedstoneUpdatesListener implements Listener {
         if (list.contains(e.getBlock())) {
             for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
                 if (cpu.isBlockPartOfCPU(block)) {
-                    /*if (block.equals(cpu.getCore().getBlock()) || block.equals(cpu.getOutput().getBlock())){
-                        cpu.getOutput().setPower(false,0);
-                        list.clear();
-                        continue;
-                    }*/
                     cpu.getType().updatePower();
                     list.clear();
                     return;

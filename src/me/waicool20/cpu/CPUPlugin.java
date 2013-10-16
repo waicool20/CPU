@@ -37,7 +37,7 @@ public class CPUPlugin extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new RedstoneUpdatesListener(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new CraftingAndRecipes(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new CPUBreakListener(), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new InventoryChangeListener(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new EatsRedstoneApple(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new TypifierClick(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerLoginListener(), this);

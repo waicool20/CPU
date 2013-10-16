@@ -49,7 +49,7 @@ public class TypifierClick implements Listener {
                 BookMeta bookMeta = (BookMeta) book.getItemMeta();
 
                 bookMeta.setTitle("Destination");
-                bookMeta.setPages(Arrays.asList(location.getWorld().getName() + " " + (location.getX()+0.5f) + " " + location.getY() + " " + (location.getZ()+0.5f)));
+                bookMeta.setPages(Arrays.asList(location.getWorld().getName() + " " + (location.getX()+0.5f) + " " + location.getBlockY() + " " + (location.getZ()+0.5f)));
                 book.setItemMeta(bookMeta);
                 player.getInventory().addItem(book);
                 player.updateInventory();

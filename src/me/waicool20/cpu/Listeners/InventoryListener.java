@@ -13,13 +13,17 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
-public class InventoryChangeListener implements Listener {
+public class InventoryListener implements Listener {
+    public static ArrayList<String> players = new ArrayList<String>();
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onInventoryInteract(InventoryClickEvent e) {
@@ -43,7 +47,7 @@ public class InventoryChangeListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onChestOpen(PlayerInteractEvent e) {
+    public void chestClick(PlayerInteractEvent e) {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
         }
@@ -67,6 +71,20 @@ public class InventoryChangeListener implements Listener {
                     }
                 }
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onChestOpen(InventoryOpenEvent e){
+        if(!players.contains(e.getPlayer().getName())){
+            players.add(e.getPlayer().getName());
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onChestClose(InventoryCloseEvent e){
+        if(players.contains(e.getPlayer().getName())){
+            players.remove(e.getPlayer().getName());
         }
     }
 }

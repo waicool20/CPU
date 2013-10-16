@@ -1,6 +1,7 @@
 package me.waicool20.cpu.CPU.Types;
 
 import me.waicool20.cpu.CPU.CPU;
+import me.waicool20.cpu.Listeners.InventoryListener;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -65,8 +66,9 @@ public class Teleporter extends Type {
             }
             if(tpLocation != null){
                 for(Player player : players){
-                    if(tpLocation.getWorld().equals(player.getWorld())){
-                        if(player.getLocation().distance(CPU.getOutput().getBlock().getLocation()) < 1.2f){
+                    if(CPU.getOutput().getBlock().getLocation().getWorld().equals(player.getWorld())){
+                        if(player.getLocation().distance(CPU.getOutput().getBlock().getLocation().add(0.5f,0f,0.5f)) < 0.5f){
+                            if(InventoryListener.players.contains(player.getName())) continue;
                             player.teleport(tpLocation);
                             player.sendMessage(ChatColor.GREEN + "[CPU] Teleported you to destination!");
                         }
