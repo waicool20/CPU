@@ -44,7 +44,7 @@ public class TypifierClick implements Listener {
             BookMeta bookMeta = (BookMeta) book.getItemMeta();
 
             bookMeta.setTitle("Destination");
-            bookMeta.setPages(Arrays.asList(location.getWorld().getName() + " " + location.getX() + " " + location.getBlockY() + " " + location.getZ()));
+            bookMeta.setPages(Arrays.asList(location.getWorld().getName() + " " + location.getX() + " " + location.getBlockY() + " " + location.getZ() + " " + location.getYaw() + " " + location.getPitch()));
             book.setItemMeta(bookMeta);
             player.getInventory().addItem(book);
             player.updateInventory();
@@ -64,12 +64,12 @@ public class TypifierClick implements Listener {
                     for (int i = 0; i < types.length; i++) {
                         if (cpu.getType().getName().equalsIgnoreCase(types[i].getName())) {
                             if (i + 1 < types.length) {
-                                cpu.getOutput().setPower(false, 0);
+                                cpu.getOutput1().setPower(false, 0);
                                 cpu.setType(types[i + 1]);
                                 cpu.getCore().getInventory().setContents(types[i + 1].typeInventory());
                                 cpu.getType().updatePower();
                             } else {
-                                cpu.getOutput().setPower(false, 0);
+                                cpu.getOutput1().setPower(false, 0);
                                 cpu.setType(types[0]);
                                 cpu.getCore().getInventory().setContents(types[0].typeInventory());
                                 cpu.getType().updatePower();

@@ -135,7 +135,7 @@ class Commands implements CommandExecutor {
                 BookMeta bookMeta = (BookMeta) book.getItemMeta();
 
                 bookMeta.setTitle("Destination");
-                bookMeta.setPages(Arrays.asList(location.getWorld().getName() + " " + location.getX() + " " + location.getY() + " " + location.getZ()));
+                bookMeta.setPages(Arrays.asList(location.getWorld().getName() + " " + location.getX() + " " + location.getY() + " " + location.getZ() + " " + location.getYaw() + " " + location.getPitch()));
                 book.setItemMeta(bookMeta);
                 player.getInventory().addItem(book);
                 return true;

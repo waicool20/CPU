@@ -25,7 +25,7 @@ public class BlockPlace extends Type {
     public void updatePower() {
         if (CPU.getInput1().isPowered() || CPU.getInput2().isPowered()) {
             if (state) return;
-            if (CPU.getOutput().getBlock().getType() != Material.AIR) {
+            if (CPU.getOutput1().getBlock().getType() != Material.AIR) {
                 return;
             }
             state = true;
@@ -58,7 +58,7 @@ public class BlockPlace extends Type {
             if (material == null) {
                 return;
             }
-            CPU.getOutput().getBlock().setType(material);
+            CPU.getOutput1().getBlock().setType(material);
             state = true;
             return;
         }

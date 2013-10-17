@@ -23,7 +23,7 @@ public class BlockBreak extends Type {
     @Override
     public void updatePower() {
         if (CPU.getInput1().isPowered() || CPU.getInput2().isPowered()) {
-            Block block = CPU.getOutput().getBlock();
+            Block block = CPU.getOutput1().getBlock();
             if (block.getType() != Material.BEDROCK && block.getType() != Material.AIR) {
                 block.breakNaturally();
             }

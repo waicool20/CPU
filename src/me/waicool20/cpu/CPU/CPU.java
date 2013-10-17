@@ -13,73 +13,77 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Arrays;
 
 public class CPU {
-    private final Location ID;
-    private Attributes attributes = new Attributes(null, null, null);
-    private final World world;
-    private Core core = null;
-    private Output output;
-    private Input input1;
-    private Input input2;
-    private final int[] xyz = new int[3];
-    private Type type;
-    private int delay;
-    private boolean typified = false;
+    protected final Location ID;
+    protected Attributes attributes = new Attributes(null, null, null);
+    protected final World world;
+    protected Core core = null;
+    protected Output output1;
+    protected Input input1;
+    protected Input input2;
+    protected final int[] xyz = new int[3];
+    protected Type type;
+    protected int delay;
+    protected boolean typified = false;
 
     public CPU(String owner, World world, int x, int y, int z) {
-        this.attributes.setOwner(owner);
+        this.getAttributes().setOwner(owner);
         this.world = world;
-        this.xyz[0] = x;
-        this.xyz[1] = y;
-        this.xyz[2] = z;
+        this.getXyz()[0] = x;
+        this.getXyz()[1] = y;
+        this.getXyz()[2] = z;
         this.ID = new Location(world, x, y, z);
         getIO();
         detectType();
-        if (input2 != null) {
-            this.delay = detectDelay();
+        if (getInput2() != null) {
+            this.setDelay(detectDelay());
         }
     }
 
     private void getIO() {
-        if (ID.getBlock().getType() == Material.CHEST) {
-            core = new Core(ID.getBlock());
+        if (getID().getBlock().getType() == Material.CHEST) {
+            setCore(new Core(getID().getBlock()));
         } else {
             return;
         }
-        org.bukkit.material.Chest chest = (org.bukkit.material.Chest) core.getBlock().getState().getData();
-        output = new Output(core.getBlock().getRelative(chest.getFacing().getOppositeFace()));
-        Block center = core.getBlock().getRelative(chest.getFacing());
+        org.bukkit.material.Chest chest = (org.bukkit.material.Chest) getCore().getBlock().getState().getData();
+        setOutput1(new Output(getCore().getBlock().getRelative(chest.getFacing().getOppositeFace())));
+        Block center = getCore().getBlock().getRelative(chest.getFacing());
         switch (chest.getFacing()) {
             case NORTH:
                 if (center.getRelative(BlockFace.WEST).getType() != Material.CHEST || center.getRelative(BlockFace.EAST).getType() != Material.CHEST) {
-                    input1 = input2 = null;
+                    setInput1(null);
+                    setInput2(null);
                     break;
                 }
-                input1 = new Input(center.getRelative(BlockFace.EAST));
-                input2 = new Input(center.getRelative(BlockFace.WEST));
+                setInput1(new Input(center.getRelative(BlockFace.EAST)));
+                setInput2(new Input(center.getRelative(BlockFace.WEST)));
                 break;
             case EAST:
                 if (center.getRelative(BlockFace.NORTH).getType() != Material.CHEST || center.getRelative(BlockFace.SOUTH).getType() != Material.CHEST) {
-                    input1 = input2 = null;
+                    setInput1(null);
+                    setInput2(null);
                     break;
                 }
-                input1 = new Input(center.getRelative(BlockFace.SOUTH));
-                input2 = new Input(center.getRelative(BlockFace.NORTH));
+                setInput1(new Input(center.getRelative(BlockFace.SOUTH)));
+                setInput2(new Input(center.getRelative(BlockFace.NORTH)));
                 break;
             case SOUTH:
                 if (center.getRelative(BlockFace.EAST).getType() != Material.CHEST || center.getRelative(BlockFace.WEST).getType() != Material.CHEST) {
-                    input1 = input2 = null;
+                    setInput1(null);
+                    setInput2(null);
                     break;
                 }
-                input1 = new Input(center.getRelative(BlockFace.WEST));
-                input2 = new Input(center.getRelative(BlockFace.EAST));
+                setInput1(new Input(center.getRelative(BlockFace.WEST)));
+                setInput2(new Input(center.getRelative(BlockFace.EAST)));
                 break;
             case WEST:
                 if (center.getRelative(BlockFace.SOUTH).getType() != Material.CHEST || center.getRelative(BlockFace.NORTH).getType() != Material.CHEST) {
-                    input1 = input2 = null;
+                    setInput1(null);
+                    setInput2(null);
                     break;
                 }
-                input1 = new Input(center.getRelative(BlockFace.NORTH, 1));
-                input2 = new Input(center.getRelative(BlockFace.SOUTH, 1));
+                setInput1(new Input(center.getRelative(BlockFace.NORTH, 1)));
+                setInput2(new Input(center.getRelative(BlockFace.SOUTH, 1)));
                 break;
         }
 
@@ -97,12 +101,12 @@ public class CPU {
         return world;
     }
 
-    public Core getCore() {
+    public Core getCore()  {
         return core;
     }
 
-    public Output getOutput() {
-        return output;
+    public Output getOutput1() {
+        return output1;
     }
 
     public Input getInput1() {
@@ -126,15 +130,15 @@ public class CPU {
     }
 
     private int getXyz(int i) {
-        return xyz[i];
+        return getXyz()[i];
     }
 
     private void detectType() {
-        if (core == null) {
+        if (getCore() == null) {
             setType(null);
             return;
         }
-        ItemStack[] contents = core.getInventory().getContents();
+        ItemStack[] contents = getCore().getInventory().getContents();
         for (Type type : Type.getTypes(this)) {
             if (Arrays.deepEquals(type.typeInventory(), contents)) {
                 setType(type);
@@ -147,7 +151,7 @@ public class CPU {
 
     private int detectDelay() {
         int delay = 0;
-        ItemStack[] itemStacks = input2.getInventory().getContents();
+        ItemStack[] itemStacks = getInput2().getInventory().getContents();
         for (ItemStack itemStack : itemStacks) {
             if (itemStack == null) {
                 continue;
@@ -172,7 +176,7 @@ public class CPU {
     }
 
     public boolean isBlockPartOfCPU(Block block) {
-        return block.equals(core.getBlock()) || block.equals(input1.getBlock()) || block.equals(input2.getBlock());
+        return block.equals(getCore().getBlock()) || block.equals(getInput1().getBlock()) || block.equals(getInput2().getBlock());
     }
 
     public void sendCPUInfo(Player player) {
@@ -184,5 +188,33 @@ public class CPU {
         player.sendMessage("Input1 is at" + "   X: " + ChatColor.AQUA + this.getInput1().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + this.getInput1().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + this.getInput1().getLocation().getBlockZ());
         player.sendMessage("Input2 is at" + "   X: " + ChatColor.AQUA + this.getInput2().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + this.getInput2().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + this.getInput2().getLocation().getBlockZ());
         //player.sendMessage("The delay is " + this.getDelay() + " ticks!");
+    }
+
+    public void setAttributes(Attributes attributes) {
+        this.attributes = attributes;
+    }
+
+    public void setCore(Core core) {
+        this.core = core;
+    }
+
+    public void setOutput1(Output output1) {
+        this.output1 = output1;
+    }
+
+    public void setInput1(Input input1) {
+        this.input1 = input1;
+    }
+
+    public void setInput2(Input input2) {
+        this.input2 = input2;
+    }
+
+    public int[] getXyz() {
+        return xyz;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
     }
 }

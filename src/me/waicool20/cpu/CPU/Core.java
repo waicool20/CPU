@@ -7,22 +7,15 @@ import org.bukkit.inventory.InventoryHolder;
 
 public class Core {
     private final Block block;
-    private final Block output;
     private Inventory coreInventory;
 
     Core(Block block) {
         this.block = block;
-        org.bukkit.material.Chest chest = (org.bukkit.material.Chest) block.getState().getData();
-        this.output = block.getRelative(chest.getFacing().getOppositeFace(), 1);
         this.coreInventory = getCore_INV();
     }
 
     public Block getBlock() {
         return block;
-    }
-
-    public Block getOutput() {
-        return output;
     }
 
     public Inventory getInventory() {

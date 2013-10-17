@@ -48,26 +48,35 @@ public class Teleporter extends Type {
                 BookMeta bookMeta = (BookMeta) itemStack.getItemMeta();
                 if(!bookMeta.getTitle().equalsIgnoreCase("Destination")) continue;
                 String[] locString = bookMeta.getPage(1).split(" ");
-                if(locString.length < 4 || locString.length > 4) continue;
 
                 World world = Bukkit.getWorld(locString[0]);
+                if(world == null) continue;
                 String format = "[-+]?\\d*\\.?\\d+";
                 float x;
                 float y;
                 float z;
-                if(locString[1].matches(format) && locString[2].matches(format) && locString[3].matches(format)){
+                float yaw;
+                float pitch;
+                if(locString.length == 4 && locString[1].matches(format) && locString[2].matches(format) && locString[3].matches(format)){
                     x = Float.parseFloat(locString[1]);
                     y = Float.parseFloat(locString[2]);
                     z = Float.parseFloat(locString[3]);
-                    if(world == null) continue;
                     tpLocation = new Location(world,x,y,z);
                     break;
+                }
+                if(locString.length == 6 && locString[1].matches(format) && locString[2].matches(format) && locString[3].matches(format) && locString[4].matches(format) && locString[5].matches(format)){
+                    x = Float.parseFloat(locString[1]);
+                    y = Float.parseFloat(locString[2]);
+                    z = Float.parseFloat(locString[3]);
+                    yaw = Float.parseFloat(locString[4]);
+                    pitch = Float.parseFloat(locString[5]);
+                    tpLocation = new Location(world,x,y,z,yaw,pitch);
                 }
             }
             if(tpLocation != null){
                 for(Player player : players){
-                    if(CPU.getOutput().getBlock().getLocation().getWorld().equals(player.getWorld())){
-                        if(player.getLocation().distance(CPU.getOutput().getBlock().getLocation().add(0.5f,0f,0.5f)) < 0.5f){
+                    if(CPU.getOutput1().getBlock().getLocation().getWorld().equals(player.getWorld())){
+                        if(player.getLocation().distance(CPU.getOutput1().getBlock().getLocation().add(0.5f,0f,0.5f)) < 0.5f){
                             if(InventoryListener.players.contains(player.getName())) continue;
                             player.teleport(tpLocation);
                             player.sendMessage(ChatColor.GREEN + "[CPU] Teleported you to destination!");
