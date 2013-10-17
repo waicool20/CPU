@@ -75,15 +75,15 @@ public class InventoryListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onChestOpen(InventoryOpenEvent e){
-        if(!players.contains(e.getPlayer().getName())){
+    public void onChestOpen(InventoryOpenEvent e) {
+        if (!players.contains(e.getPlayer().getName())) {
             players.add(e.getPlayer().getName());
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onChestClose(InventoryCloseEvent e){
-        if(players.contains(e.getPlayer().getName())){
+    public void onChestClose(InventoryCloseEvent e) {
+        if (players.contains(e.getPlayer().getName())) {
             players.remove(e.getPlayer().getName());
         }
     }

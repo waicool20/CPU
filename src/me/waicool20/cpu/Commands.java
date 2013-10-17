@@ -36,7 +36,7 @@ class Commands implements CommandExecutor {
                 return enable(sender, cmd, label, args);
             } else if (subCommand.equalsIgnoreCase("help")) {
                 return sendHelp(sender, cmd, label, args);
-            } else if (subCommand.equalsIgnoreCase("gettp")){
+            } else if (subCommand.equalsIgnoreCase("gettp")) {
                 return getTP(sender, cmd, label, args);
             } else {
                 sender.sendMessage(ChatColor.RED + "Invalid Command! Use \"/cpu help\" for more help!");
@@ -127,8 +127,8 @@ class Commands implements CommandExecutor {
     }
 
     private boolean getTP(CommandSender sender, Command cmd, String label, String[] args) {
-        if(sender instanceof Player){
-            if(sender.hasPermission("cpu.command.gettp")){
+        if (sender instanceof Player) {
+            if (sender.hasPermission("cpu.command.gettp")) {
                 Player player = (Player) sender;
                 Location location = player.getLocation();
                 ItemStack book = new ItemStack(Material.WRITTEN_BOOK);

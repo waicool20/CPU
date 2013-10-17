@@ -28,12 +28,12 @@ public class TypifierClick implements Listener {
     public void onPlayerInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         Block clickedBlock = e.getClickedBlock();
-        if(e.getItem() == null) return;
+        if (e.getItem() == null) return;
         if (!e.getItem().isSimilar(CraftingAndRecipes.typifier())) return;
-        if((e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) && player.isSneaking()){
-            if(clickedBlock != null && clickedBlock.getType() == Material.CHEST){
-                for(CPU cpu : CPUDatabase.CPUDatabaseMap){
-                    if(clickedBlock.equals(cpu.getCore().getBlock())){
+        if ((e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) && player.isSneaking()) {
+            if (clickedBlock != null && clickedBlock.getType() == Material.CHEST) {
+                for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
+                    if (clickedBlock.equals(cpu.getCore().getBlock())) {
                         cpu.sendCPUInfo(player);
                         return;
                     }

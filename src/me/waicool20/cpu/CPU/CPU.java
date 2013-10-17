@@ -13,32 +13,31 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Arrays;
 
 public class CPU {
-    protected final Location ID;
+    protected Location ID;
     protected Attributes attributes = new Attributes(null, null, null);
-    protected final World world;
+    protected World world;
     protected Core core = null;
     protected Output output1;
     protected Input input1;
     protected Input input2;
-    protected final int[] xyz = new int[3];
+    protected int[] xyz = new int[3];
     protected Type type;
     protected int delay;
     protected boolean typified = false;
 
     public CPU(String owner, World world, int x, int y, int z) {
-        this.getAttributes().setOwner(owner);
-        this.world = world;
-        this.getXyz()[0] = x;
-        this.getXyz()[1] = y;
-        this.getXyz()[2] = z;
-        this.ID = new Location(world, x, y, z);
+        getAttributes().setOwner(owner);
+        setWorld(world);
+        int[] xyz = {x,y,z};
+        setXyz(xyz);
+        setID(new Location(world, x, y, z));
         getIO();
         detectType();
         if (getInput2() != null) {
             this.setDelay(detectDelay());
         }
     }
-
+    //TODO add checks for chest facing !
     private void getIO() {
         if (getID().getBlock().getType() == Material.CHEST) {
             setCore(new Core(getID().getBlock()));
@@ -89,6 +88,10 @@ public class CPU {
 
     }
 
+    public void setID(Location ID) {
+        this.ID = ID;
+    }
+
     public Location getID() {
         return ID;
     }
@@ -97,11 +100,15 @@ public class CPU {
         return attributes;
     }
 
-    private World getWorld() {
+    public World getWorld() {
         return world;
     }
 
-    public Core getCore()  {
+    public void setWorld(World world) {
+        this.world = world;
+    }
+
+    public Core getCore() {
         return core;
     }
 
@@ -117,6 +124,22 @@ public class CPU {
         return input2;
     }
 
+    public void setCore(Core core) {
+        this.core = core;
+    }
+
+    public void setOutput1(Output output1) {
+        this.output1 = output1;
+    }
+
+    public void setInput1(Input input1) {
+        this.input1 = input1;
+    }
+
+    public void setInput2(Input input2) {
+        this.input2 = input2;
+    }
+
     public Type getType() {
         return type;
     }
@@ -125,28 +148,32 @@ public class CPU {
         this.type = type;
     }
 
+    public void setXyz(int[] xyz) {
+        this.xyz = xyz;
+    }
+
+    public int getXyz(int i) {
+        return getXyz()[i];
+    }
+
+    public boolean isTypified() {
+        return typified;
+    }
+
+    public void setTypified(boolean typified) {
+        this.typified = typified;
+    }
+
+    public int[] getXyz() {
+        return xyz;
+    }
+
     public int getDelay() {
         return delay;
     }
 
-    private int getXyz(int i) {
-        return getXyz()[i];
-    }
-
-    private void detectType() {
-        if (getCore() == null) {
-            setType(null);
-            return;
-        }
-        ItemStack[] contents = getCore().getInventory().getContents();
-        for (Type type : Type.getTypes(this)) {
-            if (Arrays.deepEquals(type.typeInventory(), contents)) {
-                setType(type);
-                return;
-            }
-        }
-
-
+    public void setDelay(int delay) {
+        this.delay = delay;
     }
 
     private int detectDelay() {
@@ -167,54 +194,38 @@ public class CPU {
         return delay;
     }
 
-    public boolean isTypified() {
-        return typified;
-    }
-
-    public void setTypified(boolean typified) {
-        this.typified = typified;
-    }
-
     public boolean isBlockPartOfCPU(Block block) {
         return block.equals(getCore().getBlock()) || block.equals(getInput1().getBlock()) || block.equals(getInput2().getBlock());
     }
 
     public void sendCPUInfo(Player player) {
         player.sendMessage(ChatColor.GREEN + "----CPU INFO----");
-        player.sendMessage("The Owner is " + ChatColor.AQUA + this.getAttributes().getOwner());
-        player.sendMessage("The World is " + ChatColor.AQUA + this.getWorld().getName());
-        player.sendMessage("The Type is " + ChatColor.AQUA + this.getType().getName());
-        player.sendMessage("Core is at" + "   X: " + ChatColor.AQUA + this.getXyz(0) + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + this.getXyz(1) + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + this.getXyz(2));
-        player.sendMessage("Input1 is at" + "   X: " + ChatColor.AQUA + this.getInput1().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + this.getInput1().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + this.getInput1().getLocation().getBlockZ());
-        player.sendMessage("Input2 is at" + "   X: " + ChatColor.AQUA + this.getInput2().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + this.getInput2().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + this.getInput2().getLocation().getBlockZ());
+        player.sendMessage("The Owner is " + ChatColor.AQUA + getAttributes().getOwner());
+        player.sendMessage("The World is " + ChatColor.AQUA + getWorld().getName());
+        player.sendMessage("The Type is " + ChatColor.AQUA + getType().getName());
+        player.sendMessage("Core is at" + "   X: " + ChatColor.AQUA + getXyz(0) + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + getXyz(1) + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + getXyz(2));
+        player.sendMessage("Input1 is at" + "   X: " + ChatColor.AQUA + getInput1().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + getInput1().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + getInput1().getLocation().getBlockZ());
+        player.sendMessage("Input2 is at" + "   X: " + ChatColor.AQUA + getInput2().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + getInput2().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + getInput2().getLocation().getBlockZ());
         //player.sendMessage("The delay is " + this.getDelay() + " ticks!");
     }
 
-    public void setAttributes(Attributes attributes) {
-        this.attributes = attributes;
+    private void detectType() {
+        if (getCore() == null) {
+            setType(null);
+            return;
+        }
+        ItemStack[] contents = getCore().getInventory().getContents();
+        for (Type type : Type.getTypes(this)) {
+            if (Arrays.deepEquals(type.typeInventory(), contents)) {
+                setType(type);
+                return;
+            }
+        }
+
+
     }
 
-    public void setCore(Core core) {
-        this.core = core;
-    }
-
-    public void setOutput1(Output output1) {
-        this.output1 = output1;
-    }
-
-    public void setInput1(Input input1) {
-        this.input1 = input1;
-    }
-
-    public void setInput2(Input input2) {
-        this.input2 = input2;
-    }
-
-    public int[] getXyz() {
-        return xyz;
-    }
-
-    public void setDelay(int delay) {
-        this.delay = delay;
+    public boolean isValid() {
+        return !(getInput1() == null || getInput2() == null || getCore() == null);
     }
 }

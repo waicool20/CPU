@@ -12,8 +12,8 @@ public abstract class Type {
     final static ItemStack IRON = new ItemStack(Material.IRON_INGOT, 1);
     final static ItemStack NPIS = new ItemStack(Material.PISTON_BASE, 1);
     final static ItemStack DISP = new ItemStack(Material.DISPENSER, 1);
-    final static ItemStack OBSB = new ItemStack(Material.OBSIDIAN,1);
-    final static ItemStack EYEE = new ItemStack(Material.EYE_OF_ENDER,1);
+    final static ItemStack OBSB = new ItemStack(Material.OBSIDIAN, 1);
+    final static ItemStack EYEE = new ItemStack(Material.EYE_OF_ENDER, 1);
 
     private String name;
     CPU CPU = null;
@@ -33,7 +33,7 @@ public abstract class Type {
     }
 
     public static Type[] getTypes(CPU cpu) {
-        Type[] listOfTypes = {new OR(cpu), new AND(cpu), new NAND(cpu), new XOR(cpu), new NOR(cpu), new XNOR(cpu), new BlockBreak(cpu), new BlockPlace(cpu),new Teleporter(cpu)};
+        Type[] listOfTypes = {new OR(cpu), new AND(cpu), new NAND(cpu), new XOR(cpu), new NOR(cpu), new XNOR(cpu), new BlockBreak(cpu), new BlockPlace(cpu), new Teleporter(cpu)};
         return listOfTypes;
     }
 }

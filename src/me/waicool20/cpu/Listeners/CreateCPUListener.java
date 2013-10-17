@@ -56,10 +56,6 @@ public class CreateCPUListener implements Listener {
         return false;
     }
 
-    private static boolean isValidCPU(CPU newCpu) {
-        return !(newCpu.getInput1() == null || newCpu.getInput2() == null);
-    }
-
     static void createCPU(Player player, Block clickedBlock, boolean typified) {
         if (clickedBlock.getType() != Material.CHEST) {
             player.sendMessage(ChatColor.RED + "[CPU] Please use the activator on CPUs only!!");
@@ -94,7 +90,7 @@ public class CreateCPUListener implements Listener {
             return;
         }
 
-        if (!isValidCPU(newCpu)) {
+        if (!newCpu.isValid()) {
             player.sendMessage(ChatColor.RED + "[CPU] This CPU seems to be missing some inputs?");
             return;
         }
