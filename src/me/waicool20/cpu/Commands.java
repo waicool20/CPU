@@ -62,6 +62,7 @@ class Commands implements CommandExecutor {
         sender.sendMessage(ChatColor.GOLD + "/cpu disable" + ChatColor.WHITE + ": Disable CPU redstone updates");
         sender.sendMessage(ChatColor.GOLD + "/cpu reload" + ChatColor.WHITE + ": Reload config files");
         sender.sendMessage(ChatColor.GOLD + "/cpu toggleinfo" + ChatColor.WHITE + ": Toggles CPU creation info");
+        sender.sendMessage(ChatColor.GOLD + "/cpu gettp" + ChatColor.WHITE + ": Get a Destination book with your current location");
         return true;
     }
 

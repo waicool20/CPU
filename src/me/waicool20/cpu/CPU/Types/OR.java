@@ -21,14 +21,8 @@ public class OR extends Type {
     @Override
     public void updatePower() {
         if (CPU.getInput1().isPowered() || CPU.getInput2().isPowered()) {
-            if (CPU.getOutput1().getPower()) {
-                return;
-            }
             CPU.getOutput1().setPower(true, CPU.getDelay());
         } else {
-            if (!CPU.getOutput1().getPower()) {
-                return;
-            }
             CPU.getOutput1().setPower(false, 0);
         }
     }
