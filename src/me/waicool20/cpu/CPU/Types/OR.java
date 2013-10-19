@@ -1,6 +1,7 @@
 package me.waicool20.cpu.CPU.Types;
 
 import me.waicool20.cpu.CPU.CPU;
+import me.waicool20.cpu.CPUPlugin;
 import org.bukkit.inventory.ItemStack;
 
 public class OR extends Type {
@@ -21,14 +22,26 @@ public class OR extends Type {
     @Override
     public void updatePower() {
         if (CPU.getInput1().isPowered() || CPU.getInput2().isPowered()) {
-            CPU.getOutput1().setPower(true, CPU.getDelay());
+            if (powered) return;
+            if (CPUPlugin.bukkitScheduler.isQueued(on)) return;
+            if (CPU.getDelay() == 0) {
+                on = CPUPlugin.bukkitScheduler.runTaskLater(CPUPlugin.plugin, new PowerOn(), 0).getTaskId();
+                return;
+            }
+            on = CPUPlugin.bukkitScheduler.runTaskLater(CPUPlugin.plugin, new PowerOn(), CPU.getDelay()).getTaskId();
         } else {
-            CPU.getOutput1().setPower(false, 0);
+            if (!powered) return;
+            if (CPUPlugin.bukkitScheduler.isQueued(off)) return;
+            if (CPU.getDelay() == 0) {
+                off = CPUPlugin.bukkitScheduler.runTaskLater(CPUPlugin.plugin, new PowerOff(), 0).getTaskId();
+                return;
+            }
+            off = CPUPlugin.bukkitScheduler.runTaskLater(CPUPlugin.plugin, new PowerOff(), 2).getTaskId();
         }
     }
 
     @Override
     public void disable() {
-        CPU.getOutput1().setPower(false, 0);
+        CPU.getOutput1().setPower(false);
     }
 }

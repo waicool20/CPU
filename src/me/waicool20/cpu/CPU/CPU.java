@@ -28,7 +28,7 @@ public class CPU {
     public CPU(String owner, World world, int x, int y, int z) {
         getAttributes().setOwner(owner);
         setWorld(world);
-        int[] xyz = {x,y,z};
+        int[] xyz = {x, y, z};
         setXyz(xyz);
         setID(new Location(world, x, y, z));
         getIO();
@@ -37,6 +37,7 @@ public class CPU {
             this.setDelay(detectDelay());
         }
     }
+
     //TODO add checks for chest facing !
     private void getIO() {
         if (getID().getBlock().getType() == Material.CHEST) {
@@ -199,6 +200,7 @@ public class CPU {
     }
 
     public void sendCPUInfo(Player player) {
+        setDelay(detectDelay());
         player.sendMessage(ChatColor.GREEN + "----CPU INFO----");
         player.sendMessage("The Owner is " + ChatColor.AQUA + getAttributes().getOwner());
         player.sendMessage("The World is " + ChatColor.AQUA + getWorld().getName());
@@ -206,7 +208,7 @@ public class CPU {
         player.sendMessage("Core is at" + "   X: " + ChatColor.AQUA + getXyz(0) + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + getXyz(1) + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + getXyz(2));
         player.sendMessage("Input1 is at" + "   X: " + ChatColor.AQUA + getInput1().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + getInput1().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + getInput1().getLocation().getBlockZ());
         player.sendMessage("Input2 is at" + "   X: " + ChatColor.AQUA + getInput2().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + getInput2().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + getInput2().getLocation().getBlockZ());
-        //player.sendMessage("The delay is " + this.getDelay() + " ticks!");
+        player.sendMessage("The delay is " + this.getDelay() + " ticks!");
     }
 
     private void detectType() {

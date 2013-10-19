@@ -15,6 +15,9 @@ public abstract class Type {
     final static ItemStack OBSB = new ItemStack(Material.OBSIDIAN, 1);
     final static ItemStack EYEE = new ItemStack(Material.EYE_OF_ENDER, 1);
 
+    int on;
+    int off;
+    boolean powered = false;
     private String name;
     CPU CPU = null;
 
@@ -35,6 +38,22 @@ public abstract class Type {
     public static Type[] getTypes(CPU cpu) {
         Type[] listOfTypes = {new OR(cpu), new AND(cpu), new NAND(cpu), new XOR(cpu), new NOR(cpu), new XNOR(cpu), new BlockBreak(cpu), new BlockPlace(cpu), new Teleporter(cpu)};
         return listOfTypes;
+    }
+
+    protected class PowerOn implements Runnable {
+        @Override
+        public void run() {
+            CPU.getOutput1().setPower(true);
+            powered = true;
+        }
+    }
+
+    protected class PowerOff implements Runnable {
+        @Override
+        public void run() {
+            CPU.getOutput1().setPower(false);
+            powered = false;
+        }
     }
 }
 

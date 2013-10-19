@@ -1,5 +1,6 @@
 package me.waicool20.cpu;
 
+import me.waicool20.cpu.CPU.CPU;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -105,6 +106,9 @@ class Commands implements CommandExecutor {
             }
             CPUPlugin.plugin.getConfig().set("disabled", true);
             CPUPlugin.plugin.saveConfig();
+            for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
+                cpu.getType().disable();
+            }
             sender.sendMessage(ChatColor.GREEN + "[CPU] CPU has been disabled!");
             return true;
         }

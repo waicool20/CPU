@@ -10,30 +10,42 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
-public class CPUBreakListener implements Listener {
+public class CPUChangeListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onBlockBreak(BlockBreakEvent e) {
         Block block = e.getBlock();
         Player player = e.getPlayer();
-
-        if (block.getType() != Material.CHEST) {
-            return;
-        }
-        for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
-            if (cpu.isBlockPartOfCPU(block)) {
-                if (player.getName().equalsIgnoreCase(cpu.getAttributes().getOwner())) {
-                    checkCPUIntegrity(block, player);
-                } else {
+        if (block.getType() == Material.REDSTONE_BLOCK || block.getType() == Material.CHEST) {
+            for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
+                if (cpu.getOutput1().getBlock().equals(block)) {
                     e.setCancelled(true);
-                    player.sendMessage(ChatColor.RED + "[CPU] You are not the owner of this CPU!");
+                }
+                if (cpu.isBlockPartOfCPU(block)) {
+                    if (player.getName().equalsIgnoreCase(cpu.getAttributes().getOwner())) {
+                        checkCPUIntegrity(block, player);
+                    } else {
+                        e.setCancelled(true);
+                        player.sendMessage(ChatColor.RED + "[CPU] You are not the owner of this CPU!");
+                    }
                 }
             }
         }
+    }
 
-
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onBlockPlace(BlockPlaceEvent e) {
+        Block block = e.getBlock();
+        if (block.getType() == Material.REDSTONE_BLOCK || block.getType() == Material.CHEST) {
+            for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
+                if (cpu.getOutput1().getBlock().equals(block)) {
+                    e.setCancelled(true);
+                }
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

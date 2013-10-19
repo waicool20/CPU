@@ -1,9 +1,11 @@
 package me.waicool20.cpu;
 
+import me.waicool20.cpu.CPU.CPU;
 import me.waicool20.cpu.Listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.logging.Logger;
@@ -22,6 +24,7 @@ public class CPUPlugin extends JavaPlugin {
         setupConfig();
         CraftingAndRecipes.addRecipes();
         checkForUpdates();
+        startUpdates();
     }
 
     private void checkForUpdates() {
@@ -34,9 +37,8 @@ public class CPUPlugin extends JavaPlugin {
 
     private void registerListeners() {
         Bukkit.getServer().getPluginManager().registerEvents(new CreateCPUListener(), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new RedstoneUpdatesListener(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new CraftingAndRecipes(), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new CPUBreakListener(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new CPUChangeListener(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new EatsRedstoneApple(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new TypifierClick(), this);
@@ -62,5 +64,19 @@ public class CPUPlugin extends JavaPlugin {
         this.saveConfig();
         CPUDatabase.saveDefaults();
         CPUDatabase.loadCPUs();
+    }
+
+    private void startUpdates() {
+        bukkitScheduler.scheduleSyncRepeatingTask(this, new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (CPUPlugin.plugin.getConfig().getBoolean("disabled")) {
+                    return;
+                }
+                for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
+                    cpu.getType().updatePower();
+                }
+            }
+        }, 0, 2);
     }
 }

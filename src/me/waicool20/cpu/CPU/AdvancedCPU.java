@@ -1,9 +1,7 @@
 package me.waicool20.cpu.CPU;
 
 import me.waicool20.cpu.CPU.Types.AdvancedType;
-import me.waicool20.cpu.CPU.Types.Type;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -20,10 +18,11 @@ public class AdvancedCPU extends CPU {
 
 
     public AdvancedCPU(String owner, World world, int x, int y, int z) {
-        super(owner,world,x,y,z);
+        super(owner, world, x, y, z);
         getIO();
         detectType();
     }
+
     //TODO add checks for chest facing !
     private void getIO() {
         if (getID().getBlock().getType() == Material.CHEST) {
@@ -37,13 +36,13 @@ public class AdvancedCPU extends CPU {
         Block[] blocks = new Block[5];
         switch (chest.getFacing()) {
             case NORTH:
-                blocks[0] = core.getRelative(BlockFace.EAST,2);
+                blocks[0] = core.getRelative(BlockFace.EAST, 2);
                 blocks[1] = core.getRelative(BlockFace.EAST).getRelative(BlockFace.SOUTH);
                 blocks[2] = core;
-                blocks[3] = core.getRelative(BlockFace.WEST,2);
+                blocks[3] = core.getRelative(BlockFace.WEST, 2);
                 blocks[4] = core.getRelative(BlockFace.WEST).getRelative(BlockFace.SOUTH);
-                for(Block block : blocks){
-                    if(block.getType() != Material.CHEST){
+                for (Block block : blocks) {
+                    if (block.getType() != Material.CHEST) {
                         setInput1(null);
                         setInput2(null);
                         setInput3(null);
@@ -59,13 +58,13 @@ public class AdvancedCPU extends CPU {
                 setInput3(new Input(blocks[4]));
                 break;
             case EAST:
-                blocks[0] = core.getRelative(BlockFace.SOUTH,2);
+                blocks[0] = core.getRelative(BlockFace.SOUTH, 2);
                 blocks[1] = core.getRelative(BlockFace.SOUTH).getRelative(BlockFace.WEST);
                 blocks[2] = core;
-                blocks[3] = core.getRelative(BlockFace.NORTH,2);
+                blocks[3] = core.getRelative(BlockFace.NORTH, 2);
                 blocks[4] = core.getRelative(BlockFace.NORTH).getRelative(BlockFace.WEST);
-                for(Block block : blocks){
-                    if(block.getType() != Material.CHEST){
+                for (Block block : blocks) {
+                    if (block.getType() != Material.CHEST) {
                         setInput1(null);
                         setInput2(null);
                         setInput3(null);
@@ -81,13 +80,13 @@ public class AdvancedCPU extends CPU {
                 setInput3(new Input(blocks[4]));
                 break;
             case SOUTH:
-                blocks[0] = core.getRelative(BlockFace.WEST,2);
+                blocks[0] = core.getRelative(BlockFace.WEST, 2);
                 blocks[1] = core.getRelative(BlockFace.WEST).getRelative(BlockFace.NORTH);
                 blocks[2] = core;
-                blocks[3] = core.getRelative(BlockFace.EAST,2);
+                blocks[3] = core.getRelative(BlockFace.EAST, 2);
                 blocks[4] = core.getRelative(BlockFace.EAST).getRelative(BlockFace.NORTH);
-                for(Block block : blocks){
-                    if(block.getType() != Material.CHEST){
+                for (Block block : blocks) {
+                    if (block.getType() != Material.CHEST) {
                         setInput1(null);
                         setInput2(null);
                         setInput3(null);
@@ -103,13 +102,13 @@ public class AdvancedCPU extends CPU {
                 setInput3(new Input(blocks[4]));
                 break;
             case WEST:
-                blocks[0] = core.getRelative(BlockFace.NORTH,2);
+                blocks[0] = core.getRelative(BlockFace.NORTH, 2);
                 blocks[1] = core.getRelative(BlockFace.NORTH).getRelative(BlockFace.EAST);
                 blocks[2] = core;
-                blocks[3] = core.getRelative(BlockFace.SOUTH,2);
+                blocks[3] = core.getRelative(BlockFace.SOUTH, 2);
                 blocks[4] = core.getRelative(BlockFace.SOUTH).getRelative(BlockFace.EAST);
-                for(Block block : blocks){
-                    if(block.getType() != Material.CHEST){
+                for (Block block : blocks) {
+                    if (block.getType() != Material.CHEST) {
                         setInput1(null);
                         setInput2(null);
                         setInput3(null);

@@ -1,6 +1,7 @@
 package me.waicool20.cpu.CPU.Types;
 
 import me.waicool20.cpu.CPU.CPU;
+import me.waicool20.cpu.CPUPlugin;
 import org.bukkit.inventory.ItemStack;
 
 public class XNOR extends Type {
@@ -21,20 +22,26 @@ public class XNOR extends Type {
     @Override
     public void updatePower() {
         if (CPU.getInput1().isPowered() == CPU.getInput2().isPowered()) {
-            if (CPU.getOutput1().getPower()) {
+            if (powered) return;
+            if (CPUPlugin.bukkitScheduler.isQueued(on)) return;
+            if (CPU.getDelay() == 0) {
+                on = CPUPlugin.bukkitScheduler.runTaskLater(CPUPlugin.plugin, new PowerOn(), 0).getTaskId();
                 return;
             }
-            CPU.getOutput1().setPower(true, CPU.getDelay());
+            on = CPUPlugin.bukkitScheduler.runTaskLater(CPUPlugin.plugin, new PowerOn(), CPU.getDelay()).getTaskId();
         } else {
-            if (!CPU.getOutput1().getPower()) {
+            if (!powered) return;
+            if (CPUPlugin.bukkitScheduler.isQueued(off)) return;
+            if (CPU.getDelay() == 0) {
+                off = CPUPlugin.bukkitScheduler.runTaskLater(CPUPlugin.plugin, new PowerOff(), 0).getTaskId();
                 return;
             }
-            CPU.getOutput1().setPower(false, 0);
+            off = CPUPlugin.bukkitScheduler.runTaskLater(CPUPlugin.plugin, new PowerOff(), 2).getTaskId();
         }
     }
 
     @Override
     public void disable() {
-        CPU.getOutput1().setPower(false, 0);
+        CPU.getOutput1().setPower(false);
     }
 }

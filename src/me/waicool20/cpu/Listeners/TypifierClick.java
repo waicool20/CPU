@@ -63,16 +63,13 @@ public class TypifierClick implements Listener {
                     Type[] types = Type.getTypes(cpu);
                     for (int i = 0; i < types.length; i++) {
                         if (cpu.getType().getName().equalsIgnoreCase(types[i].getName())) {
+                            cpu.getType().disable();
                             if (i + 1 < types.length) {
-                                cpu.getOutput1().setPower(false, 0);
                                 cpu.setType(types[i + 1]);
                                 cpu.getCore().getInventory().setContents(types[i + 1].typeInventory());
-                                cpu.getType().updatePower();
                             } else {
-                                cpu.getOutput1().setPower(false, 0);
                                 cpu.setType(types[0]);
                                 cpu.getCore().getInventory().setContents(types[0].typeInventory());
-                                cpu.getType().updatePower();
                             }
                             player.sendMessage(ChatColor.GREEN + "[CPU] " + ChatColor.WHITE + "The Type is " + ChatColor.AQUA + cpu.getType().getName());
                             return;
