@@ -65,6 +65,7 @@ public class CPUDatabase {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] cpuInfo = line.split(";");
+                if(cpuInfo.length < 5) return;
                 String owner = cpuInfo[0];
                 World world = getWorld(cpuInfo[1]);
                 if (world == null) {
