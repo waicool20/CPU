@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 public class CPUPlugin extends JavaPlugin {
@@ -25,6 +26,7 @@ public class CPUPlugin extends JavaPlugin {
         CraftingAndRecipes.addRecipes();
         checkForUpdates();
         startUpdates();
+        startMetrics();
     }
 
     private void checkForUpdates() {
@@ -78,5 +80,15 @@ public class CPUPlugin extends JavaPlugin {
                 }
             }
         }, 0, 2);
+    }
+
+    private void startMetrics(){
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+            logger.info("[CPU] Metrics started!");
+        } catch (IOException e) {
+            logger.severe("[CPU] Could not send metrics!");
+        }
     }
 }
