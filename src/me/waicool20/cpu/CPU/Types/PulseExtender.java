@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class PulseExtender extends Type {
-    boolean state = false;
+    boolean finishExtending = false;
 
     public PulseExtender(CPU cpu) {
         CPU = cpu;
@@ -17,7 +17,7 @@ public class PulseExtender extends Type {
     @Override
     public ItemStack[] typeInventory() {
         ItemStack[] typeInventory = {   null, null, null, null, redR, null, null, null, null,
-                                        redW, redW, redR, redR, GOLD, redR, redR, redW, redW,
+                                        redW, redW, redR, redR, IRON, redR, redR, redW, redW,
                                         redW, null, null, null, NPIS, null, null, null, redW,};
         return typeInventory;
     }
@@ -25,19 +25,21 @@ public class PulseExtender extends Type {
     @Override
     public void updatePower() {
         if(CPU.getInput1().isPowered() || CPU.getInput2().isPowered()){
-            if(state) return;
-            state = true;
-            if(CPUPlugin.bukkitScheduler.isQueued(on)) return;
             CPU.getOutput1().setPower(true);
-            on = CPUPlugin.bukkitScheduler.scheduleSyncDelayedTask(CPUPlugin.plugin,new BukkitRunnable() {
-                @Override
-                public void run() {
-                    CPU.getOutput1().setPower(false);
-                }
-            },CPU.getDelay());
+            if(!finishExtending){
+                CPUPlugin.bukkitScheduler.scheduleSyncDelayedTask(CPUPlugin.plugin,new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        CPU.getOutput1().setPower(false);
+                        finishExtending = true;
+                    }
+                },CPU.getDelay());
+            }
         } else {
-            if(CPUPlugin.bukkitScheduler.isQueued(on)) return;
-            state = false;
+            if(finishExtending){
+                CPU.getOutput1().setPower(false);
+                finishExtending = false;
+            }
         }
     }
 
