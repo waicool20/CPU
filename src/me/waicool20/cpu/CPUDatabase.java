@@ -36,8 +36,7 @@ public class CPUDatabase {
         try {
             BufferedWriter bufferedWriter = Files.newBufferedWriter(configPath, charset, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
             for (CPU cpu : CPUDatabaseMap) {
-                int typified = cpu.isTypified() ? 1 : 0;
-                String cpuLocation = cpu.getAttributes().getOwner() + ";" + cpu.getID().getWorld().getName() + ";" + cpu.getID().getBlockX() + ";" + cpu.getID().getBlockY() + ";" + cpu.getID().getBlockZ() + ";" + typified + ";";
+                String cpuLocation = getCPUInfo(cpu);
                 bufferedWriter.append(cpuLocation);
                 bufferedWriter.newLine();
             }
@@ -67,12 +66,12 @@ public class CPUDatabase {
                 String[] cpuInfo = line.split(";");
                 if(cpuInfo.length < 5) return;
                 String owner = cpuInfo[0];
-                World world = getWorld(cpuInfo[1]);
+                World world = Bukkit.getServer().getWorld(cpuInfo[1]);
                 if (world == null) {
                     Path worldFolder = Paths.get(Bukkit.getServer().getWorldContainer().toPath() + "/" + cpuInfo[1]);
                     if (Files.exists(worldFolder)) {
                         Bukkit.getServer().createWorld(new WorldCreator(cpuInfo[1]));
-                        world = getWorld(cpuInfo[1]);
+                        world = Bukkit.getServer().getWorld(cpuInfo[1]);
                     } else {
                         CPUPlugin.logger.severe("[CPU] Could not load the world " + cpuInfo[1] + " | Is it missing?");
                     }
@@ -101,12 +100,12 @@ public class CPUDatabase {
         CPUPlugin.logger.info("[CPU] Loaded " + CPUDatabaseMap.size() + " CPUs!");
     }
 
-    private static World getWorld(String string) {
-        for (World world : Bukkit.getServer().getWorlds()) {
-            if (world.getName().equalsIgnoreCase(string.trim())) {
-                return world;
-            }
+    private static String getCPUInfo(CPU cpu){
+        StringBuilder stringBuilder = new StringBuilder();
+        for(String string : cpu.toStorageFormat()){
+            stringBuilder.append(string);
+            stringBuilder.append(";");
         }
-        return null;
+        return stringBuilder.toString();
     }
 }

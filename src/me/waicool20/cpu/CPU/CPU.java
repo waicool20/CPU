@@ -10,6 +10,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CPU {
@@ -230,4 +231,17 @@ public class CPU {
     public boolean isValid() {
         return !(getInput1() == null || getInput2() == null || getCore() == null);
     }
+
+    public ArrayList<String> toStorageFormat(){
+        ArrayList<String> info = new ArrayList<String>();
+        info.add(getAttributes().getOwner());
+        info.add(getWorld().getName());
+        info.add(String.valueOf(getID().getBlockX()));
+        info.add(String.valueOf(getID().getBlockY()));
+        info.add(String.valueOf(getID().getBlockZ()));
+        int typified = isTypified() ? 1 : 0;
+        info.add(String.valueOf(typified));
+        return info;
+    }
+
 }
