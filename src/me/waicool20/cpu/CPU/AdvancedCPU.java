@@ -46,13 +46,13 @@ public class AdvancedCPU extends CPU {
                         setInput1(null);
                         setInput2(null);
                         setInput3(null);
-                        setOutput1(null);
+                        setOutput(null);
                         setOutput2(null);
                         return;
                     }
                 }
                 setInput1(new Input(blocks[0]));
-                setOutput1(new Output(blocks[1]));
+                setOutput(new Output(blocks[1]));
                 setInput2(new Input(blocks[2]));
                 setOutput2(new Output(blocks[3]));
                 setInput3(new Input(blocks[4]));
@@ -68,13 +68,13 @@ public class AdvancedCPU extends CPU {
                         setInput1(null);
                         setInput2(null);
                         setInput3(null);
-                        setOutput1(null);
+                        setOutput(null);
                         setOutput2(null);
                         return;
                     }
                 }
                 setInput1(new Input(blocks[0]));
-                setOutput1(new Output(blocks[1]));
+                setOutput(new Output(blocks[1]));
                 setInput2(new Input(blocks[2]));
                 setOutput2(new Output(blocks[3]));
                 setInput3(new Input(blocks[4]));
@@ -90,13 +90,13 @@ public class AdvancedCPU extends CPU {
                         setInput1(null);
                         setInput2(null);
                         setInput3(null);
-                        setOutput1(null);
+                        setOutput(null);
                         setOutput2(null);
                         return;
                     }
                 }
                 setInput1(new Input(blocks[0]));
-                setOutput1(new Output(blocks[1]));
+                setOutput(new Output(blocks[1]));
                 setInput2(new Input(blocks[2]));
                 setOutput2(new Output(blocks[3]));
                 setInput3(new Input(blocks[4]));
@@ -112,13 +112,13 @@ public class AdvancedCPU extends CPU {
                         setInput1(null);
                         setInput2(null);
                         setInput3(null);
-                        setOutput1(null);
+                        setOutput(null);
                         setOutput2(null);
                         return;
                     }
                 }
                 setInput1(new Input(blocks[0]));
-                setOutput1(new Output(blocks[1]));
+                setOutput(new Output(blocks[1]));
                 setInput2(new Input(blocks[2]));
                 setOutput2(new Output(blocks[3]));
                 setInput3(new Input(blocks[4]));
@@ -165,7 +165,7 @@ public class AdvancedCPU extends CPU {
     }
 
     public boolean isBlockPartOfCPU(Block block) {
-        return block.equals(getCore().getBlock()) || block.equals(getInput1().getBlock()) || block.equals(getInput3().getBlock()) || block.equals(getOutput1().getBlock()) || block.equals(getOutput2().getBlock());
+        return block.equals(getCore().getBlock()) || block.equals(getInput1().getBlock()) || block.equals(getInput3().getBlock()) || block.equals(getOutput().getBlock()) || block.equals(getOutput2().getBlock());
     }
 
     public void sendCPUInfo(Player player) {
@@ -177,7 +177,7 @@ public class AdvancedCPU extends CPU {
         player.sendMessage("Input1 is at" + "   X: " + ChatColor.AQUA + getInput1().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + getInput1().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + getInput1().getLocation().getBlockZ());
         player.sendMessage("Input2 is at" + "   X: " + ChatColor.AQUA + getInput2().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + getInput2().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + getInput2().getLocation().getBlockZ());
         player.sendMessage("Input3 is at" + "   X: " + ChatColor.AQUA + getInput3().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + getInput3().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + getInput3().getLocation().getBlockZ());
-        player.sendMessage("Input3 is at" + "   X: " + ChatColor.AQUA + getOutput1().getBlock().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + getOutput1().getBlock().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + getOutput1().getBlock().getLocation().getBlockZ());
+        player.sendMessage("Input3 is at" + "   X: " + ChatColor.AQUA + getOutput().getBlock().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + getOutput().getBlock().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + getOutput().getBlock().getLocation().getBlockZ());
         player.sendMessage("Input3 is at" + "   X: " + ChatColor.AQUA + getOutput2().getBlock().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + getOutput2().getBlock().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + getOutput2().getBlock().getLocation().getBlockZ());
 
     }

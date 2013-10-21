@@ -18,7 +18,7 @@ public class CPU {
     protected Attributes attributes = new Attributes(null, null, null);
     protected World world;
     protected Core core = null;
-    protected Output output1;
+    protected Output output;
     protected Input input1;
     protected Input input2;
     protected int[] xyz = new int[3];
@@ -47,7 +47,7 @@ public class CPU {
             return;
         }
         org.bukkit.material.Chest chest = (org.bukkit.material.Chest) getCore().getBlock().getState().getData();
-        setOutput1(new Output(getCore().getBlock().getRelative(chest.getFacing().getOppositeFace())));
+        setOutput(new Output(getCore().getBlock().getRelative(chest.getFacing().getOppositeFace())));
         Block center = getCore().getBlock().getRelative(chest.getFacing());
         switch (chest.getFacing()) {
             case NORTH:
@@ -114,8 +114,8 @@ public class CPU {
         return core;
     }
 
-    public Output getOutput1() {
-        return output1;
+    public Output getOutput() {
+        return output;
     }
 
     public Input getInput1() {
@@ -130,8 +130,8 @@ public class CPU {
         this.core = core;
     }
 
-    public void setOutput1(Output output1) {
-        this.output1 = output1;
+    public void setOutput(Output output) {
+        this.output = output;
     }
 
     public void setInput1(Input input1) {

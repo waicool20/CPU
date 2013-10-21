@@ -60,6 +60,7 @@ public class InventoryListener implements Listener {
             if (cpu.getCore().getBlock().equals(block) && cpu.isTypified()) {
                 e.setCancelled(true);
             }
+            //TODO Add permissions for opening other peoples CPU
             if (cpu.isBlockPartOfCPU(block)) {
                 if (!(player.getName().equalsIgnoreCase(cpu.getAttributes().getOwner()))) {
                     e.setCancelled(true);

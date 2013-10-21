@@ -21,7 +21,7 @@ public class CPUChangeListener implements Listener {
         Player player = e.getPlayer();
         if (block.getType() == Material.REDSTONE_BLOCK || block.getType() == Material.CHEST) {
             for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
-                if (cpu.getOutput1().getBlock().equals(block)) {
+                if (cpu.getOutput().getBlock().equals(block)) {
                     e.setCancelled(true);
                 }
                 if (cpu.isBlockPartOfCPU(block)) {
@@ -41,7 +41,7 @@ public class CPUChangeListener implements Listener {
         Block block = e.getBlock();
         if (block.getType() == Material.REDSTONE_BLOCK || block.getType() == Material.CHEST) {
             for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
-                if (cpu.getOutput1().getBlock().equals(block)) {
+                if (cpu.getOutput().getBlock().equals(block)) {
                     e.setCancelled(true);
                 }
             }
@@ -61,8 +61,6 @@ public class CPUChangeListener implements Listener {
                 cpu.getType().disable();
                 if (cpu.isTypified()) {
                     cpu.getCore().getInventory().clear();
-                    cpu.getInput1().getInventory().clear();
-                    cpu.getInput2().getInventory().clear();
                 }
                 if (player != null) player.sendMessage(ChatColor.RED + "[CPU] You just broke a CPU!");
                 CPUDatabase.removeCPU(cpu);
