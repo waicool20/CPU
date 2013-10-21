@@ -25,26 +25,21 @@ public class PulseExtender extends Type {
     @Override
     public void updatePower() {
         if(CPU.getInput1().isPowered() || CPU.getInput2().isPowered()){
-            CPU.getOutput1().setPower(true);
+            CPU.getOutput().setPower(true);
             if(!finishExtending){
                 CPUPlugin.bukkitScheduler.scheduleSyncDelayedTask(CPUPlugin.plugin,new BukkitRunnable() {
                     @Override
                     public void run() {
-                        CPU.getOutput1().setPower(false);
+                        CPU.getOutput().setPower(false);
                         finishExtending = true;
                     }
                 },CPU.getDelay());
             }
         } else {
             if(finishExtending){
-                CPU.getOutput1().setPower(false);
+                CPU.getOutput().setPower(false);
                 finishExtending = false;
             }
         }
-    }
-
-    @Override
-    public void disable() {
-        CPU.getOutput1().setPower(false);
     }
 }

@@ -75,8 +75,8 @@ public class Teleporter extends Type {
             }
             if (tpLocation != null) {
                 for (Player player : players) {
-                    if (CPU.getOutput1().getBlock().getLocation().getWorld().equals(player.getWorld())) {
-                        if (player.getLocation().distance(CPU.getOutput1().getBlock().getLocation().add(0.5f, 0f, 0.5f)) < 0.5f) {
+                    if (CPU.getOutput().getBlock().getLocation().getWorld().equals(player.getWorld())) {
+                        if (player.getLocation().distance(CPU.getOutput().getBlock().getLocation().add(0.5f, 0f, 0.5f)) < 0.5f) {
                             if (InventoryListener.players.contains(player.getName())) continue;
                             player.teleport(tpLocation);
                             player.sendMessage(ChatColor.GREEN + "[CPU] Teleported you to destination!");
@@ -88,10 +88,6 @@ public class Teleporter extends Type {
             return;
         }
         state = false;
-    }
-
-    @Override
-    public void disable() {
     }
 
     private boolean isEmpty(ItemStack[] itemStacks) {

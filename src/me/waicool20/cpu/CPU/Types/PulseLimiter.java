@@ -28,22 +28,17 @@ public class PulseLimiter extends Type {
             if(state) return;
             state = true;
             if(CPUPlugin.bukkitScheduler.isQueued(on)) return;
-            CPU.getOutput1().setPower(true);
+            CPU.getOutput().setPower(true);
             on = CPUPlugin.bukkitScheduler.scheduleSyncDelayedTask(CPUPlugin.plugin,new BukkitRunnable() {
                 @Override
                 public void run() {
-                    CPU.getOutput1().setPower(false);
+                    CPU.getOutput().setPower(false);
                 }
             },CPU.getDelay());
         } else {
             CPUPlugin.bukkitScheduler.cancelTask(on);
-            CPU.getOutput1().setPower(false);
+            CPU.getOutput().setPower(false);
             state = false;
         }
-    }
-
-    @Override
-    public void disable() {
-        CPU.getOutput1().setPower(false);
     }
 }

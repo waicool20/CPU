@@ -39,9 +39,4 @@ public class XNOR extends Type {
             off = CPUPlugin.bukkitScheduler.runTaskLater(CPUPlugin.plugin, new PowerOff(), 2).getTaskId();
         }
     }
-
-    @Override
-    public void disable() {
-        CPU.getOutput1().setPower(false);
-    }
 }

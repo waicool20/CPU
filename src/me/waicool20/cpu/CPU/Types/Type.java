@@ -1,6 +1,7 @@
 package me.waicool20.cpu.CPU.Types;
 
 import me.waicool20.cpu.CPU.CPU;
+import me.waicool20.cpu.CPUPlugin;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,6 +15,7 @@ public abstract class Type {
     final static ItemStack DISP = new ItemStack(Material.DISPENSER, 1);
     final static ItemStack OBSB = new ItemStack(Material.OBSIDIAN, 1);
     final static ItemStack EYEE = new ItemStack(Material.EYE_OF_ENDER, 1);
+    final static ItemStack CLCK = new ItemStack(Material.WATCH, 1);
 
     int on;
     int off;
@@ -25,7 +27,11 @@ public abstract class Type {
 
     public abstract void updatePower();
 
-    public abstract void disable();
+    public void disable(){
+        if(CPUPlugin.bukkitScheduler.isQueued(on)) CPUPlugin.bukkitScheduler.cancelTask(on);
+        if(CPUPlugin.bukkitScheduler.isQueued(off)) CPUPlugin.bukkitScheduler.cancelTask(off);
+        CPU.getOutput().setPower(false);
+    }
 
     public String getName() {
         return name;
@@ -39,14 +45,14 @@ public abstract class Type {
         Type[] listOfTypes = {  new OR(cpu), new AND(cpu), new NAND(cpu), new XOR(cpu),
                                 new NOR(cpu), new XNOR(cpu), new BlockBreak(cpu),
                                 new BlockPlace(cpu), new Teleporter(cpu), new PulseLimiter(cpu),
-                                new PulseExtender(cpu)};
+                                new PulseExtender(cpu), new Clock(cpu)};
         return listOfTypes;
     }
 
     protected class PowerOn implements Runnable {
         @Override
         public void run() {
-            CPU.getOutput1().setPower(true);
+            CPU.getOutput().setPower(true);
             powered = true;
         }
     }
@@ -54,7 +60,7 @@ public abstract class Type {
     protected class PowerOff implements Runnable {
         @Override
         public void run() {
-            CPU.getOutput1().setPower(false);
+            CPU.getOutput().setPower(false);
             powered = false;
         }
     }
