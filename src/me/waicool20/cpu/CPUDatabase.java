@@ -49,11 +49,13 @@ public class CPUDatabase {
 
     public static void addCPU(CPU cpu) {
         CPUDatabaseMap.add(cpu);
+        cpu.spawnNTBat();
         save();
     }
 
     public static void removeCPU(CPU cpu) {
         CPUDatabaseMap.remove(cpu);
+        cpu.removeNTBat();
         save();
     }
 
@@ -94,6 +96,7 @@ public class CPUDatabase {
                 }
                 CPUDatabaseMap.add(newCpu);
             }
+            spawnNTBats();
         } catch (IOException e) {
             CPUPlugin.logger.severe("Could not read " + CPUPlugin.plugin.getDataFolder().toPath() + "/CPUDatabase.yml Reason: " + e + " | Files is missing?");
         }
@@ -107,5 +110,16 @@ public class CPUDatabase {
             stringBuilder.append(";");
         }
         return stringBuilder.toString();
+    }
+
+    private static void spawnNTBats(){
+        CPUPlugin.bukkitScheduler.scheduleSyncDelayedTask(CPUPlugin.plugin, new Runnable() {
+            @Override
+            public void run() {
+                for(CPU cpu : CPUDatabaseMap){
+                    cpu.spawnNTBat();
+                }
+            }
+        },20);
     }
 }

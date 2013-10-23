@@ -9,6 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.logging.Logger;
 
 public class CPUPlugin extends JavaPlugin {
@@ -27,8 +28,16 @@ public class CPUPlugin extends JavaPlugin {
         checkForUpdates();
         startUpdates();
         startMetrics();
+        addNTBat();
     }
 
+    @Override
+    public void onDisable(){
+        for(CPU cpu : CPUDatabase.CPUDatabaseMap){
+            cpu.removeNTBat();
+        }
+        CPUDatabase.CPUDatabaseMap.clear();
+    }
     private void checkForUpdates() {
         if (CPUPlugin.plugin.getConfig().getBoolean("notify-updates")) {
             if (UpdateChecker.getInstance().NewUpdateAvailable()) {
@@ -89,6 +98,23 @@ public class CPUPlugin extends JavaPlugin {
             logger.info("[CPU] Metrics started!");
         } catch (IOException e) {
             logger.severe("[CPU] Could not send metrics!");
+        }
+    }
+
+    private void addNTBat(){
+        try{
+            @SuppressWarnings("rawtypes")
+            Class[] args = new Class[3];
+            args[0] = Class.class;
+            args[1] = String.class;
+            args[2] = int.class;
+
+            Method a = net.minecraft.server.v1_6_R3.EntityTypes.class.getDeclaredMethod("a", args);
+            a.setAccessible(true);
+
+            a.invoke(a, NameTagBat.class, "Bat", 65);
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

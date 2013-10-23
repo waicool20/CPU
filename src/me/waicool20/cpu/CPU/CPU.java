@@ -1,20 +1,26 @@
 package me.waicool20.cpu.CPU;
 
 import me.waicool20.cpu.CPU.Types.Type;
+import me.waicool20.cpu.NameTagBat;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.craftbukkit.v1_6_R3.CraftWorld;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CPU {
-    protected Location ID;
+    protected Location location;
     protected Attributes attributes = new Attributes(null, null, null);
     protected World world;
     protected Core core = null;
@@ -25,13 +31,14 @@ public class CPU {
     protected Type type;
     protected int delay;
     protected boolean typified = false;
+    protected LivingEntity NTBat;
 
     public CPU(String owner, World world, int x, int y, int z) {
         getAttributes().setOwner(owner);
         setWorld(world);
         int[] xyz = {x, y, z};
         setXyz(xyz);
-        setID(new Location(world, x, y, z));
+        setLocation(new Location(world, x, y, z));
         getIO();
         detectType();
         if (getInput2() != null) {
@@ -41,8 +48,8 @@ public class CPU {
 
     //TODO add checks for chest facing !
     private void getIO() {
-        if (getID().getBlock().getType() == Material.CHEST) {
-            setCore(new Core(getID().getBlock()));
+        if (getLocation().getBlock().getType() == Material.CHEST) {
+            setCore(new Core(getLocation().getBlock()));
         } else {
             return;
         }
@@ -90,12 +97,12 @@ public class CPU {
 
     }
 
-    public void setID(Location ID) {
-        this.ID = ID;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
-    public Location getID() {
-        return ID;
+    public Location getLocation() {
+        return location;
     }
 
     public Attributes getAttributes() {
@@ -148,6 +155,7 @@ public class CPU {
 
     public void setType(Type type) {
         this.type = type;
+        updateSpawnBat();
     }
 
     public void setXyz(int[] xyz) {
@@ -236,12 +244,53 @@ public class CPU {
         ArrayList<String> info = new ArrayList<String>();
         info.add(getAttributes().getOwner());
         info.add(getWorld().getName());
-        info.add(String.valueOf(getID().getBlockX()));
-        info.add(String.valueOf(getID().getBlockY()));
-        info.add(String.valueOf(getID().getBlockZ()));
+        info.add(String.valueOf(getLocation().getBlockX()));
+        info.add(String.valueOf(getLocation().getBlockY()));
+        info.add(String.valueOf(getLocation().getBlockZ()));
         int typified = isTypified() ? 1 : 0;
         info.add(String.valueOf(typified));
         return info;
     }
 
+    public void spawnNTBat(){
+        //TODO handle spawning
+        NameTagBat nameTagBat = new NameTagBat(((CraftWorld)getWorld()).getHandle());
+        double x = location.getBlockX()+0.5;
+        double y = location.getBlockY();
+        double z = location.getBlockZ()+0.5;
+        org.bukkit.material.Chest chest = (org.bukkit.material.Chest) getCore().getBlock().getState().getData();
+        nameTagBat.setPosition(x, y, z);
+        nameTagBat.setCustomName(this.getType().getName());
+
+        net.minecraft.server.v1_6_R3.World NMSWorld = ((CraftWorld) world).getHandle();
+        NMSWorld.addEntity(nameTagBat, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        NTBat = ((LivingEntity) nameTagBat.getBukkitEntity());
+        NTBat.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,Integer.MAX_VALUE,1));
+    }
+
+    public void removeNTBat(){
+        if(NTBat != null) {
+            NTBat.remove();
+        }
+    }
+
+    public void updateSpawnBat(){
+        if(NTBat != null){
+            NTBat.setCustomName(getType().getName());
+        }
+    }
+
+    private float faceToYaw(BlockFace blockFace){
+        switch (blockFace){
+            case EAST:
+                return 180;
+            case SOUTH:
+                return 270;
+            case WEST:
+                return 0;
+            case NORTH:
+            default:
+                return 90;
+        }
+    }
 }

@@ -49,7 +49,7 @@ public class CreateCPUListener implements Listener {
 
     private static boolean alreadyActivated(CPU newCpu) {
         for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
-            if (newCpu.getID().equals(cpu.getID())) {
+            if (newCpu.getLocation().equals(cpu.getLocation())) {
                 return true;
             }
         }
@@ -97,7 +97,7 @@ public class CreateCPUListener implements Listener {
 
         if (alreadyActivated(newCpu)) {
             for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
-                if (clickedBlock.getLocation().equals(cpu.getID())) {
+                if (clickedBlock.getLocation().equals(cpu.getLocation())) {
                     newCpu.sendCPUInfo(player);
                 }
             }
@@ -107,8 +107,6 @@ public class CreateCPUListener implements Listener {
         CPUDatabase.addCPU(newCpu);
 
         newCpu.getType().updatePower();
-
-        //newCpu.getID().getWorld().spawnEntity(newCpu.getID(), EntityType.BAT);
 
         player.sendMessage(ChatColor.GREEN + "[CPU] You have successfully activated this CPU!!");
 

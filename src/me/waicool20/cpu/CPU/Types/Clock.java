@@ -1,7 +1,6 @@
 package me.waicool20.cpu.CPU.Types;
 
 import me.waicool20.cpu.CPUPlugin;
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 

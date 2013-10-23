@@ -25,8 +25,8 @@ public class AdvancedCPU extends CPU {
 
     //TODO add checks for chest facing !
     private void getIO() {
-        if (getID().getBlock().getType() == Material.CHEST) {
-            setCore(new Core(getID().getBlock()));
+        if (getLocation().getBlock().getType() == Material.CHEST) {
+            setCore(new Core(getLocation().getBlock()));
         } else {
             return;
         }

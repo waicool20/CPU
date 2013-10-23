@@ -58,6 +58,7 @@ public class InventoryListener implements Listener {
         }
         for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
             if (cpu.getCore().getBlock().equals(block) && cpu.isTypified()) {
+                if(!e.getItem().isSimilar(CraftingAndRecipes.typifier())) player.sendMessage(ChatColor.RED + "[CPU] Don't open a typified chest!");
                 e.setCancelled(true);
             }
             //TODO Add permissions for opening other peoples CPU
