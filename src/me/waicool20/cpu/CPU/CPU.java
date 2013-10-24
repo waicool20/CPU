@@ -13,8 +13,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +27,6 @@ public class CPU {
     protected Input input2;
     protected int[] xyz = new int[3];
     protected Type type;
-    protected int delay;
     protected boolean typified = false;
     protected LivingEntity NTBat;
 
@@ -41,9 +38,6 @@ public class CPU {
         setLocation(new Location(world, x, y, z));
         getIO();
         detectType();
-        if (getInput2() != null) {
-            this.setDelay(detectDelay());
-        }
     }
 
     //TODO add checks for chest facing !
@@ -179,14 +173,6 @@ public class CPU {
     }
 
     public int getDelay() {
-        return delay;
-    }
-
-    public void setDelay(int delay) {
-        this.delay = delay;
-    }
-
-    private int detectDelay() {
         int delay = 0;
         ItemStack[] itemStacks = getInput2().getInventory().getContents();
         for (ItemStack itemStack : itemStacks) {
@@ -209,7 +195,6 @@ public class CPU {
     }
 
     public void sendCPUInfo(Player player) {
-        setDelay(detectDelay());
         player.sendMessage(ChatColor.GREEN + "----CPU INFO----");
         player.sendMessage("The Owner is " + ChatColor.AQUA + getAttributes().getOwner());
         player.sendMessage("The World is " + ChatColor.AQUA + getWorld().getName());
@@ -256,16 +241,13 @@ public class CPU {
         //TODO handle spawning
         NameTagBat nameTagBat = new NameTagBat(((CraftWorld)getWorld()).getHandle());
         double x = location.getBlockX()+0.5;
-        double y = location.getBlockY();
+        double y = location.getBlockY()+1;
         double z = location.getBlockZ()+0.5;
-        org.bukkit.material.Chest chest = (org.bukkit.material.Chest) getCore().getBlock().getState().getData();
         nameTagBat.setPosition(x, y, z);
         nameTagBat.setCustomName(this.getType().getName());
-
         net.minecraft.server.v1_6_R3.World NMSWorld = ((CraftWorld) world).getHandle();
         NMSWorld.addEntity(nameTagBat, CreatureSpawnEvent.SpawnReason.CUSTOM);
         NTBat = ((LivingEntity) nameTagBat.getBukkitEntity());
-        NTBat.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,Integer.MAX_VALUE,1));
     }
 
     public void removeNTBat(){
@@ -274,23 +256,13 @@ public class CPU {
         }
     }
 
-    public void updateSpawnBat(){
-        if(NTBat != null){
-            NTBat.setCustomName(getType().getName());
-        }
+    public LivingEntity getNTBat() {
+        return NTBat;
     }
 
-    private float faceToYaw(BlockFace blockFace){
-        switch (blockFace){
-            case EAST:
-                return 180;
-            case SOUTH:
-                return 270;
-            case WEST:
-                return 0;
-            case NORTH:
-            default:
-                return 90;
+    public void updateSpawnBat(){
+        if(NTBat != null){
+            NTBat.setCustomName("Type: " + getType().getName() + "  Delay: " + getDelay());
         }
     }
 }

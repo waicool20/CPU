@@ -7,3 +7,4 @@
 disabled: false
 send-info: true
 notify-updates: true
+guardians: true

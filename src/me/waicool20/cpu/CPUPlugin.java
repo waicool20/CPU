@@ -53,7 +53,7 @@ public class CPUPlugin extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new EatsRedstoneApple(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new TypifierClick(), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new PlayerLoginListener(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
     }
 
     private void registerCommands() {
@@ -86,6 +86,7 @@ public class CPUPlugin extends JavaPlugin {
                 }
                 for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
                     cpu.getType().updatePower();
+                    cpu.updateSpawnBat();
                 }
             }
         }, 0, 2);

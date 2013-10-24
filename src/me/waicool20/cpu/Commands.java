@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
@@ -39,6 +40,8 @@ class Commands implements CommandExecutor {
                 return sendHelp(sender, cmd, label, args);
             } else if (subCommand.equalsIgnoreCase("gettp")) {
                 return getTP(sender, cmd, label, args);
+            } else if (subCommand.equalsIgnoreCase("toggleguardians")){
+                return toggleguardians(sender, cmd, label, args);
             } else {
                 sender.sendMessage(ChatColor.RED + "Invalid Command! Use \"/cpu help\" for more help!");
             }
@@ -150,6 +153,28 @@ class Commands implements CommandExecutor {
             return true;
         }
         sender.sendMessage(ChatColor.RED + "[CPU] Only players can get the teleport coordinates!");
+        return true;
+    }
+
+    private boolean toggleguardians(CommandSender sender, Command cmd, String label, String[] args){
+        if(sender.hasPermission("cpu.command.toggleguardians")) {
+            if (CPUPlugin.plugin.getConfig().getBoolean("guardians")) {
+                CPUPlugin.plugin.getConfig().set("guardians", false);
+                for(LivingEntity livingEntity : CPUDatabase.NTBats){
+                    if(livingEntity != null) livingEntity.remove();
+                }
+                sender.sendMessage(ChatColor.GREEN + "[CPU] Guardians have been disabled!");
+            } else {
+                CPUPlugin.plugin.getConfig().set("guardians", true);
+                for(CPU cpu : CPUDatabase.CPUDatabaseMap){
+                    cpu.spawnNTBat();
+                    CPUDatabase.NTBats.add(cpu.getNTBat());
+                }
+                sender.sendMessage(ChatColor.GREEN + "[CPU] Guardians have been enabled!");
+            }
+            return true;
+        }
+        sender.sendMessage(ChatColor.RED + "[CPU] You do not have enough permission to run this command!");
         return true;
     }
 

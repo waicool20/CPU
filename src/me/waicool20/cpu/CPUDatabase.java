@@ -4,6 +4,7 @@ import me.waicool20.cpu.CPU.CPU;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
+import org.bukkit.entity.LivingEntity;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,11 +14,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CPUDatabase {
 
     public static CopyOnWriteArrayList<CPU> CPUDatabaseMap = new CopyOnWriteArrayList<CPU>();
+    public static ArrayList<LivingEntity> NTBats = new ArrayList<LivingEntity>();
 
     private static final Path configPath = Paths.get(CPUPlugin.plugin.getDataFolder().toPath() + "/CPUDatabase.yml");
     private static final Charset charset = Charset.forName("UTF-8");
@@ -49,12 +52,14 @@ public class CPUDatabase {
 
     public static void addCPU(CPU cpu) {
         CPUDatabaseMap.add(cpu);
-        cpu.spawnNTBat();
+        if(CPUPlugin.plugin.getConfig().getBoolean("guardians")) cpu.spawnNTBat();
+        NTBats.add(cpu.getNTBat());
         save();
     }
 
     public static void removeCPU(CPU cpu) {
         CPUDatabaseMap.remove(cpu);
+        NTBats.remove(cpu.getNTBat());
         cpu.removeNTBat();
         save();
     }
@@ -96,7 +101,7 @@ public class CPUDatabase {
                 }
                 CPUDatabaseMap.add(newCpu);
             }
-            spawnNTBats();
+            if(CPUPlugin.plugin.getConfig().getBoolean("guardians")) spawnNTBats();
         } catch (IOException e) {
             CPUPlugin.logger.severe("Could not read " + CPUPlugin.plugin.getDataFolder().toPath() + "/CPUDatabase.yml Reason: " + e + " | Files is missing?");
         }
@@ -118,6 +123,7 @@ public class CPUDatabase {
             public void run() {
                 for(CPU cpu : CPUDatabaseMap){
                     cpu.spawnNTBat();
+                    NTBats.add(cpu.getNTBat());
                 }
             }
         },20);
