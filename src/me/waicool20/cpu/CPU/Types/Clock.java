@@ -22,6 +22,7 @@ public class Clock extends Type {
 
     @Override
     public void updatePower() {
+        if(CPU.getDelay() == 0) return;
         if(CPU.getInput1().isPowered() || CPU.getInput2().isPowered()){
             if(CPUPlugin.bukkitScheduler.isQueued(on)) return;
             on = CPUPlugin.bukkitScheduler.scheduleSyncRepeatingTask(CPUPlugin.plugin, new BukkitRunnable() {
