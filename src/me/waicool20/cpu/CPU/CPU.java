@@ -12,6 +12,7 @@ import org.bukkit.craftbukkit.v1_6_R3.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -239,12 +240,7 @@ public class CPU {
 
     public void spawnNTBat() {
         //TODO handle spawning
-        NameTagBat nameTagBat = new NameTagBat(((CraftWorld) getWorld()).getHandle());
-        double x = location.getBlockX() + 0.5;
-        double y = location.getBlockY() + 1;
-        double z = location.getBlockZ() + 0.5;
-        nameTagBat.setPosition(x, y, z);
-        nameTagBat.setCustomName(this.getType().getName());
+        NameTagBat nameTagBat = new NameTagBat(((CraftWorld) getWorld()).getHandle(), location);
         net.minecraft.server.v1_6_R3.World NMSWorld = ((CraftWorld) world).getHandle();
         NMSWorld.addEntity(nameTagBat, CreatureSpawnEvent.SpawnReason.CUSTOM);
         NTBat = ((LivingEntity) nameTagBat.getBukkitEntity());
@@ -263,6 +259,12 @@ public class CPU {
     public void updateSpawnBat() {
         if (NTBat != null) {
             NTBat.setCustomName("Type: " + getType().getName() + "  Delay: " + getDelay());
+            double x = location.getBlockX() + 0.5;
+            double y = location.getBlockY() + 1;
+            double z = location.getBlockZ() + 0.5;
+            float yaw = NTBat.getLocation().getYaw();
+            float pitch = NTBat.getLocation().getPitch();
+            NTBat.teleport(new Location(world, x, y, z, yaw, pitch), PlayerTeleportEvent.TeleportCause.PLUGIN);
         }
     }
 }

@@ -82,12 +82,9 @@ public class CPUPlugin extends JavaPlugin {
         bukkitScheduler.scheduleSyncRepeatingTask(this, new BukkitRunnable() {
             @Override
             public void run() {
-                if (CPUPlugin.plugin.getConfig().getBoolean("disabled")) {
-                    return;
-                }
                 for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
-                    cpu.getType().updatePower();
-                    cpu.updateSpawnBat();
+                    if (!CPUPlugin.plugin.getConfig().getBoolean("disabled")) cpu.getType().updatePower();
+                    if (plugin.getConfig().getBoolean("guardians")) cpu.updateSpawnBat();
                 }
             }
         }, 0, 2);
@@ -114,7 +111,7 @@ public class CPUPlugin extends JavaPlugin {
             Method a = net.minecraft.server.v1_6_R3.EntityTypes.class.getDeclaredMethod("a", args);
             a.setAccessible(true);
 
-            a.invoke(a, NameTagBat.class, "Bat", 65);
+            a.invoke(null, NameTagBat.class, "Bat", 65);
         } catch (Exception e) {
             e.printStackTrace();
         }
