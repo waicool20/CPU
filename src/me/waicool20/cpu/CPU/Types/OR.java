@@ -13,9 +13,9 @@ public class OR extends Type {
 
     @Override
     public ItemStack[] typeInventory() {
-        ItemStack[] typeInventory = {   null, null, null, null, redR, null, null, null, null,
-                                        redW, redW, redW, redW, redW, redW, redW, redW, redW,
-                                        redW, null, null, null, null, null, null, null, redW,};
+        ItemStack[] typeInventory = {null, null, null, null, redR, null, null, null, null,
+                redW, redW, redW, redW, redW, redW, redW, redW, redW,
+                redW, null, null, null, null, null, null, null, redW,};
         return typeInventory;
     }
 

@@ -2,7 +2,7 @@ package me.waicool20.cpu;
 
 import net.minecraft.server.v1_6_R3.*;
 
-public class NameTagBat extends EntityBat{
+public class NameTagBat extends EntityBat {
 
     public NameTagBat(World world) {
         super(world);
@@ -16,24 +16,22 @@ public class NameTagBat extends EntityBat{
     }
 
     @Override
-    public float ba(){
+    public float ba() {
         return 0;
     }
 
     @Override
-    public boolean bf(){
+    public boolean bf() {
         return true;
     }
 
     @Override
     public void l_() {
         super.l_();
-        if(bJ())
-        {
+        if (bJ()) {
             motX = motY = motZ = 0.0D;
-            locY = ((double)MathHelper.floor(locY) + 1.0D) - (double)length;
-        } else
-        {
+            locY = ((double) MathHelper.floor(locY) + 1.0D) - (double) length;
+        } else {
             motY *= 0.60000002384185791D;
         }
     }
@@ -41,33 +39,23 @@ public class NameTagBat extends EntityBat{
     @Override
     protected void bi() {
         super.bi();
-        if(bJ())
-        {
-            if(!world.u(MathHelper.floor(locX), (int)locY + 1, MathHelper.floor(locZ)))
-            {
+        if (bJ()) {
+            if (!world.u(MathHelper.floor(locX), (int) locY + 1, MathHelper.floor(locZ))) {
                 a(false);
-                world.a(null, 1015, (int)locX, (int)locY, (int)locZ, 0);
-            } else
-            {
-                if(random.nextInt(200) == 0)
+                world.a(null, 1015, (int) locX, (int) locY, (int) locZ, 0);
+            } else {
+                if (random.nextInt(200) == 0)
                     aP = random.nextInt(360);
-                if(world.findNearbyPlayer(this, 4D) != null)
-                {
+                if (world.findNearbyPlayer(this, 4D) != null) {
                     a(false);
-                    world.a(null, 1015, (int)locX, (int)locY, (int)locZ, 0);
+                    world.a(null, 1015, (int) locX, (int) locY, (int) locZ, 0);
                 }
             }
-        } else
-        {
+        } else {
             motX = 0;
             motY = 0;
             motZ = 0;
             bf = 0;
         }
     }
-
-    public void setIsInWeb(boolean b){
-        K = b;
-    }
-
 }

@@ -52,7 +52,7 @@ public class CPUDatabase {
 
     public static void addCPU(CPU cpu) {
         CPUDatabaseMap.add(cpu);
-        if(CPUPlugin.plugin.getConfig().getBoolean("guardians")) cpu.spawnNTBat();
+        if (CPUPlugin.plugin.getConfig().getBoolean("guardians")) cpu.spawnNTBat();
         NTBats.add(cpu.getNTBat());
         save();
     }
@@ -71,7 +71,7 @@ public class CPUDatabase {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] cpuInfo = line.split(";");
-                if(cpuInfo.length < 5) return;
+                if (cpuInfo.length < 5) return;
                 String owner = cpuInfo[0];
                 World world = Bukkit.getServer().getWorld(cpuInfo[1]);
                 if (world == null) {
@@ -101,31 +101,31 @@ public class CPUDatabase {
                 }
                 CPUDatabaseMap.add(newCpu);
             }
-            if(CPUPlugin.plugin.getConfig().getBoolean("guardians")) spawnNTBats();
+            if (CPUPlugin.plugin.getConfig().getBoolean("guardians")) spawnNTBats();
         } catch (IOException e) {
             CPUPlugin.logger.severe("Could not read " + CPUPlugin.plugin.getDataFolder().toPath() + "/CPUDatabase.yml Reason: " + e + " | Files is missing?");
         }
         CPUPlugin.logger.info("[CPU] Loaded " + CPUDatabaseMap.size() + " CPUs!");
     }
 
-    private static String getCPUInfo(CPU cpu){
+    private static String getCPUInfo(CPU cpu) {
         StringBuilder stringBuilder = new StringBuilder();
-        for(String string : cpu.toStorageFormat()){
+        for (String string : cpu.toStorageFormat()) {
             stringBuilder.append(string);
             stringBuilder.append(";");
         }
         return stringBuilder.toString();
     }
 
-    private static void spawnNTBats(){
+    private static void spawnNTBats() {
         CPUPlugin.bukkitScheduler.scheduleSyncDelayedTask(CPUPlugin.plugin, new Runnable() {
             @Override
             public void run() {
-                for(CPU cpu : CPUDatabaseMap){
+                for (CPU cpu : CPUDatabaseMap) {
                     cpu.spawnNTBat();
                     NTBats.add(cpu.getNTBat());
                 }
             }
-        },20);
+        }, 20);
     }
 }

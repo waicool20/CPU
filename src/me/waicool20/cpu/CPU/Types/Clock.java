@@ -14,21 +14,21 @@ public class Clock extends Type {
 
     @Override
     public ItemStack[] typeInventory() {
-        ItemStack[] typeInventory = {   null, null, null, redR, GOLD, redR, null, null, null,
-                                        redW, redW, redW, redR, CLCK, redR, redW, redW, redW,
-                                        redW, null, null, redR, redR, redR, null, null, redW,};
+        ItemStack[] typeInventory = {null, null, null, redR, GOLD, redR, null, null, null,
+                redW, redW, redW, redR, CLCK, redR, redW, redW, redW,
+                redW, null, null, redR, redR, redR, null, null, redW,};
         return typeInventory;
     }
 
     @Override
     public void updatePower() {
-        if(CPU.getDelay() == 0) return;
-        if(CPU.getInput1().isPowered() || CPU.getInput2().isPowered()){
-            if(CPUPlugin.bukkitScheduler.isQueued(on)) return;
+        if (CPU.getDelay() == 0) return;
+        if (CPU.getInput1().isPowered() || CPU.getInput2().isPowered()) {
+            if (CPUPlugin.bukkitScheduler.isQueued(on)) return;
             on = CPUPlugin.bukkitScheduler.scheduleSyncRepeatingTask(CPUPlugin.plugin, new BukkitRunnable() {
                 @Override
                 public void run() {
-                    if(powered){
+                    if (powered) {
                         powered = false;
                         CPU.getOutput().setPower(false);
                     } else {
@@ -36,9 +36,9 @@ public class Clock extends Type {
                         CPU.getOutput().setPower(true);
                     }
                 }
-            },0,CPU.getDelay());
+            }, 0, CPU.getDelay());
         } else {
-            if(CPUPlugin.bukkitScheduler.isQueued(on)) CPUPlugin.bukkitScheduler.cancelTask(on);
+            if (CPUPlugin.bukkitScheduler.isQueued(on)) CPUPlugin.bukkitScheduler.cancelTask(on);
             CPU.getOutput().setPower(false);
             powered = false;
         }

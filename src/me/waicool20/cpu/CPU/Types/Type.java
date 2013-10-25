@@ -27,9 +27,9 @@ public abstract class Type {
 
     public abstract void updatePower();
 
-    public void disable(){
-        if(CPUPlugin.bukkitScheduler.isQueued(on)) CPUPlugin.bukkitScheduler.cancelTask(on);
-        if(CPUPlugin.bukkitScheduler.isQueued(off)) CPUPlugin.bukkitScheduler.cancelTask(off);
+    public void disable() {
+        if (CPUPlugin.bukkitScheduler.isQueued(on)) CPUPlugin.bukkitScheduler.cancelTask(on);
+        if (CPUPlugin.bukkitScheduler.isQueued(off)) CPUPlugin.bukkitScheduler.cancelTask(off);
         CPU.getOutput().setPower(false);
     }
 
@@ -42,10 +42,10 @@ public abstract class Type {
     }
 
     public static Type[] getTypes(CPU cpu) {
-        Type[] listOfTypes = {  new OR(cpu), new AND(cpu), new NAND(cpu), new XOR(cpu),
-                                new NOR(cpu), new XNOR(cpu), new BlockBreak(cpu),
-                                new BlockPlace(cpu), new Teleporter(cpu), new PulseLimiter(cpu),
-                                new PulseExtender(cpu), new Clock(cpu)};
+        Type[] listOfTypes = {new OR(cpu), new AND(cpu), new NAND(cpu), new XOR(cpu),
+                new NOR(cpu), new XNOR(cpu), new BlockBreak(cpu),
+                new BlockPlace(cpu), new Teleporter(cpu), new PulseLimiter(cpu),
+                new PulseExtender(cpu), new Clock(cpu)};
         return listOfTypes;
     }
 

@@ -32,12 +32,13 @@ public class CPUPlugin extends JavaPlugin {
     }
 
     @Override
-    public void onDisable(){
-        for(CPU cpu : CPUDatabase.CPUDatabaseMap){
+    public void onDisable() {
+        for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
             cpu.removeNTBat();
         }
         CPUDatabase.CPUDatabaseMap.clear();
     }
+
     private void checkForUpdates() {
         if (CPUPlugin.plugin.getConfig().getBoolean("notify-updates")) {
             if (UpdateChecker.getInstance().NewUpdateAvailable()) {
@@ -92,7 +93,7 @@ public class CPUPlugin extends JavaPlugin {
         }, 0, 2);
     }
 
-    private void startMetrics(){
+    private void startMetrics() {
         try {
             Metrics metrics = new Metrics(this);
             metrics.start();
@@ -102,8 +103,8 @@ public class CPUPlugin extends JavaPlugin {
         }
     }
 
-    private void addNTBat(){
-        try{
+    private void addNTBat() {
+        try {
             @SuppressWarnings("rawtypes")
             Class[] args = new Class[3];
             args[0] = Class.class;
@@ -114,7 +115,7 @@ public class CPUPlugin extends JavaPlugin {
             a.setAccessible(true);
 
             a.invoke(a, NameTagBat.class, "Bat", 65);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

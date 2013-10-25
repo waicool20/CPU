@@ -30,7 +30,7 @@ class Commands implements CommandExecutor {
             String subCommand = args[0];
             if (subCommand.equalsIgnoreCase("reload")) {
                 return reload(sender, cmd, label, args);
-            } else if (subCommand.equalsIgnoreCase("toggleinfo")) {
+            } else if (subCommand.equalsIgnoreCase("toggleinfo") || subCommand.equalsIgnoreCase("ti")) {
                 return toggleinfo(sender, cmd, label, args);
             } else if (subCommand.equalsIgnoreCase("disable")) {
                 return disable(sender, cmd, label, args);
@@ -40,7 +40,7 @@ class Commands implements CommandExecutor {
                 return sendHelp(sender, cmd, label, args);
             } else if (subCommand.equalsIgnoreCase("gettp")) {
                 return getTP(sender, cmd, label, args);
-            } else if (subCommand.equalsIgnoreCase("toggleguardians")){
+            } else if (subCommand.equalsIgnoreCase("toggleguardians") || subCommand.equalsIgnoreCase("tg")) {
                 return toggleguardians(sender, cmd, label, args);
             } else {
                 sender.sendMessage(ChatColor.RED + "Invalid Command! Use \"/cpu help\" for more help!");
@@ -157,17 +157,19 @@ class Commands implements CommandExecutor {
         return true;
     }
 
-    private boolean toggleguardians(CommandSender sender, Command cmd, String label, String[] args){
-        if(sender.hasPermission("cpu.command.toggleguardians")) {
+    private boolean toggleguardians(CommandSender sender, Command cmd, String label, String[] args) {
+        if (sender.hasPermission("cpu.command.toggleguardians")) {
             if (CPUPlugin.plugin.getConfig().getBoolean("guardians")) {
                 CPUPlugin.plugin.getConfig().set("guardians", false);
-                for(LivingEntity livingEntity : CPUDatabase.NTBats){
-                    if(livingEntity != null) livingEntity.remove();
+                CPUPlugin.plugin.saveConfig();
+                for (LivingEntity livingEntity : CPUDatabase.NTBats) {
+                    if (livingEntity != null) livingEntity.remove();
                 }
                 sender.sendMessage(ChatColor.GREEN + "[CPU] Guardians have been disabled!");
             } else {
                 CPUPlugin.plugin.getConfig().set("guardians", true);
-                for(CPU cpu : CPUDatabase.CPUDatabaseMap){
+                CPUPlugin.plugin.saveConfig();
+                for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
                     cpu.spawnNTBat();
                     CPUDatabase.NTBats.add(cpu.getNTBat());
                 }

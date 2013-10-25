@@ -16,27 +16,27 @@ public class PulseExtender extends Type {
 
     @Override
     public ItemStack[] typeInventory() {
-        ItemStack[] typeInventory = {   null, null, null, null, redR, null, null, null, null,
-                                        redW, redW, redR, redR, IRON, redR, redR, redW, redW,
-                                        redW, null, null, null, NPIS, null, null, null, redW,};
+        ItemStack[] typeInventory = {null, null, null, null, redR, null, null, null, null,
+                redW, redW, redR, redR, IRON, redR, redR, redW, redW,
+                redW, null, null, null, NPIS, null, null, null, redW,};
         return typeInventory;
     }
 
     @Override
     public void updatePower() {
-        if(CPU.getInput1().isPowered() || CPU.getInput2().isPowered()){
+        if (CPU.getInput1().isPowered() || CPU.getInput2().isPowered()) {
             CPU.getOutput().setPower(true);
-            if(!finishExtending){
-                CPUPlugin.bukkitScheduler.scheduleSyncDelayedTask(CPUPlugin.plugin,new BukkitRunnable() {
+            if (!finishExtending) {
+                CPUPlugin.bukkitScheduler.scheduleSyncDelayedTask(CPUPlugin.plugin, new BukkitRunnable() {
                     @Override
                     public void run() {
                         CPU.getOutput().setPower(false);
                         finishExtending = true;
                     }
-                },CPU.getDelay());
+                }, CPU.getDelay());
             }
         } else {
-            if(finishExtending){
+            if (finishExtending) {
                 CPU.getOutput().setPower(false);
                 finishExtending = false;
             }

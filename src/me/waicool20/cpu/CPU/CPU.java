@@ -225,7 +225,7 @@ public class CPU {
         return !(getInput1() == null || getInput2() == null || getCore() == null);
     }
 
-    public ArrayList<String> toStorageFormat(){
+    public ArrayList<String> toStorageFormat() {
         ArrayList<String> info = new ArrayList<String>();
         info.add(getAttributes().getOwner());
         info.add(getWorld().getName());
@@ -237,12 +237,12 @@ public class CPU {
         return info;
     }
 
-    public void spawnNTBat(){
+    public void spawnNTBat() {
         //TODO handle spawning
-        NameTagBat nameTagBat = new NameTagBat(((CraftWorld)getWorld()).getHandle());
-        double x = location.getBlockX()+0.5;
-        double y = location.getBlockY()+1;
-        double z = location.getBlockZ()+0.5;
+        NameTagBat nameTagBat = new NameTagBat(((CraftWorld) getWorld()).getHandle());
+        double x = location.getBlockX() + 0.5;
+        double y = location.getBlockY() + 1;
+        double z = location.getBlockZ() + 0.5;
         nameTagBat.setPosition(x, y, z);
         nameTagBat.setCustomName(this.getType().getName());
         net.minecraft.server.v1_6_R3.World NMSWorld = ((CraftWorld) world).getHandle();
@@ -250,8 +250,8 @@ public class CPU {
         NTBat = ((LivingEntity) nameTagBat.getBukkitEntity());
     }
 
-    public void removeNTBat(){
-        if(NTBat != null) {
+    public void removeNTBat() {
+        if (NTBat != null) {
             NTBat.remove();
         }
     }
@@ -260,8 +260,8 @@ public class CPU {
         return NTBat;
     }
 
-    public void updateSpawnBat(){
-        if(NTBat != null){
+    public void updateSpawnBat() {
+        if (NTBat != null) {
             NTBat.setCustomName("Type: " + getType().getName() + "  Delay: " + getDelay());
         }
     }
