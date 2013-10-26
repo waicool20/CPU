@@ -17,6 +17,7 @@ public class CPUPlugin extends JavaPlugin {
     public static PluginDescriptionFile pdfFile;
     public static BukkitScheduler bukkitScheduler;
     public static Logger logger;
+    public static Updater updater;
 
     @Override
     public void onEnable() {
@@ -41,8 +42,9 @@ public class CPUPlugin extends JavaPlugin {
 
     private void checkForUpdates() {
         if (CPUPlugin.plugin.getConfig().getBoolean("notify-updates")) {
-            if (UpdateChecker.getInstance().NewUpdateAvailable()) {
-                CPUPlugin.logger.info("[CPU] New update available: " + UpdateChecker.getInstance().getLatestVersion() + "! Go get it at " + UpdateChecker.getInstance().getDlLink());
+            if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
+                logger.info("[CPU] New update available: " + updater.getLatestName() + "!");
+                logger.info("Go get it at " + updater.getLatestFileLink());
             }
         }
     }
@@ -67,6 +69,7 @@ public class CPUPlugin extends JavaPlugin {
         pdfFile = this.getDescription();
         bukkitScheduler = Bukkit.getServer().getScheduler();
         logger = Bukkit.getServer().getLogger();
+        updater = new Updater(this, 66380, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, true);
     }
 
     private void setupConfig() {

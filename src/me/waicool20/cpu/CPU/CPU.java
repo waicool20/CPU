@@ -186,6 +186,12 @@ public class CPU {
                 delay += ((itemStack.getAmount() * (1 * 20L)));
             } else if (itemStack.getType() == Material.GOLD_INGOT) {
                 delay += (itemStack.getAmount() * (0.1 * 20L));
+            } else if (itemStack.getType() == Material.COAL_BLOCK) {
+                delay += ((itemStack.getAmount() * (9 * 5 * 20L)));
+            } else if (itemStack.getType() == Material.IRON_BLOCK) {
+                delay += ((itemStack.getAmount() * (9 * 1 * 20L)));
+            } else if (itemStack.getType() == Material.GOLD_BLOCK) {
+                delay += (itemStack.getAmount() * (9 * 0.1 * 20L));
             }
         }
         return delay;
