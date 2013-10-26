@@ -16,7 +16,7 @@ public class PlayerListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         final Player player = e.getPlayer();
         if (CPUPlugin.plugin.getConfig().getBoolean("notify-updates")) {
-            if (CPUPlugin.updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE && (player.hasPermission("cpu.notifyupdate") || player.hasPermission("cpu.*"))) {
+            if (CPUPlugin.updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE && (player.hasPermission("cpu.notifyupdates") || player.hasPermission("cpu.*"))) {
                 CPUPlugin.bukkitScheduler.scheduleSyncDelayedTask(CPUPlugin.plugin, new BukkitRunnable() {
                     @Override
                     public void run() {

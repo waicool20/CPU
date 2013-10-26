@@ -185,11 +185,14 @@ class Commands implements CommandExecutor {
         sender.sendMessage(ChatColor.DARK_GREEN + "------ " + ChatColor.GREEN + "CPU Plugin Info" + ChatColor.DARK_GREEN + " ------");
         sender.sendMessage("Version: " + ChatColor.AQUA + CPUPlugin.pdfFile.getVersion());
         sender.sendMessage("Active CPUs: " + ChatColor.AQUA + CPUDatabase.CPUDatabaseMap.size());
-        if (CPUPlugin.plugin.getConfig().getBoolean("notify-updates") && CPUPlugin.updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE && (sender.hasPermission("cpu.notifyupdate"))) {
-            sender.sendMessage(ChatColor.GREEN + "New update available: " + ChatColor.AQUA + CPUPlugin.updater.getLatestName());
-            sender.sendMessage(ChatColor.GREEN + "Go get it at: " + ChatColor.AQUA + CPUPlugin.updater.getLatestFileLink());
-        } else {
-            sender.sendMessage(ChatColor.GREEN + "You have the latest version!");
+        if (CPUPlugin.plugin.getConfig().getBoolean("notify-updates")) {
+            if(!sender.hasPermission("cpu.notifyupdates")) return;
+            if (CPUPlugin.updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
+                sender.sendMessage(ChatColor.GREEN + "New update available: " + ChatColor.AQUA + CPUPlugin.updater.getLatestName());
+                sender.sendMessage(ChatColor.GREEN + "Go get it at: " + ChatColor.AQUA + CPUPlugin.updater.getLatestFileLink());
+            } else {
+                sender.sendMessage(ChatColor.GREEN + "You have the latest version!");
+            }
         }
     }
 }
