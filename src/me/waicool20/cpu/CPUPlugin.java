@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.logging.Logger;
@@ -17,7 +18,7 @@ public class CPUPlugin extends JavaPlugin {
     public static PluginDescriptionFile pdfFile;
     public static BukkitScheduler bukkitScheduler;
     public static Logger logger;
-    public static Updater updater;
+    public static File file;
 
     @Override
     public void onEnable() {
@@ -42,6 +43,7 @@ public class CPUPlugin extends JavaPlugin {
 
     private void checkForUpdates() {
         if (CPUPlugin.plugin.getConfig().getBoolean("notify-updates")) {
+            Updater updater = new Updater(CPUPlugin.plugin, 66380, CPUPlugin.file, Updater.UpdateType.NO_DOWNLOAD, true);
             if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
                 logger.info("[CPU] New update available: " + updater.getLatestName() + "!");
                 logger.info("Go get it at " + updater.getLatestFileLink());
@@ -69,7 +71,7 @@ public class CPUPlugin extends JavaPlugin {
         pdfFile = this.getDescription();
         bukkitScheduler = Bukkit.getServer().getScheduler();
         logger = Bukkit.getServer().getLogger();
-        updater = new Updater(this, 66380, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, true);
+        file = this.getFile();
     }
 
     private void setupConfig() {

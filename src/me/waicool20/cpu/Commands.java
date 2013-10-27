@@ -186,10 +186,11 @@ class Commands implements CommandExecutor {
         sender.sendMessage("Version: " + ChatColor.AQUA + CPUPlugin.pdfFile.getVersion());
         sender.sendMessage("Active CPUs: " + ChatColor.AQUA + CPUDatabase.CPUDatabaseMap.size());
         if (CPUPlugin.plugin.getConfig().getBoolean("notify-updates")) {
+            Updater updater = new Updater(CPUPlugin.plugin, 66380, CPUPlugin.file, Updater.UpdateType.NO_DOWNLOAD, true);
             if(!sender.hasPermission("cpu.notifyupdates")) return;
-            if (CPUPlugin.updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
-                sender.sendMessage(ChatColor.GREEN + "New update available: " + ChatColor.AQUA + CPUPlugin.updater.getLatestName());
-                sender.sendMessage(ChatColor.GREEN + "Go get it at: " + ChatColor.AQUA + CPUPlugin.updater.getLatestFileLink());
+            if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
+                sender.sendMessage(ChatColor.GREEN + "New update available: " + ChatColor.AQUA + updater.getLatestName());
+                sender.sendMessage(ChatColor.GREEN + "Go get it at: " + ChatColor.AQUA + updater.getLatestFileLink());
             } else {
                 sender.sendMessage(ChatColor.GREEN + "You have the latest version!");
             }

@@ -16,12 +16,15 @@ public class PlayerListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         final Player player = e.getPlayer();
         if (CPUPlugin.plugin.getConfig().getBoolean("notify-updates")) {
-            if (CPUPlugin.updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE && (player.hasPermission("cpu.notifyupdates") || player.hasPermission("cpu.*"))) {
+            Updater updater = new Updater(CPUPlugin.plugin, 66380, CPUPlugin.file, Updater.UpdateType.NO_DOWNLOAD, true);
+            final String latestVersion = updater.getLatestName();
+            final String fileLink = updater.getLatestFileLink();
+            if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE && (player.hasPermission("cpu.notifyupdates") || player.hasPermission("cpu.*"))) {
                 CPUPlugin.bukkitScheduler.scheduleSyncDelayedTask(CPUPlugin.plugin, new BukkitRunnable() {
                     @Override
                     public void run() {
-                        player.sendMessage(ChatColor.GREEN + "[CPU] New update available: " + ChatColor.AQUA + CPUPlugin.updater.getLatestName());
-                        player.sendMessage(ChatColor.GREEN + "[CPU] Go get it at: " + ChatColor.AQUA + CPUPlugin.updater.getLatestFileLink());
+                        player.sendMessage(ChatColor.GREEN + "[CPU] New update available: " + ChatColor.AQUA + latestVersion);
+                        player.sendMessage(ChatColor.GREEN + "[CPU] Go get it at: " + ChatColor.AQUA + fileLink);
                     }
                 }, 60);
             }
