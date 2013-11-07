@@ -1,6 +1,7 @@
 package me.waicool20.cpu.CPU;
 
 import me.waicool20.cpu.CPU.Types.Type;
+import me.waicool20.cpu.CPU.Types.Wireless;
 import me.waicool20.cpu.NameTagBat;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -13,7 +14,9 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -210,6 +213,7 @@ public class CPU {
         player.sendMessage("Input1 is at" + "   X: " + ChatColor.AQUA + getInput1().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + getInput1().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + getInput1().getLocation().getBlockZ());
         player.sendMessage("Input2 is at" + "   X: " + ChatColor.AQUA + getInput2().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + getInput2().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + getInput2().getLocation().getBlockZ());
         player.sendMessage("The delay is " + (this.getDelay() / 2) + " redstone ticks!");
+        if(getType() instanceof Wireless) player.sendMessage("Channel: " + getAttributes().getWirelessID());
     }
 
     private void detectType() {
@@ -241,6 +245,7 @@ public class CPU {
         info.add(String.valueOf(getLocation().getBlockZ()));
         int typified = isTypified() ? 1 : 0;
         info.add(String.valueOf(typified));
+        info.add(getAttributes().getWirelessID());
         return info;
     }
 
@@ -272,5 +277,14 @@ public class CPU {
             float pitch = NTBat.getLocation().getPitch();
             NTBat.teleport(new Location(world, x, y, z, yaw, pitch), PlayerTeleportEvent.TeleportCause.PLUGIN);
         }
+    }
+
+    private boolean isEmpty(ItemStack[] itemStacks) {
+        for (ItemStack itemStack : itemStacks) {
+            if (itemStack != null) {
+                return false;
+            }
+        }
+        return true;
     }
 }

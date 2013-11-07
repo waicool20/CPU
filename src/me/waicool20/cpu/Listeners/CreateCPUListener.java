@@ -4,12 +4,14 @@ import me.waicool20.cpu.CPU.CPU;
 import me.waicool20.cpu.CPUDatabase;
 import me.waicool20.cpu.CPUPlugin;
 import me.waicool20.cpu.CraftingAndRecipes;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -18,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class CreateCPUListener implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerClick(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         Block clickedBlock = e.getClickedBlock();
@@ -26,12 +28,12 @@ public class CreateCPUListener implements Listener {
         if (e.getAction() == Action.LEFT_CLICK_BLOCK || e.getItem() == null || clickedBlock == null) {
             return;
         }
-        if (!e.getItem().isSimilar(CraftingAndRecipes.redstoneActivator())) {
-            return;
+        if (e.getItem().isSimilar(CraftingAndRecipes.redstoneActivator())) {
+            e.setCancelled(true);
+            createCPU(player, clickedBlock, false, "0");
+        } else if (e.getItem().getType() == Material.NAME_TAG){
+            tagCPU(player,clickedBlock, e.getItem());
         }
-        e.setCancelled(true);
-
-        createCPU(player, clickedBlock, false);
     }
 
     private static boolean hasPermission(Player player, CPU cpu) {
@@ -56,7 +58,7 @@ public class CreateCPUListener implements Listener {
         return false;
     }
 
-    static void createCPU(Player player, Block clickedBlock, boolean typified) {
+    static void createCPU(Player player, Block clickedBlock, boolean typified, String WID) {
         if (clickedBlock.getType() != Material.CHEST) {
             player.sendMessage(ChatColor.RED + "[CPU] Please use the activator on CPUs only!!");
             return;
@@ -106,6 +108,8 @@ public class CreateCPUListener implements Listener {
 
         CPUDatabase.addCPU(newCpu);
 
+        newCpu.getAttributes().setWirelessID(WID);
+
         newCpu.getType().updatePower();
 
         player.sendMessage(ChatColor.GREEN + "[CPU] You have successfully activated this CPU!!");
@@ -114,5 +118,16 @@ public class CreateCPUListener implements Listener {
             return;
         }
         newCpu.sendCPUInfo(player);
+    }
+
+    private void tagCPU(Player player, Block clickedBlock, ItemStack itemStack){
+        String ID = itemStack.getItemMeta().getDisplayName();
+        for(CPU cpu : CPUDatabase.CPUDatabaseMap){
+            if(clickedBlock.equals(cpu.getCore().getBlock())){
+                cpu.getAttributes().setWirelessID(ID);
+                player.sendMessage(ChatColor.GREEN + "[CPU] Channel: " + ChatColor.AQUA + cpu.getAttributes().getWirelessID());
+                break;
+            }
+        }
     }
 }

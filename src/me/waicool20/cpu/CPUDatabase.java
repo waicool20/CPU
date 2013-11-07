@@ -87,11 +87,18 @@ public class CPUDatabase {
                 int y = Integer.parseInt(cpuInfo[3]);
                 int z = Integer.parseInt(cpuInfo[4]);
                 boolean typified = false;
+                String ID = null;
                 if (cpuInfo.length > 5) {
                     typified = (Integer.parseInt(cpuInfo[5]) != 0);
+                    if(!cpuInfo[6].equals("null")) ID = cpuInfo[6];
                 }
-
                 CPU newCpu = new CPU(owner, world, x, y, z);
+
+                if(ID != null) {
+                    newCpu.getAttributes().setWirelessID(ID);
+                } else {
+                    newCpu.getAttributes().setWirelessID("0");
+                }
 
                 newCpu.setTypified(typified);
 

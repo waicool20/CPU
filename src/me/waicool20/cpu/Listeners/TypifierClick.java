@@ -82,7 +82,7 @@ public class TypifierClick implements Listener {
             Block center = clickedBlock.getRelative(chest.getFacing());
             if (checkBlocks(chest.getFacing(), center)) {
                 chestBlock.getInventory().setContents((new OR(null)).typeInventory());
-                CreateCPUListener.createCPU(player, clickedBlock, true);
+                CreateCPUListener.createCPU(player, clickedBlock, true, "0");
                 return;
             }
             player.sendMessage(ChatColor.RED + "[CPU] Could not create CPU!");

@@ -35,7 +35,6 @@ public class Teleporter extends Type {
 
             Inventory inventoryToCheck = input1;
 
-            Material material = null;
             if (isEmpty(input1.getContents())) {
                 inventoryToCheck = input2;
                 if (isEmpty(input2.getContents())) {

@@ -4,6 +4,7 @@ public class Attributes {
     private String name = null;
     private String group = null;
     private String owner = null;
+    private String wirelessID = null;
 
     Attributes(String name, String group, String owner) {
         this.name = name;
@@ -33,5 +34,13 @@ public class Attributes {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public String getWirelessID() {
+        return wirelessID;
+    }
+
+    public void setWirelessID(String wirelessID) {
+        this.wirelessID = wirelessID;
     }
 }
