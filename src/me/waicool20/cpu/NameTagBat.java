@@ -1,6 +1,7 @@
 package me.waicool20.cpu;
 
-import net.minecraft.server.v1_6_R3.*;
+import net.minecraft.server.v1_7_R1.*;
+import net.minecraft.server.v1_7_R1.EntityBat;
 import org.bukkit.Location;
 
 public class NameTagBat extends EntityBat {
@@ -29,7 +30,7 @@ public class NameTagBat extends EntityBat {
     }
 
     @Override
-    public float ba() {
+    public float bg() {
         if (isCPUSpawned) {
             return 0;
         }
@@ -37,10 +38,10 @@ public class NameTagBat extends EntityBat {
     }
 
     @Override
-    public void l_() {
-        super.l_();
+    public void h() {
+        super.h();
         if (isCPUSpawned) {
-            if (bJ()) {
+            if (bN()) {
                 motX = motY = motZ = 0.0D;
                 locY = ((double) MathHelper.floor(locY) + 1.0D) - (double) length;
             } else {
@@ -51,19 +52,22 @@ public class NameTagBat extends EntityBat {
     }
 
     @Override
-    protected void bi() {
-        super.bi();
+    protected void bn() {
+        super.bn();
         if (isCPUSpawned) {
-            if (bJ()) {
-                if (!world.u(MathHelper.floor(locX), (int) locY + 1, MathHelper.floor(locZ))) {
+            if (bN()) {
+                if (!this.world.getType(MathHelper.floor(this.locX), (int)this.locY + 1, MathHelper.floor(this.locZ)).r()) {
                     a(false);
-                    world.a(null, 1015, (int) locX, (int) locY, (int) locZ, 0);
-                } else {
-                    if (random.nextInt(200) == 0)
-                        aP = random.nextInt(360);
-                    if (world.findNearbyPlayer(this, 4D) != null) {
+                    this.world.a(null, 1015, (int)this.locX, (int)this.locY, (int)this.locZ, 0);
+                }
+                else {
+                    if (this.random.nextInt(200) == 0) {
+                        this.aP = this.random.nextInt(360);
+                    }
+
+                    if (this.world.findNearbyPlayer(this, 4.0D) != null) {
                         a(false);
-                        world.a(null, 1015, (int) locX, (int) locY, (int) locZ, 0);
+                        this.world.a(null, 1015, (int)this.locX, (int)this.locY, (int)this.locZ, 0);
                     }
                 }
             } else {

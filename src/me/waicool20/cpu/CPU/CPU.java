@@ -9,7 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_6_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -252,7 +252,7 @@ public class CPU {
     public void spawnNTBat() {
         //TODO handle spawning
         NameTagBat nameTagBat = new NameTagBat(((CraftWorld) getWorld()).getHandle(), location);
-        net.minecraft.server.v1_6_R3.World NMSWorld = ((CraftWorld) world).getHandle();
+        net.minecraft.server.v1_7_R1.World NMSWorld = ((CraftWorld) world).getHandle();
         NMSWorld.addEntity(nameTagBat, CreatureSpawnEvent.SpawnReason.CUSTOM);
         NTBat = ((LivingEntity) nameTagBat.getBukkitEntity());
     }
@@ -269,7 +269,11 @@ public class CPU {
 
     public void updateSpawnBat() {
         if (NTBat != null) {
-            NTBat.setCustomName("Type: " + getType().getName() + "  Delay: " + getDelay());
+            if(this.getType() instanceof Wireless){
+                NTBat.setCustomName("Type: " + getType().getName() + "  Channel:" + this.getAttributes().getWirelessID());
+            } else {
+                NTBat.setCustomName("Type: " + getType().getName() + "  Delay: " + getDelay());
+            }
             double x = location.getBlockX() + 0.5;
             double y = location.getBlockY() + 1;
             double z = location.getBlockZ() + 0.5;
