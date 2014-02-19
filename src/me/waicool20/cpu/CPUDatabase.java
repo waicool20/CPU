@@ -1,6 +1,7 @@
 package me.waicool20.cpu;
 
 import me.waicool20.cpu.CPU.CPU;
+import me.waicool20.cpu.CPU.Types.Type;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
@@ -35,7 +36,7 @@ public class CPUDatabase {
         }
     }
 
-    private static void save() {
+    public static void save() {
         try {
             BufferedWriter bufferedWriter = Files.newBufferedWriter(configPath, charset, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
             for (CPU cpu : CPUDatabaseMap) {
@@ -88,16 +89,29 @@ public class CPUDatabase {
                 int z = Integer.parseInt(cpuInfo[4]);
                 boolean typified = false;
                 String ID = null;
+                String type = null;
                 if (cpuInfo.length > 5) {
                     typified = (Integer.parseInt(cpuInfo[5]) != 0);
-                    if(!cpuInfo[6].equals("null")) ID = cpuInfo[6];
+                    if (!cpuInfo[6].equals("null")) ID = cpuInfo[6];
+                    if (!cpuInfo[7].equals("null")) type = cpuInfo[7];
                 }
                 CPU newCpu = new CPU(owner, world, x, y, z);
 
-                if(ID != null) {
+                if (ID != null) {
                     newCpu.getAttributes().setWirelessID(ID);
                 } else {
                     newCpu.getAttributes().setWirelessID("0");
+                }
+
+                if (type != null) {
+                    for (Type types : Type.getTypes(newCpu)) {
+                        if (type.equals(types.getName())) {
+                            newCpu.setType(types);
+                        }
+                    }
+                } else {
+                    removeCPU(newCpu);
+                    continue;
                 }
 
                 newCpu.setTypified(typified);

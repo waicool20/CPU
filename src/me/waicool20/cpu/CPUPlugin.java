@@ -26,6 +26,7 @@ public class CPUPlugin extends JavaPlugin {
         registerListeners();
         registerCommands();
         setupConfig();
+        CleanupInventories();
         CraftingAndRecipes.addRecipes();
         checkForUpdates();
         startUpdates();
@@ -41,6 +42,12 @@ public class CPUPlugin extends JavaPlugin {
         }
         CPUDatabase.CPUDatabaseMap.clear();
         CustomEntityType.unregisterEntities();
+    }
+
+    private void CleanupInventories() {
+        for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
+            cpu.getCore().getInventory().setContents(cpu.getType().typeInventory());
+        }
     }
 
     private void checkForUpdates() {
@@ -61,6 +68,7 @@ public class CPUPlugin extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new EatsRedstoneApple(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new TypifierClick(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new ItemSorterEvent(), this);
     }
 
     private void registerCommands() {

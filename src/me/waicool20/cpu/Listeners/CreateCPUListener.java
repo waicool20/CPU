@@ -4,7 +4,6 @@ import me.waicool20.cpu.CPU.CPU;
 import me.waicool20.cpu.CPUDatabase;
 import me.waicool20.cpu.CPUPlugin;
 import me.waicool20.cpu.CraftingAndRecipes;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -31,8 +30,8 @@ public class CreateCPUListener implements Listener {
         if (e.getItem().isSimilar(CraftingAndRecipes.redstoneActivator())) {
             e.setCancelled(true);
             createCPU(player, clickedBlock, false, "0");
-        } else if (e.getItem().getType() == Material.NAME_TAG){
-            tagCPU(player,clickedBlock, e.getItem());
+        } else if (e.getItem().getType() == Material.NAME_TAG) {
+            tagCPU(player, clickedBlock, e.getItem());
         }
     }
 
@@ -120,10 +119,10 @@ public class CreateCPUListener implements Listener {
         newCpu.sendCPUInfo(player);
     }
 
-    private void tagCPU(Player player, Block clickedBlock, ItemStack itemStack){
+    private void tagCPU(Player player, Block clickedBlock, ItemStack itemStack) {
         String ID = itemStack.getItemMeta().getDisplayName();
-        for(CPU cpu : CPUDatabase.CPUDatabaseMap){
-            if(clickedBlock.equals(cpu.getCore().getBlock())){
+        for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
+            if (clickedBlock.equals(cpu.getCore().getBlock())) {
                 cpu.getAttributes().setWirelessID(ID);
                 player.sendMessage(ChatColor.GREEN + "[CPU] Channel: " + ChatColor.AQUA + cpu.getAttributes().getWirelessID());
                 break;

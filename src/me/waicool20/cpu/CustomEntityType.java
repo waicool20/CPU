@@ -1,12 +1,11 @@
 package me.waicool20.cpu;
 
+import net.minecraft.server.v1_7_R1.*;
+import org.bukkit.entity.EntityType;
+
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
-
-import net.minecraft.server.v1_7_R1.*;
-
-import org.bukkit.entity.EntityType;
 
 public enum CustomEntityType {
 
@@ -67,7 +66,7 @@ public enum CustomEntityType {
                 break;
 
 // This changed names from J, K, L and M.
-            for (String field : new String[] { "as", "at", "au", "av" })
+            for (String field : new String[]{"as", "at", "au", "av"})
                 try {
                     Field list = BiomeBase.class.getDeclaredField(field);
                     list.setAccessible(true);
@@ -125,7 +124,7 @@ public enum CustomEntityType {
                 break;
 
 // The list fields changed names but update the meta regardless.
-            for (String field : new String[] { "as", "at", "au", "av" })
+            for (String field : new String[]{"as", "at", "au", "av"})
                 try {
                     Field list = BiomeBase.class.getDeclaredField(field);
                     list.setAccessible(true);
@@ -145,8 +144,9 @@ public enum CustomEntityType {
 
     /**
      * A convenience method.
+     *
      * @param clazz The class.
-     * @param f The string representation of the private static field.
+     * @param f     The string representation of the private static field.
      * @return The object found
      * @throws Exception if unable to get the object.
      */

@@ -14,9 +14,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -213,7 +211,7 @@ public class CPU {
         player.sendMessage("Input1 is at" + "   X: " + ChatColor.AQUA + getInput1().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + getInput1().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + getInput1().getLocation().getBlockZ());
         player.sendMessage("Input2 is at" + "   X: " + ChatColor.AQUA + getInput2().getLocation().getBlockX() + ChatColor.WHITE + "   Y: " + ChatColor.AQUA + getInput2().getLocation().getBlockY() + ChatColor.WHITE + "   Z: " + ChatColor.AQUA + getInput2().getLocation().getBlockZ());
         player.sendMessage("The delay is " + (this.getDelay() / 2) + " redstone ticks!");
-        if(getType() instanceof Wireless) player.sendMessage("Channel: " + getAttributes().getWirelessID());
+        if (getType() instanceof Wireless) player.sendMessage("Channel: " + getAttributes().getWirelessID());
     }
 
     private void detectType() {
@@ -246,6 +244,7 @@ public class CPU {
         int typified = isTypified() ? 1 : 0;
         info.add(String.valueOf(typified));
         info.add(getAttributes().getWirelessID());
+        info.add(String.valueOf(getType().getName()));
         return info;
     }
 
@@ -269,7 +268,7 @@ public class CPU {
 
     public void updateSpawnBat() {
         if (NTBat != null) {
-            if(this.getType() instanceof Wireless){
+            if (this.getType() instanceof Wireless) {
                 NTBat.setCustomName("Type: " + getType().getName() + "  Channel:" + this.getAttributes().getWirelessID());
             } else {
                 NTBat.setCustomName("Type: " + getType().getName() + "  Delay: " + getDelay());

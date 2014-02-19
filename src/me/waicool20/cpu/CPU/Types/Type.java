@@ -16,6 +16,7 @@ public abstract class Type {
     final static ItemStack OBSB = new ItemStack(Material.OBSIDIAN, 1);
     final static ItemStack EYEE = new ItemStack(Material.EYE_OF_ENDER, 1);
     final static ItemStack CLCK = new ItemStack(Material.WATCH, 1);
+    final static ItemStack HOPP = new ItemStack(Material.HOPPER, 1);
 
     int on;
     int off;
@@ -45,7 +46,7 @@ public abstract class Type {
         Type[] listOfTypes = {new OR(cpu), new AND(cpu), new NAND(cpu), new XOR(cpu),
                 new NOR(cpu), new XNOR(cpu), new BlockBreak(cpu),
                 new BlockPlace(cpu), new Teleporter(cpu), new PulseLimiter(cpu),
-                new PulseExtender(cpu), new Clock(cpu), new Wireless(cpu)};
+                new PulseExtender(cpu), new Clock(cpu), new Wireless(cpu), new ItemSorter(cpu)};
         return listOfTypes;
     }
 

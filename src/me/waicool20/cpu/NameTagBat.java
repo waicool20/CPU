@@ -1,7 +1,6 @@
 package me.waicool20.cpu;
 
 import net.minecraft.server.v1_7_R1.*;
-import net.minecraft.server.v1_7_R1.EntityBat;
 import org.bukkit.Location;
 
 public class NameTagBat extends EntityBat {
@@ -56,18 +55,17 @@ public class NameTagBat extends EntityBat {
         super.bn();
         if (isCPUSpawned) {
             if (bN()) {
-                if (!this.world.getType(MathHelper.floor(this.locX), (int)this.locY + 1, MathHelper.floor(this.locZ)).r()) {
+                if (!this.world.getType(MathHelper.floor(this.locX), (int) this.locY + 1, MathHelper.floor(this.locZ)).r()) {
                     a(false);
-                    this.world.a(null, 1015, (int)this.locX, (int)this.locY, (int)this.locZ, 0);
-                }
-                else {
+                    this.world.a(null, 1015, (int) this.locX, (int) this.locY, (int) this.locZ, 0);
+                } else {
                     if (this.random.nextInt(200) == 0) {
                         this.aP = this.random.nextInt(360);
                     }
 
                     if (this.world.findNearbyPlayer(this, 4.0D) != null) {
                         a(false);
-                        this.world.a(null, 1015, (int)this.locX, (int)this.locY, (int)this.locZ, 0);
+                        this.world.a(null, 1015, (int) this.locX, (int) this.locY, (int) this.locZ, 0);
                     }
                 }
             } else {

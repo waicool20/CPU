@@ -58,11 +58,17 @@ public class InventoryListener implements Listener {
         }
         for (CPU cpu : CPUDatabase.CPUDatabaseMap) {
             if (cpu.getCore().getBlock().equals(block) && cpu.isTypified()) {
+                e.setCancelled(true);
                 if (e.getItem() != null) {
-                    e.setCancelled(true);
-                    if (!e.getItem().isSimilar(CraftingAndRecipes.typifier()) && e.getItem().getType() != Material.NAME_TAG){
-                        player.sendMessage(ChatColor.RED + "[CPU] Don't open a typified chest!");
+                    if (!e.getItem().isSimilar(CraftingAndRecipes.typifier()) && e.getItem().getType() != Material.NAME_TAG) {
+                        if (e.getItem().getType() == Material.HOPPER && e.getPlayer().isSneaking()) {
+                            e.setCancelled(false);
+                        } else {
+                            player.sendMessage(ChatColor.RED + "[CPU] Don't open a typified chest!");
+                        }
                     }
+                } else {
+                    player.sendMessage(ChatColor.RED + "[CPU] Don't open a typified chest!");
                 }
             }
             //TODO Add permissions for opening other peoples CPU
