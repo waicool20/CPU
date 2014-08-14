@@ -24,8 +24,8 @@ public class ItemSorter extends Type {
     @Override
     public ItemStack[] typeInventory() {
         ItemStack[] typeInventory = {null, null, null, null, redR, null, null, null, null,
-                null, null, null, redW, HOPP, redW, null, null, null,
-                DISP, redW, redW, redR, null, redR, redW, redW, DISP,};
+                                    null, null, null, redW, HOPP, redW, null, null, null,
+                                    DISP, redW, redW, redR, null, redR, redW, redW, DISP,};
         return typeInventory;
     }
 

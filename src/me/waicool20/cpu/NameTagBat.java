@@ -1,6 +1,6 @@
 package me.waicool20.cpu;
 
-import net.minecraft.server.v1_7_R1.*;
+import net.minecraft.server.v1_7_R3.*;
 import org.bukkit.Location;
 
 public class NameTagBat extends EntityBat {
@@ -16,7 +16,7 @@ public class NameTagBat extends EntityBat {
         this.isCPUSpawned = true;
         this.location = location;
         a(0.1F, 0.1F);
-        a(false);
+        setStartled(false);
         this.setCustomNameVisible(true);
         this.noDamageTicks = Integer.MAX_VALUE;
         this.goalSelector.a(0, new PathfinderGoalFloat(this));
@@ -29,7 +29,7 @@ public class NameTagBat extends EntityBat {
     }
 
     @Override
-    public float bg() {
+    public float be() {
         if (isCPUSpawned) {
             return 0;
         }
@@ -51,12 +51,12 @@ public class NameTagBat extends EntityBat {
     }
 
     @Override
-    protected void bn() {
-        super.bn();
+    protected void bm() {
+        super.bm();
         if (isCPUSpawned) {
             if (bN()) {
                 if (!this.world.getType(MathHelper.floor(this.locX), (int) this.locY + 1, MathHelper.floor(this.locZ)).r()) {
-                    a(false);
+                    setStartled(false);
                     this.world.a(null, 1015, (int) this.locX, (int) this.locY, (int) this.locZ, 0);
                 } else {
                     if (this.random.nextInt(200) == 0) {
@@ -64,7 +64,7 @@ public class NameTagBat extends EntityBat {
                     }
 
                     if (this.world.findNearbyPlayer(this, 4.0D) != null) {
-                        a(false);
+                        setStartled(false);
                         this.world.a(null, 1015, (int) this.locX, (int) this.locY, (int) this.locZ, 0);
                     }
                 }

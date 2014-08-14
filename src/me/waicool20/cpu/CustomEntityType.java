@@ -1,6 +1,6 @@
 package me.waicool20.cpu;
 
-import net.minecraft.server.v1_7_R1.*;
+import net.minecraft.server.v1_7_R3.*;
 import org.bukkit.entity.EntityType;
 
 import java.lang.reflect.Field;

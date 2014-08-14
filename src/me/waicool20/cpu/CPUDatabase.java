@@ -73,7 +73,10 @@ public class CPUDatabase {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] cpuInfo = line.split(";");
                 if (cpuInfo.length < 5) return;
+                // Load owner
                 String owner = cpuInfo[0];
+
+                // Load World
                 World world = Bukkit.getServer().getWorld(cpuInfo[1]);
                 if (world == null) {
                     Path worldFolder = Paths.get(Bukkit.getServer().getWorldContainer().toPath() + "/" + cpuInfo[1]);
@@ -84,43 +87,52 @@ public class CPUDatabase {
                         CPUPlugin.logger.severe("[CPU] Could not load the world " + cpuInfo[1] + " | Is it missing?");
                     }
                 }
+                // Load XYZ
                 int x = Integer.parseInt(cpuInfo[2]);
                 int y = Integer.parseInt(cpuInfo[3]);
                 int z = Integer.parseInt(cpuInfo[4]);
+
+                // Load typified, Wireless ID and Type
                 boolean typified = false;
-                String ID = null;
-                String type = null;
+                String WirelessID = null;
+                String CPUType = null;
                 if (cpuInfo.length > 5) {
-                    typified = (Integer.parseInt(cpuInfo[5]) != 0);
-                    if (!cpuInfo[6].equals("null")) ID = cpuInfo[6];
-                    if (!cpuInfo[7].equals("null")) type = cpuInfo[7];
+                    typified = Boolean.parseBoolean(cpuInfo[5]);
                 }
-                CPU newCpu = new CPU(owner, world, x, y, z);
+                if(cpuInfo.length > 6){
+                    if (!cpuInfo[6].equals("null")) WirelessID = cpuInfo[6];
+                }
+                if(cpuInfo.length > 7){
+                    if (!cpuInfo[7].equals("null")) CPUType = cpuInfo[7];
+                }
 
-                if (ID != null) {
-                    newCpu.getAttributes().setWirelessID(ID);
+
+                CPU loadedCPU = new CPU(owner, world, x, y, z);
+
+                if (WirelessID != null) {
+                    loadedCPU.getAttributes().setWirelessID(WirelessID);
                 } else {
-                    newCpu.getAttributes().setWirelessID("0");
+                    loadedCPU.getAttributes().setWirelessID("0");
                 }
 
-                if (type != null) {
-                    for (Type types : Type.getTypes(newCpu)) {
-                        if (type.equals(types.getName())) {
-                            newCpu.setType(types);
+                if (CPUType != null) {
+                    for (Type types : Type.getTypes(loadedCPU)) {
+                        if (CPUType.equals(types.getName())) {
+                            loadedCPU.setType(types);
                         }
                     }
                 } else {
-                    removeCPU(newCpu);
+                    removeCPU(loadedCPU);
                     continue;
                 }
 
-                newCpu.setTypified(typified);
+                loadedCPU.setTypified(typified);
 
-                if (newCpu.getCore() == null || newCpu.getInput1() == null || newCpu.getInput2() == null || newCpu.getType() == null) {
-                    removeCPU(newCpu);
+                if (loadedCPU.getCore() == null || loadedCPU.getInput1() == null || loadedCPU.getInput2() == null || loadedCPU.getType() == null) {
+                    removeCPU(loadedCPU);
                     continue;
                 }
-                CPUDatabaseMap.add(newCpu);
+                CPUDatabaseMap.add(loadedCPU);
             }
             if (CPUPlugin.plugin.getConfig().getBoolean("guardians")) spawnNTBats();
         } catch (IOException e) {

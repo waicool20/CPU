@@ -9,7 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R3.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -241,8 +241,7 @@ public class CPU {
         info.add(String.valueOf(getLocation().getBlockX()));
         info.add(String.valueOf(getLocation().getBlockY()));
         info.add(String.valueOf(getLocation().getBlockZ()));
-        int typified = isTypified() ? 1 : 0;
-        info.add(String.valueOf(typified));
+        info.add(String.valueOf(isTypified()));
         info.add(getAttributes().getWirelessID());
         info.add(String.valueOf(getType().getName()));
         return info;
@@ -251,7 +250,7 @@ public class CPU {
     public void spawnNTBat() {
         //TODO handle spawning
         NameTagBat nameTagBat = new NameTagBat(((CraftWorld) getWorld()).getHandle(), location);
-        net.minecraft.server.v1_7_R1.World NMSWorld = ((CraftWorld) world).getHandle();
+        net.minecraft.server.v1_7_R3.World NMSWorld = ((CraftWorld) world).getHandle();
         NMSWorld.addEntity(nameTagBat, CreatureSpawnEvent.SpawnReason.CUSTOM);
         NTBat = ((LivingEntity) nameTagBat.getBukkitEntity());
     }
